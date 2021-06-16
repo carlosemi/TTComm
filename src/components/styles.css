@@ -18,3 +18,7 @@
 #1 {
   text-indent: 50px;
 }
+
+.table tbody tr.highlight td {
+  background-color: #ddd;
+}

@@ -11,3 +11,9 @@ $(function(){
 function prdFunction(){
     $("#main").load("./src/components/productos.html");
   }
+
+
+//This is for selecting the table row
+$('#infoTable').on('click', 'tbody tr', function(event) {
+    $(this).addClass('highlight').siblings().removeClass('highlight');
+});

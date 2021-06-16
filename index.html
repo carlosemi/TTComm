@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    
+
     <!-- The following is causing problems when trying to add another html file -->
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
     
@@ -17,11 +17,7 @@
     <script src='./node_modules/jquery/dist/jquery.min.js'></script>
     <script src='./node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
 
-    <script>
-      $(function(){
-        $("#ventas").load("./src/components/ventas.html"); 
-      });
-    </script>
+    <script src='./index.js'></script>
 
     <title>TTComm Punto De Venta</title>
 
@@ -49,8 +45,8 @@
           <!-- Buttons Row -->
           <div class="row border-bottom justify-content-start no-gutters">        
             <div class="col-12">
-                <button>Ventas</button>
-                <button>Productos</button>
+                <button onclick="vntFunction()">Ventas</button>
+                <button onclick="prdFunction()">Productos</button>
                 <button>Clientes</button>
                 <button>Facturas</button>
                 <button>Config</button>
@@ -59,12 +55,7 @@
 
 
           <!-- Aqui ira ya sea ventas, productos, clientes o facturas -->
-  
-          <div id="ventas"></div>
-          <div id="productos"></div>
-          <div id="clientes"></div>
-          <div id="facturas"></div>
-          
+          <div id="main"></div>       
           
 
       </div>

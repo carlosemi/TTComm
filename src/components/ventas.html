@@ -1,51 +1,138 @@
-<div class="container">
+<div class="divheight">
     <h1>Ventas</h1>
 
-    <div class="row ">
-        <div class="col">
-            <div class="row">  
+    <div class="row h-100">
+        <!-- Half of the column containing product table -->
+        <div class="col-9 d-flex flex-column">
+            <div class="row mt-2 border-top">  
                 <div class="col">
                     <label class="h4">Codigo de Producto: </label>
                     <input type="text"/>
                     <button>Enter - Agregar Producto</button>
                 </div>
                 
-            </div>
-
-            
-                <div class="row r1">  
+            </div>                 
+                <div class="row mt-2 border-bottom border-top justify-content-start no-gutters">  
                     <div class="col">
-                        <div class="r1">
-                        <label class="h4">Id de Cliente: </label>
+                       
+                        <label class="h4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id de Cliente: </label>
                         <input type="text"/>
                         <button>Enter</button>
-                        </div>
+                        <button>Borrar Articulo</button>
                     </div>
                     
                 </div>
-       
-        
             
-        
-            <div class="row ">
-                <table class="table">
-                    <th scope="col">Codigo</th>
-                    <th scope="col">Descripcion</th>
-                    <th scope="col">Precio Venta</th>
-                    <th scope="col">Cantidad</th>
-                    <th scope="col">Importe</th>
-                    <th scope="col">Existencia</th>
+            <div class="row mt-2">
+                <table id="prd" class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Codigo/Id</th>
+                      <th scope="col">Descripcion/Cliente</th>
+                      <th scope="col">Precio Venta</th>
+                      <th scope="col">Cantidad</th>
+                      <th scope="col">Existencia</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <th>
+                        5433256
+                      </th>
+                      <td>
+                        Router
+                      </td>
+                      <td>
+                        199.99
+                      </td>
+                      <td>
+                        1
+                      </td>
+                      <td>
+                        4
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>
+                        5433256
+                      </th>
+                      <td>
+                        Router
+                      </td>
+                      <td>
+                        199.99
+                      </td>
+                      <td>
+                        1
+                      </td>
+                      <td>
+                        4
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>
+                        5433256
+                      </th>
+                      <td>
+                        Router
+                      </td>
+                      <td>
+                        199.99
+                      </td>
+                      <td>
+                        1
+                      </td>
+                      <td>
+                        4
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>
+                        5433256
+                      </th>
+                      <td>
+                        Router
+                      </td>
+                      <td>
+                        199.99
+                      </td>
+                      <td>
+                        1
+                      </td>
+                      <td>
+                        4
+                      </td>
+                    </tr>
+
+                  </tbody>
         
                 </table>    
             </div>
             
         </div>
-        <div class="col">
+
+        <!-- Half of the column containing payment info -->
+    
+        <div class="col-3 border">
+
+          <div class="txt">
+
+            <h2 class="text-center border-bottom">Ticket</h2>
+       
+            <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;Cliente: </h5>
+            <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;Total:</h5>
+            <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IVA: </h5>
+            <h5>Total + IVA: </h5>
+          </div>
+          
+          <button>COBRAR</button>
+          <button>Imprimir ultimo ticket</button>
             
         </div>
-    </div>
-    
-
-    
-</div>
-
+  
+        
+     </div>
+ 
+  </div>
+  <!-- Div class body ends -->

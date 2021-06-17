@@ -2,3 +2,23 @@
   padding-right: 0;
   padding-left: 0;
 }
+
+.body {
+  height: 80%;
+}
+
+.divheight {
+  height: 800px;
+}
+
+.hght {
+  height: 800px;
+}
+
+#1 {
+  text-indent: 50px;
+}
+
+.table tbody tr.highlight td {
+  background-color: #ddd;
+}

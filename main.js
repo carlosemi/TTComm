@@ -3,14 +3,18 @@ const {app, BrowserWindow} = require('electron')
 const path = require('path')
 const $ = require('jquery')
 
+const axios = require('axios')
+
 function createWindow () {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 100,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: true
     }
+
   })
 
   mainWindow.maximize()

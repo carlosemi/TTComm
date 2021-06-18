@@ -8,7 +8,7 @@
                 <div class="col">
                     <label class="h4">Codigo de Producto: </label>
                     <input type="text"/>
-                    <button>Enter - Agregar Producto</button>
+                    <button  type="button" class="btn btn-outline-success">Enter - Agregar Producto</button>
                 </div>
                 
             </div>                 
@@ -17,16 +17,19 @@
                        
                         <label class="h4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id de Cliente: </label>
                         <input type="text"/>
-                        <button>Enter</button>
-                        <button>Borrar Articulo</button>
+                        <button type="button" class="btn btn-outline-success">Enter</button>
+                        <button type="button" class="btn btn-outline-danger">Borrar Articulo</button>
                     </div>
                     
                 </div>
             
             <div class="row mt-2">
-                <table id="prd" class="table table-striped">
+                <table id="prd" class="table table-striped table-hover table-bordered">
                   <thead>
                     <tr>
+                      <div class="border-right">
+                        
+                      </div>
                       <th scope="col">Codigo/Id</th>
                       <th scope="col">Descripcion/Cliente</th>
                       <th scope="col">Precio Venta</th>
@@ -36,7 +39,7 @@
                   </thead>
 
                   <tbody>
-                    <tr>
+                    <tr class="clickableRow">
                       <th>
                         5433256
                       </th>
@@ -126,8 +129,8 @@
             <h5>Total + IVA: </h5>
           </div>
           
-          <button>COBRAR</button>
-          <button>Imprimir ultimo ticket</button>
+          <button type="button" class="btn btn-success">COBRAR</button>
+          <button type="button" class="btn btn-secondary">Imprimir ultimo ticket</button>
             
         </div>
   

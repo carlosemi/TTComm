@@ -15,6 +15,10 @@ function invFunction(){
   $("#main").load("./src/components/inventario.html");
 }
 
+function cliFunction(){
+  $("#main").load("./src/components/clientes.html");
+}
+
 
 //This is for selecting the table row
 $('#prd').on('click', 'tbody tr', function(event) {

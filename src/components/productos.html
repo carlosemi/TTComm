@@ -5,14 +5,7 @@
         <!-- Half of the column containing product table -->
 
         <div class="col-12 d-flex flex-column">
-            <div class="row mt-2 border-top">  
-                <div class="col">
-                    <button type="button" class="btn btn-outline-danger">Borrar Producto</button>
-                </div>
-                
-            </div>                 
-                
-            
+           
             <div class="row mt-2">
                 <table id="prd" class="table table-striped table-hover table-bordered">
                   <thead>
@@ -59,7 +52,14 @@
             </div>
 
             <div class="row mt-2">
-                <h4>En Existencia</h4>
+
+              <div class="row mt-2 border-top justify-content-start no-gutters">  
+                <div class="col-12">
+                  <h4>En Existencia</h4><button type="button" class="btn btn-outline-danger">Borrar Producto</button>
+                </div>
+                
+            </div>   
+                
                 <table id="prd" class="table table-striped table-hover table-bordered">
                    
                   <thead>
@@ -79,19 +79,19 @@
                   <tbody>
                     <tr>
                       <th>
-                        5433256
+                        <input type="text" value="5433256"/>
                       </th>
                       <td>
-                        Router
+                        <input type="text" value="Router"/>
                       </td>
                       <td>
-                        199.99
+                        <input type="number" value="199.99"/>
                       </td>
                       <td>
-                        1
+                        <input type="number" value="1"/>
                       </td>
                       <td>
-                        4
+                        <input type="number" value="4"/>
                       </td>
                     </tr>
                     <tr>

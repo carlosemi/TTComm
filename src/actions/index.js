@@ -11,10 +11,6 @@ function prdFunction(){
 $("#main").load("./src/components/productos.html");
 }
 
-function invFunction(){
-  $("#main").load("./src/components/inventario.html");
-}
-
 function cliFunction(){
   $("#main").load("./src/components/clientes.html");
 }

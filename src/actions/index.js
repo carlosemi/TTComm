@@ -1,3 +1,6 @@
+const {ipcRenderer} = require('electron');
+let $ = jQuery = require('jquery');
+
 //This functions change the main component based on the menu button clicks
 $(function(){
   $("#main").load("./src/components/ventas.html"); 

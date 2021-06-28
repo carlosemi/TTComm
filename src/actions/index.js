@@ -1,5 +1,8 @@
+const electron = require('electron')
 const {ipcRenderer} = require('electron');
 let $ = jQuery = require('jquery');
+const {remote} = require('electron')
+const {BrowserWindow} = remote;
 
 //This functions change the main component based on the menu button clicks
 $(function(){
@@ -34,3 +37,40 @@ $('#prd').on('click', 'tbody tr', function(event) {
   $(this).addClass('highlight').siblings().removeClass('highlight');
 });
 
+
+function productWindow() {
+
+  // const remote = require('electron').remote
+  // const BrowserWindow = remote.BrowserWindow
+
+  // Create a pop up window.
+  const prdWindow = new BrowserWindow({
+  width: 100,
+  height: 600,
+  webPreferences: {
+    enableRemoteModule: true
+  }
+  });
+}
+
+
+// //Open pop up window for adding, Editing or Erasing Product
+// function productWindow () {
+
+//    // Create a pop up window.
+//    const productWindow = new BrowserWindow({
+//     width: 100,
+//     height: 600,
+//     webPreferences: {
+//       //preload: path.join(__dirname, 'preload.js'),
+//       nodeIntegration: true,
+//       contextIsolation: false
+//     }
+
+//   })
+
+//   productWindow.maximize()
+
+//   // and load the productPop.html of the app.
+//   productWindow.loadFile('./src/components/productPop.html')
+// }

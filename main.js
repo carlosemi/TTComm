@@ -1,9 +1,10 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, ipcMain} = require('electron')
 const path = require('path')
 const $ = require('jquery')
-
+const {ipcHandeler} = require('electron')
 const axios = require('axios')
+const {ipcRenderer} = require('electron');
 
 function createWindow () {
   // Create the browser window.
@@ -25,6 +26,8 @@ function createWindow () {
   // Open the DevTools.
   //mainWindow.webContents.openDevTools()
 }
+
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -48,3 +51,19 @@ app.on('window-all-closed', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+
+//Open new window to add product
+ipcMain.handle('newWindow', async (event) => {
+
+  const popWindow = new BrowserWindow({
+    width: 500,
+    height: 600,
+
+  })
+
+  // and load the index.html of the app.
+  popWindow.loadFile('./src/components/productPop.html')
+})
+  
+

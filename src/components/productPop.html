@@ -28,7 +28,7 @@
 
     <body>
  
-        <class class="container-fluid">
+        <div class="container-fluid">
            
             <h3>Agregar Producto </h3>
 
@@ -39,7 +39,7 @@
                         <label>Codigo: </label>  
                     </div>
                     <div class="col-6">
-                        <input type="text"/>
+                        <input id="Codigo" type="text"/>
                     </div>
                 </div>
 
@@ -48,7 +48,7 @@
                         <label>Descripcion: </label>   
                     </div>
                     <div class="col-3">
-                        <input type="text"/>
+                        <input id="Descripcion" type="text"/>
                     </div>
                 </div>
 
@@ -57,7 +57,7 @@
                         <label>Precio: </label>  
                     </div>
                     <div class="col-3">
-                        <input type="number"/>
+                        <input id="Precio" type="number"/>
                     </div>
                 </div>
 
@@ -66,17 +66,23 @@
                         <label>Existencia: </label>  
                     </div>
                     <div class="col-6">
-                        <input type="number"/>
+                        <input id="Existencia" type="number"/>
                     </div>
                 </div>
 
                 <div class="row mt-4 justify-content-center">
                     <div class="col-5">
-                        <button type="button" class="btn btn-outline-success">Agregar Producto</button>
+                        <button type="button" class="btn btn-outline-success" onclick="addPrd()">Agregar Producto</button>
                     </div>
                 </div>
         
             </div>
+
+        </div>
+
+        <script src='../actions/index.js'></script>
        
+
+        
             
     </body>

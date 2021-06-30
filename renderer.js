@@ -6,7 +6,6 @@
 // process.
 
 const electron = require('electron');
-
 const {ipcRenderer} = require('electron');
 let $ = jQuery = require('jquery');
 
@@ -49,3 +48,18 @@ function productWindow() {
     console.log(result)
   })
 }
+
+//Api calls
+
+
+function addPrd() { 
+
+  console.log('addPrdcall')
+
+  ipcRenderer.invoke('prdADD').then((result) => {
+    console.log(result)
+  })
+}
+
+
+

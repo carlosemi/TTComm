@@ -1,76 +1,32 @@
-const electron = require('electron')
 const {ipcRenderer} = require('electron');
-let $ = jQuery = require('jquery');
-const {remote} = require('electron')
-const {BrowserWindow} = remote;
+const axios = require('axios')
 
-//This functions change the main component based on the menu button clicks
-$(function(){
-  $("#main").load("./src/components/ventas.html"); 
-});
+function addPrd() { 
 
+  console.log('addPrdcall This')
 
-//Based on the click of the main buttons, it will change the div with id main to change screens and 
-//load other html files
-function vntFunction(){
-$("#main").load("./src/components/ventas.html");
-}
+  var codigo = document.getElementById("Codigo").value;
+  var descripcion = document.getElementById("Descripcion").value;
+  var precio = document.getElementById("Precio").value;
+  var existencia = document.getElementById("Existencia").value;
 
-function prdFunction(){
-$("#main").load("./src/components/productos.html");
-}
+  console.log(codigo)
+  console.log(descripcion)
+  console.log(precio)
+  console.log(existencia)
 
-function cliFunction(){
-  $("#main").load("./src/components/clientes.html");
-}
-
-function fctFunction(){
-  $("#main").load("./src/components/facturas.html");
-}
-
-function rptFunction(){
-  $("#main").load("./src/components/reportes.html");
-}
-
-//This is for selecting the table row
-$('#prd').on('click', 'tbody tr', function(event) {
-  $(this).addClass('highlight').siblings().removeClass('highlight');
-});
-
-
-function productWindow() {
-
-  // const remote = require('electron').remote
-  // const BrowserWindow = remote.BrowserWindow
-
-  // Create a pop up window.
-  const prdWindow = new BrowserWindow({
-  width: 100,
-  height: 600,
-  webPreferences: {
-    enableRemoteModule: true
-  }
+  axios({
+    method: 'post',
+    url: 'http://localhost:5000/api/pos/addProduct',
+    headers: {'content-type': 'application/json' , 
+                'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'},
+    data: {
+      sku: codigo,
+      description: descripcion,
+      price: precio,
+      quantity: existencia
+    }
   });
+
+  console.log("Call success")
 }
-
-
-// //Open pop up window for adding, Editing or Erasing Product
-// function productWindow () {
-
-//    // Create a pop up window.
-//    const productWindow = new BrowserWindow({
-//     width: 100,
-//     height: 600,
-//     webPreferences: {
-//       //preload: path.join(__dirname, 'preload.js'),
-//       nodeIntegration: true,
-//       contextIsolation: false
-//     }
-
-//   })
-
-//   productWindow.maximize()
-
-//   // and load the productPop.html of the app.
-//   productWindow.loadFile('./src/components/productPop.html')
-// }

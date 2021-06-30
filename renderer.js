@@ -43,22 +43,46 @@ $('#prd').on('click', 'tbody tr', function(event) {
   $(this).addClass('highlight').siblings().removeClass('highlight');
 });
 
+//Open new Window when Add Product is clicked
 function productWindow() {
   ipcRenderer.invoke('newWindow').then((result) => {
     console.log(result)
   })
 }
 
-//Api calls
+//Get the existing Products and put them in a table
+async function getPrds() {
 
+  // await axios({
+  //   method: 'get',
+  //   url: 'http://localhost:5000/api/pos/addProduct',
+  //   headers: {'content-type': 'application/json' , 
+  //               'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'},
+  //   data: {
+  //     sku: codigo,
+  //     description: descripcion,
+  //     price: precio,
+  //     quantity: existencia
+  //   }
+  // })
+  // .then(function (response){
+  //   console.log(response.data)
 
-function addPrd() { 
+  //   if(response.data==='Success'){
+  //     document.getElementById("Success").textContent += `Success!!`
 
-  console.log('addPrdcall')
-
-  ipcRenderer.invoke('prdADD').then((result) => {
-    console.log(result)
-  })
+  //     //Wait 3 seconds before closing the window
+  //     setTimeout(function () {
+  //       // console.log("waited 3 seconds")
+  //       ipcRenderer.invoke('closeWnd').then((result) => {
+          
+  //       })
+  //     }, 3000)
+     
+      
+  //   }
+  // })
+  
 }
 
 

@@ -1,7 +1,7 @@
 const {ipcRenderer} = require('electron');
-const axios = require('axios')
+const axios = require('axios');
 
-function addPrd() { 
+async function addPrd() { 
 
   console.log('addPrdcall This')
 
@@ -15,7 +15,7 @@ function addPrd() {
   console.log(precio)
   console.log(existencia)
 
-  axios({
+  await axios({
     method: 'post',
     url: 'http://localhost:5000/api/pos/addProduct',
     headers: {'content-type': 'application/json' , 
@@ -26,7 +26,24 @@ function addPrd() {
       price: precio,
       quantity: existencia
     }
-  });
+  })
+  .then(function (response){
+    console.log(response.data)
 
-  console.log("Call success")
+    if(response.data==='Success'){
+      document.getElementById("Success").textContent += `Success!!`
+
+      //Wait 3 seconds before closing the window
+      setTimeout(function () {
+        // console.log("waited 3 seconds")
+        ipcRenderer.invoke('closeWnd').then((result) => {
+          
+        })
+      }, 3000)
+     
+      
+    }
+  })
+
+  
 }

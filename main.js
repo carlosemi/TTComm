@@ -59,6 +59,11 @@ ipcMain.handle('newWindow', async (event) => {
   const popWindow = new BrowserWindow({
     width: 500,
     height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
 
   })
 
@@ -66,4 +71,44 @@ ipcMain.handle('newWindow', async (event) => {
   popWindow.loadFile('./src/components/productPop.html')
 })
   
+// ipcMain.handle('prdADD', async (event) => {
 
+//   axios({
+//     method: 'post',
+//     url: 'localhost:5000/api/pos/addProduct',
+//     data: {
+//       sku: '1857483',
+//       description: 'Cable',
+//       price: 9.99,
+//       quantity: 10
+//     }
+//     .then(function (response) {
+//       console.log(response);
+//     })
+//     .catch(function (erro) {
+//       console.log(error)
+//     })
+//   });
+
+  // const instance = axios.create({
+  //   baseURL: 'http://localhost:5000/api',
+  //   timeout: 1000,
+  //   headers: {'content-type': 'application/json' , 
+  //               'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'}
+  // });
+  
+  // axios.post('/pos/addProduct', {
+
+  //   sku: '1857483',
+  //   description: 'Cable',
+  //   price: 9.99,
+  //   quantity: 10
+  //   })
+  //   .then(function (response) {
+  //     console.log(response);
+  //   })
+  //   .catch(function (error) {
+  //     console.log(error);
+  // });
+
+// })

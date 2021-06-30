@@ -62,9 +62,9 @@ async function getPrds() {
   })
     .then(function (response) {
 
-      console.log(response.data)
-      console.log(response.data.length)
-      console.log(response.data[0])
+      // console.log(response.data)
+      // console.log(response.data.length)
+      // console.log(response.data[0])
 
       var sku, description, price, quantity;
 
@@ -74,12 +74,16 @@ async function getPrds() {
         price = response.data[x].price
         quantity = response.data[x].quantity
 
-        row = table.insertRow(x + 1);
-        var cell1 = row.insertCell(0)
-        var cell2 = row.insertCell(1)
-        var cell3 = row.insertCell(2)
-        var cell4 = row.insertCell(3)
+        //row = table.insertRow(x);
+        row =  table.getElementsByTagName('tbody')[0].insertRow(x)
+        var cell0 = row.insertCell(0)
+        var cell1 = row.insertCell(1)
+        var cell2 = row.insertCell(2)
+        var cell3 = row.insertCell(3)
+        var cell4 = row.insertCell(4)
 
+        cell0.setAttribute("data-checkbox", "true")
+        cell0.setAttribute("data-field", "state")
         cell1.innerHTML = sku
         cell2.innerHTML = description
         cell3.innerHTML = price
@@ -88,12 +92,5 @@ async function getPrds() {
 
     })
 
-    //This is for selecting the table row
-    $('#prd').on('click', 'tbody tr', function (event) {
-      $(this).addClass('highlight').siblings().removeClass('highlight');
-    });
-
+  
 }
-
-
-

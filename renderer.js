@@ -82,8 +82,9 @@ async function getPrds() {
         var cell3 = row.insertCell(3)
         var cell4 = row.insertCell(4)
 
-        cell0.setAttribute("data-checkbox", "true")
-        cell0.setAttribute("data-field", "state")
+        // cell0.setAttribute("type", "checkbox")
+        // cell0.setAttribute("data-field", "state")
+        cell0.outerHTML = `<div id=row${x} style='text-align:center'><input type='checkbox'></input></div>`
         cell1.innerHTML = sku
         cell2.innerHTML = description
         cell3.innerHTML = price

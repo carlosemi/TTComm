@@ -1,7 +1,10 @@
 const {ipcRenderer} = require('electron');
 const axios = require('axios');
+const connectSRV = require('../../config/srv')
 
 async function addPrd() { 
+
+  const ip = connectSRV();
 
   console.log('addPrdcall This')
 
@@ -17,7 +20,7 @@ async function addPrd() {
 
   await axios({
     method: 'post',
-    url: 'http://localhost:5000/api/pos/addProduct',
+    url: `${ip}api/pos/addProduct`,
     headers: {'content-type': 'application/json' , 
                 'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'},
     data: {

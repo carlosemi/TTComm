@@ -10,6 +10,8 @@ const { ipcRenderer } = require('electron');
 let $ = jQuery = require('jquery');
 const axios = require('axios')
 
+const connectSRV = require('./config/srv')
+
 //This functions change the main component based on the menu button clicks
 $(function () {
   $("#main").load("./src/components/ventas.html");
@@ -49,12 +51,14 @@ function productWindow() {
 //Get the existing Products and put them in a table
 async function getPrds() {
 
+  const ip = connectSRV();
+
   var table = document.getElementById('prd');
   var row;
 
   await axios({
     method: 'get',
-    url: 'http://localhost:5000/api/pos/getProducts',
+    url: `${ip}api/pos/getProducts`,
     headers: {
       'content-type': 'application/json',
       'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'

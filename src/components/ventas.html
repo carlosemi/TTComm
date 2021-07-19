@@ -2,6 +2,20 @@
 
   <script src="./src/actions/ventas.js"></script>
 
+  <!-- Show the cart items -->
+  <script>cart()</script>
+
+  <style>
+    .clickable-row.active{
+      background-color: #dc3545 ;
+      color: white;
+    }
+
+    .clickable-row.active td{
+      color: white;
+    }
+  </style>
+
   <h2 class="mt-2">Ventas</h2>
 
   <div class="row h-100">
@@ -9,26 +23,28 @@
       <div class="col-9 d-flex flex-column">
           <div class="row mt-2 border-top">  
               <div class="col">
-                  <label class="h4">Codigo de Producto: </label>
+                  <label class="h4 mt-2">Codigo de Producto: </label>
                   <input id="srcPrd" type="text"/>
                   <button  type="button" class="btn btn-outline-success" onclick="srcProduct()">Enter - Agregar Producto</button>
+                  <button type="button" class="btn btn-outline-danger">Borrar Articulo</button>
               </div>
               
-          </div>                 
-              <div class="row mt-2 border-bottom border-top justify-content-start no-gutters">  
-                  <div class="col">
-                      
-                      <label class="h4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id de Cliente: </label>
-                      <input type="text"/>
-                      <button type="button" class="btn btn-outline-success">Enter</button>
-                      <button type="button" class="btn btn-outline-danger">Borrar Articulo</button>
-                  </div>
+          </div>         
+
+          <!-- <div class="row mt-2 border-bottom border-top justify-content-start no-gutters">  
+              <div class="col">
                   
+                  <label class="h4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id de Cliente: </label>
+                  <input id="srcId" type="text"/>
+                  <button type="button" class="btn btn-outline-success">Enter</button>
+                  <button type="button" class="btn btn-outline-danger">Borrar Articulo</button>
               </div>
-          
-          <div class="row mt-2">
-            <h6>Carrito</h6>
-              <table id="vnt" class="table table-striped table-hover table-bordered">
+              
+          </div>
+           -->
+          <div class="row mt-2 border-top">
+            <h3 class="mt-2">Carreton</h3>
+              <table id="vnt" class="vnt table table-hover table-striped">
                 <thead>
                   <tr>
                     <div class="border-right">
@@ -42,75 +58,7 @@
                   </tr>
                 </thead>
 
-                <tbody>
-                  <!-- <tr class="clickableRow">
-                    <th>
-                      5433256
-                    </th>
-                    <td>
-                      Router
-                    </td>
-                    <td>
-                      199.99
-                    </td>
-                    <td>
-                      1
-                    </td>
-                    <td>
-                      4
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>
-                      5433256
-                    </th>
-                    <td>
-                      Router
-                    </td>
-                    <td>
-                      199.99
-                    </td>
-                    <td>
-                      1
-                    </td>
-                    <td>
-                      4
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>
-                      5433256
-                    </th>
-                    <td>
-                      Router
-                    </td>
-                    <td>
-                      199.99
-                    </td>
-                    <td>
-                      1
-                    </td>
-                    <td>
-                      4
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>
-                      5433256
-                    </th>
-                    <td>
-                      Router
-                    </td>
-                    <td>
-                      199.99
-                    </td>
-                    <td>
-                      1
-                    </td>
-                    <td>
-                      4
-                    </td>
-                  </tr> -->
+                <tbody id='vntBdyId'>
 
                 </tbody>
       
@@ -138,7 +86,6 @@
           
       </div>
 
-      
     </div>
  
   </div>

@@ -9,17 +9,20 @@ const electron = require('electron');
 const { ipcRenderer } = require('electron');
 let $ = jQuery = require('jquery');
 const axios = require('axios')
+const fs = require('fs')
 
+//Connect to the server
 const connectSRV = require('./config/srv')
+
+//Global List of the cart
+var cartList = new Array;
+
 
 //This functions change the main component based on the menu button clicks
 $(function () {
   $("#main").load("./src/components/ventas.html");
 });
 
-
-//Based on the click of the main buttons, it will change the div with id main to change screens and 
-//load other html files
 function vntFunction() {
   $("#main").load("./src/components/ventas.html");
 }

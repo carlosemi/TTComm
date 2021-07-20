@@ -1,17 +1,47 @@
 
-//This changes the table row's class when clicked to change its background color to red
+//This changes the table row's class when clicked to change its background color to red to be deleted
 $("#vnt").on('click', '.clickable-row', function(event){
-    if($(this).hasClass('active')){
-        $(this).removeClass('active'); 
-      } else {
-        $(this).addClass('active').siblings().removeClass('active');
-      }
+
+    //If you click the items to increase the number of that item, the background color changes.
+    //The below function checks if the part clicked was the input type number, if it is then ommit changing
+    //the class name so that the row is not highlighted with the red color
+    if(event.target.type === 'number'){
+       
+        //If the number was actually clicked, also update the number of items on the db
+ 
+        // console.log("Changing the number")
+
+        // console.log("ID: " + event.target.id)
+        var id = event.target.id;
+
+        // console.log("Value: " + event.target.value)
+        var newValue = event.target.value;
+
+        let itemsJson = fs.readFileSync('./src/db/cart.json', 'utf-8')
+
+        let items = JSON.parse(itemsJson)
+
+        // console.log(items[id])
+
+        items[id].items = newValue;
+
+        itemsJson = JSON.stringify(items)
+
+        fs.writeFileSync('./src/db/cart.json', itemsJson, 'utf-8')
+}
+    else{
+
+        if($(this).hasClass('active')){
+            $(this).removeClass('active'); 
+          } else {
+            $(this).addClass('active').siblings().removeClass('active');
+          }
+    }
+
 })
 
 
-
-
-//Add, update, and delete items in the cart 
+//Add, update, delete items and show Total
 function cart() {
 
     var table = document.getElementById('vnt');
@@ -20,6 +50,7 @@ function cart() {
 
     //First empty the items in the cart at init of the function call. 
     //This is done so there are no repetition of items when you add a new item
+
     $('#vntBdyId').empty()
 
 
@@ -34,21 +65,22 @@ function cart() {
                 throw err;
             }
 
-            console.log(data)
-            console.log(JSON.parse(data))
+            // console.log(data)
+            // console.log(JSON.parse(data))
             
             // parse JSON object
             var obj = JSON.parse(data);
 
-            var sku, description, price, quantity;
+            var sku, description, price, items, quantity;
 
             for(var x in obj){
 
-                console.log(sku)
+                // console.log(sku)
 
                 sku = obj[x].sku
                 description = obj[x].description
                 price = obj[x].price
+                items = obj[x].items
                 quantity = obj[x].quantity
 
 
@@ -66,7 +98,7 @@ function cart() {
                 cell0.innerHTML = sku
                 cell1.innerHTML = description
                 cell2.innerHTML = price
-                cell3.innerHTML = `<div class='col-6'><input type='number' value='1'></div>`
+                cell3.innerHTML = `<input id='${x}' type='number' min='1' max='${quantity}' value='${items}'>`
                 cell4.innerHTML = quantity
             }
         });
@@ -97,7 +129,7 @@ async function srcProduct() {
 
             //console.log(response.data)
 
-            const data = {sku: response.data.sku, description: response.data.description, price: response.data.price, quantity: response.data.quantity}
+            const data = {sku: response.data.sku, description: response.data.description, price: response.data.price, items: 1, quantity: response.data.quantity}
 
             console.log(data)
 
@@ -137,7 +169,54 @@ async function srcProduct() {
 
 }
 
-//Search and add Client to the Cart
-async function srcClient() { 
+//Delete item from the cart 
+async function deleteItem(){
+
+    // console.log($("#vnt"))
+
+    // console.log($("#vnt")[0].rows.length)
+
+    //X is rows.length - 1 because the head row is also counted
+    var lng = $("#vnt")[0].rows.length - 1;
+
+    //Var x starts in index 1 to not count the header
+    for(var x = 1; x < lng + 1; x++){
+
+        //console.log($('#vnt')[0].rows[x].className)
+
+        //When you find the table row with className "clickable-row active", remove that row
+        if($('#vnt')[0].rows[x].className === "clickable-row active"){
+
+            //console.log("True")
+
+            console.log("splicing index " + x)
+
+            //Read the cart db file, parse array of items and delete the one with the according index
+            let itemsJson = fs.readFileSync('./src/db/cart.json', 'utf-8')
+
+            let items = JSON.parse(itemsJson)
+
+            //x is - 1 when splicing because the index in reality one less because of the table header issue above
+            items.splice(x - 1,1)
+
+            itemsJson = JSON.stringify(items)
+
+            fs.writeFileSync('./src/db/cart.json', itemsJson, 'utf-8')
+
+            cart() 
+
+            return 
+
+        }
+        
+    }
+
+    
+}
+
+//Charge
+async function charge() {
 
 }
+
+//Print Ticket

@@ -1,1 +1,1 @@
-[{"sku":"123456","description":"Netgear Router","price":199.99,"quantity":3},{"sku":"8547493","description":"Switch","price":799.99,"quantity":3},{"sku":"1857483","description":"Cable","price":9.99,"quantity":10},{"sku":"956844","description":"Antena","price":1999.99,"quantity":2},{"sku":"5647839","description":"Lecitina","price":99.99,"quantity":8},{"sku":"57484848","description":"Iphone 4","price":200,"quantity":1},{"sku":"457738","description":"Reloj","price":199.99,"quantity":1}]
+[{"sku":"123456","description":"Netgear Router","price":199.99,"items":1,"quantity":3}]

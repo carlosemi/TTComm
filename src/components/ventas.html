@@ -1,6 +1,6 @@
 <div class="divheight">
 
-  <script src="./src/actions/ventas.js"></script>
+  <script src="./src/actions/cart.js"></script>
 
   <!-- Show the cart items -->
   <script>cart()</script>
@@ -47,9 +47,6 @@
               <table id="vnt" class="vnt table table-hover table-striped">
                 <thead>
                   <tr>
-                    <div class="border-right">
-                      
-                    </div>
                     <th scope="col">Codigo/Id</th>
                     <th scope="col">Descripcion/Cliente</th>
                     <th scope="col">Precio Venta</th>
@@ -75,9 +72,33 @@
 
           <h2 class="text-center border-bottom">Ticket</h2>
       
-          <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total:</h5>
-          <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IVA: </h5>
-          <h5>Total + IVA: </h5>
+          <div class="row">
+            <div class="col-6 text-end">
+              <h5>Total:</h5>
+            </div>
+            <div class="col-6">
+              <h5 id="totl">$0.00</h5>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6 text-end">
+              <h5>IVA:</h5>
+            </div>
+            <div class="col-6">
+              <h5 id="totl">$0.00</h5>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6 text-end">
+              <h5>Total + IVA:</h5>
+            </div>
+            <div class="col-6">
+              <h5 id="totl">$0.00</h5>
+            </div>
+          </div>
+          
         </div>
         
         <button type="button" class="btn btn-success">COBRAR</button>

@@ -18,41 +18,41 @@ $("#vnt").on('click', '.clickable-row', function(event){
         var newValue = event.target.value;
 
         let itemsJson = fs.readFileSync('./src/db/cart.json', 'utf-8')
-
         let items = JSON.parse(itemsJson)
 
         // console.log(items[id])
 
         items[id].items = newValue;
-
         itemsJson = JSON.stringify(items)
 
         fs.writeFileSync('./src/db/cart.json', itemsJson, 'utf-8')
-}
+
+        cart()
+    }
     else{
 
         if($(this).hasClass('active')){
             $(this).removeClass('active'); 
-          } else {
+        } 
+        else {
             $(this).addClass('active').siblings().removeClass('active');
-          }
+        }
     }
 
 })
 
 
-//Add, update, delete items and show Total
+//Add, update and show Total
 function cart() {
 
     var table = document.getElementById('vnt');
     var row;
+    var totalCost = 0.00;
 
 
     //First empty the items in the cart at init of the function call. 
     //This is done so there are no repetition of items when you add a new item
-
     $('#vntBdyId').empty()
-
 
     //If the file is empty, ommit the reading so there is no JSON syntax error. Else read the file 
     if((fs.readFileSync('./src/db/cart.json').length === 0)){
@@ -73,9 +73,9 @@ function cart() {
 
             var sku, description, price, items, quantity;
 
-            for(var x in obj){
+            var i = 0;
 
-                // console.log(sku)
+            for(var x in obj){
 
                 sku = obj[x].sku
                 description = obj[x].description
@@ -83,7 +83,17 @@ function cart() {
                 items = obj[x].items
                 quantity = obj[x].quantity
 
+                //console.log("Num of Items: " + items)
 
+                //This inner loop is to update the totalCost depending on the quantity of one item so
+                //if the quantity is greater than one it will correctly add according to the quantity
+                for(var i = 0; i < items; i++){
+
+                    //Add the total of each item to display
+                    totalCost = totalCost + price
+                }
+
+            
                 row =  table.getElementsByTagName('tbody')[0].insertRow(x)
 
                 row.className = "clickable-row"
@@ -100,9 +110,16 @@ function cart() {
                 cell2.innerHTML = price
                 cell3.innerHTML = `<input id='${x}' type='number' min='1' max='${quantity}' value='${items}'>`
                 cell4.innerHTML = quantity
+
             }
+
+            //console.log(totalCost.toFixed(2))
+
+            //Write the sum of the total cost to the Ticket
+            $("#totl").text("$" + totalCost.toFixed(2))
         });
     }
+
   
 }
 
@@ -205,7 +222,7 @@ async function deleteItem(){
 
             cart() 
 
-            return 
+            break 
 
         }
         

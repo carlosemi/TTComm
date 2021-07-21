@@ -8,15 +8,16 @@ async function addPrd() {
 
   console.log('addPrdcall This')
 
-  var codigo = document.getElementById("Codigo").value;
-  var descripcion = document.getElementById("Descripcion").value;
-  var precio = document.getElementById("Precio").value;
-  var existencia = document.getElementById("Existencia").value;
+  var code = document.getElementById("Codigo").value;
+  var descr = document.getElementById("Descripcion").value;
+  var prc = document.getElementById("Precio").value;
+  var tx = document.getElementById("Tax").value
+  var exis = document.getElementById("Existencia").value;
 
-  console.log(codigo)
-  console.log(descripcion)
-  console.log(precio)
-  console.log(existencia)
+  console.log(code)
+  console.log(descr)
+  console.log(prc)
+  console.log(exis)
 
   await axios({
     method: 'post',
@@ -24,10 +25,11 @@ async function addPrd() {
     headers: {'content-type': 'application/json' , 
                 'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'},
     data: {
-      sku: codigo,
-      description: descripcion,
-      price: precio,
-      quantity: existencia
+      sku: code,
+      description: descr,
+      price: prc,
+      tax: tx,
+      numOfItems: exis
     }
   })
   .then(function (response){

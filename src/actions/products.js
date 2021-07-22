@@ -44,7 +44,7 @@ async function getPrds() {
           sku = response.data[x].sku
           description = response.data[x].description
           price = response.data[x].price
-          quantity = response.data[x].quantity
+          quantity = response.data[x].numOfItems
   
           //row = table.insertRow(x);
           row =  table.getElementsByTagName('tbody')[0].insertRow(x)

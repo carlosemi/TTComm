@@ -11,13 +11,16 @@ async function addPrd() {
   var code = document.getElementById("Codigo").value;
   var descr = document.getElementById("Descripcion").value;
   var prc = document.getElementById("Precio").value;
-  var tx = document.getElementById("Tax").value
+  var tx = document.getElementById("Tax").checked;
   var exis = document.getElementById("Existencia").value;
+  var wgh = document.getElementById("Weight").checked;
 
   console.log(code)
   console.log(descr)
   console.log(prc)
+  console.log(tx)
   console.log(exis)
+  console.log(wgh)
 
   await axios({
     method: 'post',
@@ -29,26 +32,26 @@ async function addPrd() {
       description: descr,
       price: prc,
       tax: tx,
-      numOfItems: exis
+      numOfItems: exis,
+      weight: wgh
     }
   })
   .then(function (response){
     console.log(response.data)
 
-    if(response.data==='Success'){
-      document.getElementById("Success").textContent += `Success!!`
+    // if(response.data==='Success'){
+    //   document.getElementById("Success").textContent += `Success!!`
 
-      //Wait 3 seconds before closing the window
-      setTimeout(function () {
-        // console.log("waited 3 seconds")
-        ipcRenderer.invoke('closeWnd').then((result) => {
+    //   //Wait 3 seconds before closing the window
+    //   setTimeout(function () {
+    //     // console.log("waited 3 seconds")
+    //     ipcRenderer.invoke('closeWnd').then((result) => {
           
-        })
-      }, 3000)
+    //     })
+    //   }, 3000)
      
       
-    }
+    // }
   })
-
   
 }

@@ -146,7 +146,7 @@ async function srcProduct() {
 
             //console.log(response.data)
 
-            const data = {sku: response.data.sku, description: response.data.description, price: response.data.price, items: 1, quantity: response.data.quantity}
+            const data = {sku: response.data.sku, description: response.data.description, price: response.data.price, items: 1, quantity: response.data.numOfItems}
 
             console.log(data)
 

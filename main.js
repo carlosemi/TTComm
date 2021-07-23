@@ -69,7 +69,27 @@ ipcMain.handle('newWindow', async (event) => {
   })
 
   // and load the index.html of the app.
-  popWindow.loadFile('./src/components/productPop.html')
+  popWindow.loadFile('./src/components/products/addPrd.html')
+})
+
+//Open new window to edit product
+ipcMain.handle('editWindow', async (event, data) => {
+
+  popWindow = new BrowserWindow({
+    width: 500,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
+  
+  })
+
+  console.log(data)
+
+  // and load the index.html of the app.
+  popWindow.loadFile('./src/components/products/editPrd.html')
 })
   
 

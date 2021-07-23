@@ -14,25 +14,22 @@ const fs = require('fs')
 //Connect to the server
 const connectSRV = require('./config/srv')
 
-//Global List of the cart
-var cartList = new Array;
-
 
 //This functions change the main component based on the menu button clicks
 $(function () {
-  $("#main").load("./src/components/ventas.html");
+  $("#main").load("./src/components/sells.html");
 });
 
 function vntFunction() {
-  $("#main").load("./src/components/ventas.html");
+  $("#main").load("./src/components/sells.html");
 }
 
 function prdFunction() {
-  $("#main").load("./src/components/productos.html");
+  $("#main").load("./src/components/products.html");
 }
 
 function cliFunction() {
-  $("#main").load("./src/components/clientes.html");
+  $("#main").load("./src/components/clients.html");
 }
 
 function fctFunction() {
@@ -40,7 +37,7 @@ function fctFunction() {
 }
 
 function rptFunction() {
-  $("#main").load("./src/components/reportes.html");
+  $("#main").load("./src/components/reports.html");
 }
 
 

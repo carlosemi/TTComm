@@ -1,7 +1,10 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, ipcMain} = require('electron')
 const path = require('path')
 const $ = require('jquery')
+const {ipcHandeler} = require('electron')
+const axios = require('axios')
+const {ipcRenderer} = require('electron');
 
 function createWindow () {
   // Create the browser window.
@@ -9,8 +12,11 @@ function createWindow () {
     width: 100,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: true,
+      contextIsolation: false
     }
+
   })
 
   mainWindow.maximize()
@@ -20,6 +26,8 @@ function createWindow () {
   // Open the DevTools.
   //mainWindow.webContents.openDevTools()
 }
+
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -43,3 +51,28 @@ app.on('window-all-closed', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+let popWindow
+
+//Open new window to add product
+ipcMain.handle('newWindow', async (event) => {
+
+  popWindow = new BrowserWindow({
+    width: 500,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
+  
+  })
+
+  // and load the index.html of the app.
+  popWindow.loadFile('./src/components/productPop.html')
+})
+  
+
+ipcMain.handle('closeWnd', async (event) =>{
+  popWindow.close()
+})

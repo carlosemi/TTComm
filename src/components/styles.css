@@ -8,7 +8,7 @@
 }
 
 .divheight {
-  height: 800px;
+  height: 850px;
 }
 
 .hght {
@@ -20,5 +20,5 @@
 }
 
 .table tbody tr.highlight td {
-  background-color: #ddd;
+  background-color: rgb(40, 126, 76);
 }

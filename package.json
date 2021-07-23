@@ -23,7 +23,10 @@
     "electron": "^13.1.2"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.3",
+    "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
+    "config": "^3.3.6",
     "jquery": "^3.6.0",
     "popper": "^1.0.1"
   }

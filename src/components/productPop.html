@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+
+        <!-- The following is causing problems when trying to add another html file -->
+        <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
+        
+        <link rel="stylesheet" href="./styles.css">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+
+        <!-- Bootstrap Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src='../../node_modules/jquery/dist/jquery.min.js'></script>
+        <script src='../../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+
+        <!-- Font Awesome -->
+        <script src='../../node_modules/@fortawesome/fontawesome-free/js/all.js'></script>
+
+        <title>TTComm Punto De Venta</title>
+
+        <!-- <script>window.$ = window.jQuery = require('jquery');</script> -->
+    
+    </head>
+
+    <body>
+ 
+        <div class="container-fluid justify-content-center">
+           
+            <div class="row text-center">
+                <div class="col">
+                    <h3>Agregar Producto </h3>
+                </div>
+            </div>
+
+            <div class="form-group form-inline">
+
+                <div class="row mt-4 justify-content-start">
+                    <div class="col-3">
+                        <label>Codigo: </label>  
+                    </div>
+                    <div class="col-6">
+                        <input id="Codigo" type="text"/>
+                    </div>
+                </div>
+
+                <div class="row mt-2 justify-content-start">
+                    <div class="col-3">
+                        <label>Descripcion: </label>   
+                    </div>
+                    <div class="col-3">
+                        <input id="Descripcion" type="text"/>
+                    </div>
+                </div>
+
+                <div class="row mt-2 justify-content-start">
+                    <div class="col-3">
+                        <label>Precio: </label>  
+                    </div>
+                    <div class="col-6">
+                        <input id="Precio" type="number"/>
+                    </div>
+                    <div class="col-3">
+                        
+                        <label>Por peso:&nbsp;</label><input id="Weight" type="checkbox"/>
+                                        
+                    </div>
+                </div>
+
+                <div class="row mt-2 justify-content-start">
+                    <div class="col-3">
+                        <label>IVA: </label>  
+                    </div>
+                    <div class="col-3">
+                        <input id="Tax" type="checkbox"/>
+                    </div>
+                </div>
+
+                <div class="row mt-2 justify-content-start">
+                    <div class="col-3">
+                        <label>Existencia: </label>  
+                    </div>
+                    <div class="col-6">
+                        <input id="Existencia" type="number"/>
+                    </div>
+                </div>
+
+                <div class="row mt-4 justify-content-center">
+                    <div class="col-5">
+                        <button type="button" class="btn btn-outline-success" onclick="addPrd()">Agregar Producto</button>
+                    </div>
+                </div>
+        
+            </div>
+
+            <!-- Success -->
+            <div class="row mt-4 justify-content-center">
+                <div class="col-3">
+                    <p class="text-success" id="Success"></p>
+                </div>
+            </div>
+
+
+        </div>
+
+        <script src='../actions/addPrd.js'></script>
+       
+
+        
+            
+    </body>

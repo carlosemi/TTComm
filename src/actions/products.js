@@ -65,6 +65,44 @@ async function getPrds() {
     
   }
 
+//Edit a product
+async function editPrd() {
+
+  var lng = $("#prd")[0].rows.length - 1;
+
+  //Var x starts in index 1 to not count the header
+  for(var x = 1; x < lng + 1; x++){
+
+    // console.log($('#prd')[0].rows[x].value)
+
+    //When you find the table row with className "clickable-row active", get info from that row
+    if($('#prd')[0].rows[x].className === "clickable-row active"){
+
+      console.log("Sku: " + $("#prd")[0].rows[x].cells[0].innerHTML)
+      console.log("Description: " + $("#prd")[0].rows[x].cells[1].innerHTML)
+      console.log("Price: " + $("#prd")[0].rows[x].cells[2].innerHTML)
+      console.log("numOfItems: " + $("#prd")[0].rows[x].cells[3].innerHTML)
+
+      const data = {
+        sku: $("#prd")[0].rows[x].cells[0].innerHTML,
+        description: $("#prd")[0].rows[x].cells[1].innerHTML,
+        price: $("#prd")[0].rows[x].cells[2].innerHTML,
+        numOfItems: $("#prd")[0].rows[x].cells[3].innerHTML
+      }
+
+      //Open new Window when Edit Product is clicked and send the product info
+      ipcRenderer.invoke('editWindow', data).then((result) => {
+        console.log(result)
+      })
+
+      break
+    }
+    
+  }
+
+
+}
+
 //Delete a product
 async function deletePrd(){
 
@@ -79,27 +117,27 @@ async function deletePrd(){
   //Var x starts in index 1 to not count the header
   for(var x = 1; x < lng + 1; x++){
 
-      // console.log($('#prd')[0].rows[x].value)
+    // console.log($('#prd')[0].rows[x].value)
 
-      //When you find the table row with className "clickable-row active", remove that row
-      if($('#prd')[0].rows[x].className === "clickable-row active"){
-        console.log("Row clicked: " + $("#prd")[0].rows[x].cells[0].innerHTML)
+    //When you find the table row with className "clickable-row active", remove that row
+    if($('#prd')[0].rows[x].className === "clickable-row active"){
+      console.log("Row clicked: " + $("#prd")[0].rows[x].cells[0].innerHTML)
 
-        await axios({
-          method: 'delete',
-          url: `${ip}api/pos/deleteProduct`,
-          headers: {
-            'content-type': 'application/json',
-            'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
-          },
-          data: {
-            sku: $("#prd")[0].rows[x].cells[0].innerHTML
-          },
-        })
-        .then(function (response) {
-          console.log(response)
-        })
-      }
+      await axios({
+        method: 'delete',
+        url: `${ip}api/pos/deleteProduct`,
+        headers: {
+          'content-type': 'application/json',
+          'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+        },
+        data: {
+          sku: $("#prd")[0].rows[x].cells[0].innerHTML
+        },
+      })
+      .then(function (response) {
+        console.log(response)
+      })
+    }
       
   }
 

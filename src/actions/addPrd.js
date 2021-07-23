@@ -1,6 +1,6 @@
 const {ipcRenderer} = require('electron');
 const axios = require('axios');
-const connectSRV = require('../../config/srv')
+const connectSRV = require('../../../config/srv')
 
 async function addPrd() { 
 
@@ -39,19 +39,19 @@ async function addPrd() {
   .then(function (response){
     console.log(response.data)
 
-    // if(response.data==='Success'){
-    //   document.getElementById("Success").textContent += `Success!!`
+    if(response.data==='Success'){
+      document.getElementById("Success").textContent += `Success!!`
 
-    //   //Wait 3 seconds before closing the window
-    //   setTimeout(function () {
-    //     // console.log("waited 3 seconds")
-    //     ipcRenderer.invoke('closeWnd').then((result) => {
+      //Wait 3 seconds before closing the window
+      setTimeout(function () {
+        // console.log("waited 3 seconds")
+        ipcRenderer.invoke('closeWnd').then((result) => {
           
-    //     })
-    //   }, 3000)
+        })
+      }, 3000)
      
       
-    // }
+    }
   })
   
 }

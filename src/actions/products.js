@@ -34,16 +34,17 @@ async function getPrds() {
     })
       .then(function (response) {
   
-        // console.log(response.data)
-        // console.log(response.data.length)
-        // console.log(response.data[0])
-  
-        var sku, description, price, quantity;
+        var sku, description, price, tax, weight, quantity;
   
         for (var x = 0; x < response.data.length; x++) {
+
+          console.log(response.data[x])
+
           sku = response.data[x].sku
           description = response.data[x].description
           price = response.data[x].price
+          tax = response.data[x].tax
+          weight = response.data[x].weight
           quantity = response.data[x].numOfItems
   
           //row = table.insertRow(x);
@@ -54,11 +55,15 @@ async function getPrds() {
           var cell1 = row.insertCell(1)
           var cell2 = row.insertCell(2)
           var cell3 = row.insertCell(3)
+          var cell4 = row.insertCell(4)
+          var cell5 = row.insertCell(5)
   
           cell0.innerHTML = sku
           cell1.innerHTML = description
           cell2.innerHTML = price
-          cell3.innerHTML = quantity
+          cell3.innerHTML = tax
+          cell4.innerHTML = weight
+          cell5.innerHTML = quantity
         }
   
       })
@@ -87,7 +92,9 @@ async function editPrd() {
         sku: $("#prd")[0].rows[x].cells[0].innerHTML,
         description: $("#prd")[0].rows[x].cells[1].innerHTML,
         price: $("#prd")[0].rows[x].cells[2].innerHTML,
-        numOfItems: $("#prd")[0].rows[x].cells[3].innerHTML
+        tax: $("#prd")[0].rows[x].cells[3].innerHTML,
+        weight: $("#prd")[0].rows[x].cells[4].innerHTML,
+        numOfItems: $("#prd")[0].rows[x].cells[5].innerHTML
       }
 
       //Open new Window when Edit Product is clicked and send the product info

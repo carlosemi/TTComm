@@ -28,7 +28,6 @@ function createWindow () {
 }
 
 
-
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -72,10 +71,18 @@ ipcMain.handle('newWindow', async (event) => {
   popWindow.loadFile('./src/components/products/addPrd.html')
 })
 
+//Close the add product window when add product button is clicked
+ipcMain.handle('closeWnd', async (event) =>{
+  popWindow.close()
+})
+
+
+let editWindow
+
 //Open new window to edit product
 ipcMain.handle('editWindow', async (event, data) => {
 
-  popWindow = new BrowserWindow({
+  editWindow = new BrowserWindow({
     width: 500,
     height: 600,
     webPreferences: {
@@ -88,11 +95,14 @@ ipcMain.handle('editWindow', async (event, data) => {
 
   console.log(data)
 
-  // and load the index.html of the app.
-  popWindow.loadFile('./src/components/products/editPrd.html')
-})
-  
+  //Send the object to be edited to the edit window
+  ipcMain.on('synchronous-message', (event, arg) => {
+    //console.log(arg) // prints "ping"
+    event.returnValue = data
+  })
 
-ipcMain.handle('closeWnd', async (event) =>{
-  popWindow.close()
+  // and load the index.html of the app.
+  editWindow.loadFile('./src/components/products/editPrd.html')  
+  
 })
+

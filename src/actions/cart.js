@@ -71,7 +71,7 @@ function cart() {
             // parse JSON object
             var obj = JSON.parse(data);
 
-            var sku, description, price, items, quantity;
+            var sku, description, price, items, tax, weight, quantity;
 
             var i = 0;
 
@@ -81,6 +81,8 @@ function cart() {
                 description = obj[x].description
                 price = obj[x].price
                 items = obj[x].items
+                tax = obj[x].tax
+                weight = obj[x].weight
                 quantity = obj[x].quantity
 
                 //console.log("Num of Items: " + items)
@@ -116,7 +118,7 @@ function cart() {
             //console.log(totalCost.toFixed(2))
 
             //Write the sum of the total cost to the Ticket
-            $("#totl").text("$" + totalCost.toFixed(2))
+            $("#totlAndTx").text("$" + totalCost.toFixed(2))
         });
     }
 

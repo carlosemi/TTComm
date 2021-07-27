@@ -1,6 +1,12 @@
 const {ipcRenderer} = require('electron');
 const axios = require('axios');
 const connectSRV = require('../../../config/srv')
+// let $ = jQuery = require('jquery');
+const $ = require('jquery')
+
+const {getPrds} = require('../../actions/products')
+
+console.log('Current directory: ' + process.cwd());
 
 async function addPrd() { 
 
@@ -42,16 +48,18 @@ async function addPrd() {
     if(response.data==='Success'){
       document.getElementById("Success").textContent += `Success!!`
 
-      //Wait 3 seconds before closing the window
+      //Wait 2 seconds before closing the window
       setTimeout(function () {
         // console.log("waited 3 seconds")
         ipcRenderer.invoke('closeWnd').then((result) => {
           
         })
-      }, 3000)
+      }, 2000)
      
       
     }
   })
+
+
   
 }

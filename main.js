@@ -5,6 +5,10 @@ const $ = require('jquery')
 const {ipcHandeler} = require('electron')
 const axios = require('axios')
 const {ipcRenderer} = require('electron');
+const { REPL_MODE_SLOPPY } = require('repl')
+const {MessageChannelMain} = require('electron')
+
+var reply
 
 function createWindow () {
   // Create the browser window.
@@ -25,6 +29,12 @@ function createWindow () {
   mainWindow.loadFile('index.html')
   // Open the DevTools.
   //mainWindow.webContents.openDevTools()
+
+  reply = () => {
+
+    mainWindow.webContents.send('asynchronous-message', {'SAVED': 'File Saved'});
+  
+  }
 }
 
 
@@ -73,11 +83,14 @@ ipcMain.handle('newWindow', async (event) => {
 
 //Close the add product window when add product button is clicked
 ipcMain.handle('closeWnd', async (event) =>{
+  //The reply is to send back to the renderer process to update the table 
+  reply()
   popWindow.close()
 })
 
 
 let editWindow
+let obj
 
 //Open new window to edit product
 ipcMain.handle('editWindow', async (event, data) => {
@@ -93,16 +106,26 @@ ipcMain.handle('editWindow', async (event, data) => {
   
   })
 
-  console.log(data)
+  // console.log(data)
 
-  //Send the object to be edited to the edit window
-  ipcMain.on('synchronous-message', (event, arg) => {
-    //console.log(arg) // prints "ping"
-    event.returnValue = data
-  })
-
+  obj = data
   // and load the index.html of the app.
   editWindow.loadFile('./src/components/products/editPrd.html')  
   
 })
+
+//Send the object to be edited to the edit window
+ipcMain.on('synchronous-message', (event, arg) => {
+  //console.log(arg) // prints "ping"
+  event.returnValue = obj
+})
+
+
+//Close the edit product window when edit product button is clicked
+ipcMain.handle('closeEditWnd', async (event) =>{
+
+  reply()
+  editWindow.close()
+})
+
 

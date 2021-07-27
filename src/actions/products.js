@@ -9,11 +9,11 @@ $("#prd").on('click', '.clickable-row', function(event){
         $(this).addClass('active').siblings().removeClass('active');
     }
 
-
 })
 
+
 //Get the existing Products and put them in a table
-async function getPrds() {
+async function getPrds () {
 
     const ip = connectSRV();
   
@@ -38,7 +38,7 @@ async function getPrds() {
   
         for (var x = 0; x < response.data.length; x++) {
 
-          console.log(response.data[x])
+          // console.log(response.data[x])
 
           sku = response.data[x].sku
           description = response.data[x].description
@@ -68,7 +68,19 @@ async function getPrds() {
   
       })
     
-  }
+}
+
+
+
+//Open new Window when Add Product is clicked, code to add product is in addPrd.js
+async function productWindow() {
+
+  ipcRenderer.invoke('newWindow').then((result) => {
+    // console.log(result)
+  })
+
+}
+
 
 //Edit a product
 async function editPrd() {
@@ -83,10 +95,10 @@ async function editPrd() {
     //When you find the table row with className "clickable-row active", get info from that row
     if($('#prd')[0].rows[x].className === "clickable-row active"){
 
-      console.log("Sku: " + $("#prd")[0].rows[x].cells[0].innerHTML)
-      console.log("Description: " + $("#prd")[0].rows[x].cells[1].innerHTML)
-      console.log("Price: " + $("#prd")[0].rows[x].cells[2].innerHTML)
-      console.log("numOfItems: " + $("#prd")[0].rows[x].cells[3].innerHTML)
+      // console.log("Sku: " + $("#prd")[0].rows[x].cells[0].innerHTML)
+      // console.log("Description: " + $("#prd")[0].rows[x].cells[1].innerHTML)
+      // console.log("Price: " + $("#prd")[0].rows[x].cells[2].innerHTML)
+      // console.log("numOfItems: " + $("#prd")[0].rows[x].cells[3].innerHTML)
 
       const data = {
         sku: $("#prd")[0].rows[x].cells[0].innerHTML,
@@ -97,9 +109,11 @@ async function editPrd() {
         numOfItems: $("#prd")[0].rows[x].cells[5].innerHTML
       }
 
+      // console.log(data)
+
       //Open new Window when Edit Product is clicked and send the product info
       ipcRenderer.invoke('editWindow', data).then((result) => {
-        console.log(result)
+        // console.log(result)
       })
 
       break
@@ -151,6 +165,11 @@ async function deletePrd(){
   //Call the getPrds function again to display the updated table
   getPrds()
 
-  
 }
   
+//When the edit product or add product window is closed update the products table, this
+//comes from the main process
+ipcRenderer.on('asynchronous-message', function (evt, message) {
+  //console.log(message); // Returns: {'SAVED': 'File Saved'}
+  getPrds()
+});

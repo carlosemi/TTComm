@@ -41,10 +41,3 @@ function rptFunction() {
 }
 
 
-//Open new Window when Add Product is clicked
-function productWindow() {
-  ipcRenderer.invoke('newWindow').then((result) => {
-    console.log(result)
-  })
-}
-

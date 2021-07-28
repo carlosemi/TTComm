@@ -3,11 +3,11 @@
   <script src="./src/actions/clients.js"></script>
 
   <!-- Show the clients -->
-  <script></script>
+  <script>getCli()</script>
 
   <style>
     .clickable-row.active{
-      background-color: #dc3545 ;
+      background-color: #6262ff;
       color: white;
     }
 
@@ -27,26 +27,26 @@
           <div class="row mt-2 border-top justify-content-start no-gutters">  
             <div class="col-12">
               <h4>Lista de Clientes</h4>
+              <button type="button" class="btn btn-success" onclick="payment()">PAGO</button>
+              <button type="button" class="btn btn-info">Historial Cliente</button>
               <button type="button" class="btn btn-outline-success">Agregar Cliente</button>
               <button type="button" class="btn btn-outline-warning">Editar Cliente</button>
               <button type="button" class="btn btn-outline-danger">Borrar Cliente</button>
-              <button type="button" class="btn btn-success">PAGO</button>
-              
             </div>
             
           </div>   
 
           <div class="row mt-2 border-top justify-content-start no-gutters">
-            <div class="col-12 mt-2 ">
-              <input type="text"/>
+            <div class="col-12 mt-3">
               <button type="button" class="btn btn-secondary">Buscar por Nombre</button>
               <button type="button" class="btn btn-secondary">Buscar por Id</button>
+              <input id="src" type="text"/>
             </div>
           </div>
             
           <div class="row mt-3">
             
-            <table id="prd" class="table table-striped table-hover table-bordered">
+            <table id="cli" class="table table-striped table-hover table-bordered">
                 
               <thead>
                 <tr>
@@ -56,15 +56,16 @@
                   <th scope="col">Id</th>
                   <th scope="col">Cliente</th>
                   <th scope="col">Plan</th>
+                  <th scope="col">Ubicacion</th>
                   <th scope="col">Activo</th>
                 </tr>
               </thead>
 
-              <tbody>
-                <tr>
-                  <th>
+              <tbody class="cliBdyId">
+                <!-- <tr class="clickable-row">
+                  <td>
                     101
-                  </th>
+                  </td>
                   <td>
                     Juan Garza
                   </td>
@@ -77,9 +78,9 @@
                 </tr>
 
                 <tr>
-                    <th>
+                    <td>
                       102
-                    </th>
+                    </td>
                     <td>
                       Eloy Vera
                     </td>
@@ -92,9 +93,9 @@
                   </tr>
 
                   <tr>
-                    <th>
+                    <td>
                       103
-                    </th>
+                    </td>
                     <td>
                       Uriel Chapa
                     </td>
@@ -107,9 +108,9 @@
                   </tr>
 
                   <tr>
-                    <th>
+                    <td>
                       104
-                    </th>
+                    </td>
                     <td>
                       Carlos Guerra
                     </td>
@@ -119,7 +120,7 @@
                     <td>
                       No <i class="fas fa-times"></i>
                     </td>
-                  </tr>
+                  </tr> -->
 
               </tbody>
     

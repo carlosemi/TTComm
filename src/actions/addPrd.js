@@ -1,10 +1,8 @@
 const {ipcRenderer} = require('electron');
 const axios = require('axios');
 const connectSRV = require('../../../config/srv')
-// let $ = jQuery = require('jquery');
 const $ = require('jquery')
 
-const {getPrds} = require('../../actions/products')
 
 console.log('Current directory: ' + process.cwd());
 

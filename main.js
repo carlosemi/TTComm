@@ -5,8 +5,7 @@ const $ = require('jquery')
 const {ipcHandeler} = require('electron')
 const axios = require('axios')
 const {ipcRenderer} = require('electron');
-const { REPL_MODE_SLOPPY } = require('repl')
-const {MessageChannelMain} = require('electron')
+
 
 var reply
 
@@ -129,3 +128,23 @@ ipcMain.handle('closeEditWnd', async (event) =>{
 })
 
 
+
+let paymentWindow
+
+//Open new window to make payment
+ipcMain.handle('paymentWindow', async (event, data) => {
+
+  paymentWindow = new BrowserWindow({
+    width: 500,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
+  
+  })
+
+  // and load the index.html of the app.
+  paymentWindow.loadFile('./src/components/clients/clientpayment.html')  
+})

@@ -82,8 +82,31 @@ async function getCli () {
 //send it to a new window. The new window will use it to do a GET request 
 async function payment() {
 
-    ipcRenderer.invoke('paymentWindow').then((result) => {
+  var lng = $("#cli")[0].rows.length - 1;
+
+  //Var x starts in index 1 to not count the header
+  for(var x = 1; x < lng + 1; x++){
+
+    //When you find the table row with className "clickable-row active", get info from that row
+    if($('#cli')[0].rows[x].className === "clickable-row active"){
+
+      // console.log("Sku: " + $("#prd")[0].rows[x].cells[0].innerHTML)
+      // console.log("Description: " + $("#prd")[0].rows[x].cells[1].innerHTML)
+      // console.log("Price: " + $("#prd")[0].rows[x].cells[2].innerHTML)
+      // console.log("numOfItems: " + $("#prd")[0].rows[x].cells[3].innerHTML)
+
+      const data = {
+        id: $("#cli")[0].rows[x].cells[0].innerHTML,
+      }
+
+      ipcRenderer.invoke('paymentWindow', data).then((result) => {
         // console.log(result)
       })
+
+      break
+    }
+  }
+
+  
 
 }

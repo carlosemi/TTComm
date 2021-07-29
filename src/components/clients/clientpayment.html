@@ -20,6 +20,8 @@
         <!-- Font Awesome -->
         <script src='../../../node_modules/@fortawesome/fontawesome-free/js/all.js'></script>
 
+        <script src='../../actions/clients/clientpayment.js'></script>
+
         <title>TTComm Punto De Venta</title>
 
         <!-- <script>window.$ = window.jQuery = require('jquery');</script> -->
@@ -74,18 +76,34 @@
                     </div>
                 </div>
 
-                <div class="row mt-2 justify-content-start">
-                    <div class="col-3">
-                        <label>Mes de Pago: </label>  
+                <div class="row mt-2 justify-content-start border-top">
+                    <div class="row mt-2">
+                        <div class="col-3">
+                            <label>Mes de Pago: </label>  
+                        </div>
+                        <div class="col-6">
+                            <input id="paymentMonth" type="month"/>
+                        </div>
                     </div>
-                    <div class="col-6">
-                        <input id="paymentMonth" type="month"/>
-                    </div>
+                    
                 </div>
 
-                <div class="row mt-4 justify-content-center">
-                    <div class="col-5">
-                        <button type="button" class="btn btn-outline-success" onclick="addPrd()">Pagar</button>
+                <div class="row mt-2 justify-content-start">
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            <label>Efectivo: </label>  
+                        </div>
+                        <div class="col-6">
+                            <input id="paymentCash" type="number" min='' val=''/>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="row mt-4">
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-outline-success" onclick="addPrd()">Efectivo</button>
+                        <button type="button" class="btn btn-outline-success ml-2" onclick="addPrd()">Debito</button>
                     </div>
                 </div>
         
@@ -101,7 +119,7 @@
 
         </div>
 
-        <script src='../../actions/clients/clientpayment.js'></script>
+        
        
             
     </body>

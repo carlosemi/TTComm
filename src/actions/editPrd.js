@@ -60,20 +60,20 @@ async function editPrd(sku){
     })
     .then(function (response){
         
-    console.log(response.data)
+        console.log(response.data)
 
-    if(response.data==='Success'){
-        document.getElementById("Success").textContent += `Success!!`
+        if(response.data==='Success'){
+            document.getElementById("Success").textContent += `Success!!`
 
-        //Wait 2 seconds before closing the window
-        setTimeout(function () {
-        // console.log("waited 3 seconds")
-        ipcRenderer.invoke('closeEditWnd').then((result) => {
+            //Wait 2 seconds before closing the window
+            setTimeout(function () {
+            // console.log("waited 3 seconds")
+            ipcRenderer.invoke('closeEditWnd').then((result) => {
+                
+            })
+            }, 2000)
             
-        })
-        }, 2000)
-        
-    }
+        }
     })
 
 }

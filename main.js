@@ -60,6 +60,7 @@ app.on('window-all-closed', function () {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
+//----------------------------------------------------------------------------------------------------
 let popWindow
 
 //Open new window to add product
@@ -87,7 +88,7 @@ ipcMain.handle('closeWnd', async (event) =>{
   popWindow.close()
 })
 
-
+//------------------------------------------------------------------------------------------------------
 let editWindow
 let obj
 
@@ -127,9 +128,10 @@ ipcMain.handle('closeEditWnd', async (event) =>{
   editWindow.close()
 })
 
-
+//---------------------------------------------------------------------------------------------------
 
 let paymentWindow
+let id
 
 //Open new window to make payment
 ipcMain.handle('paymentWindow', async (event, data) => {
@@ -138,13 +140,25 @@ ipcMain.handle('paymentWindow', async (event, data) => {
     width: 500,
     height: 600,
     webPreferences: {
-      nodeIntegration: true,
+      nodeIntegration: true, 
       contextIsolation: false,
       enableRemoteModule: true,
     },
   
   })
 
+  console.log(data.id)
+
+  id = data.id
+
   // and load the index.html of the app.
   paymentWindow.loadFile('./src/components/clients/clientpayment.html')  
+
+})
+
+
+//Send the id to the client payment window
+ipcMain.on('paymentId', (event, arg) => {
+  //console.log(arg) // prints "ping"
+  event.returnValue = id
 })

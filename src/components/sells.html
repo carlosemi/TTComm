@@ -98,15 +98,25 @@
               <h5 id="totlAndTx">$0.00</h5>
             </div>
           </div>
+
+          <div class="row border-top">
+            <div class="row mt-2 mb-2">
+              <div class="col-6 text-end">
+                <h5>Efectivo:</h5>
+              </div>
+              <div class="col-6">
+                <input id="cashInput" type="number" min=""/>
+              </div>
+            </div>
+            
+          </div>
           
         </div>
         
         <div class="row">
-          <div class="col d-flex justify-content-end ">
-            <button type="button" class="btn btn-success">COBRAR</button>
-            
-          </div>
-          <div class="col d-flex justify-content-start">
+          <div class="col d-flex justify-content-center">
+            <button type="button" class="btn btn-success" onclick="cashCharge()">Efectivo</button>
+            <button type="button" class="btn btn-primary">Debito/Credito</button>
             <button type="button" class="btn btn-secondary">Imprimir ultimo ticket</button>
           </div>
         </div>

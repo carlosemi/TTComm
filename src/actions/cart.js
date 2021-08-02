@@ -41,15 +41,16 @@ $("#vnt").on('click', '.clickable-row', function(event){
 
 })
 
+var totalCost = 0.00;
+var TAX = 0.16;
+var totalAndTax = 0.00;
 
 //Add, update and show Total
 function cart() {
 
     var table = document.getElementById('vnt');
     var row;
-    var totalCost = 0.00;
-
-
+    
     //First empty the items in the cart at init of the function call. 
     //This is done so there are no repetition of items when you add a new item
     $('#vntBdyId').empty()
@@ -118,11 +119,20 @@ function cart() {
             //console.log(totalCost.toFixed(2))
 
             //Write the sum of the total cost to the Ticket
-            $("#totlAndTx").text("$" + totalCost.toFixed(2))
+            $("#totl").text("$" + totalCost.toFixed(2))
+
+            //Write the tax of the total cost to the ticket
+            var totalTax = totalCost * TAX
+            $("#tx").text("$" + totalTax.toFixed(2))
+
+            //Write the sum of the total cost + tax to the ticket
+            totalAndTax = totalCost + totalTax
+
+            $("#totlAndTx").text("$" + totalAndTax.toFixed(2))
+            $("#cashInput").attr('min', totalAndTax.toFixed(2))
         });
     }
 
-  
 }
 
 //Search and add Product to the cart
@@ -234,8 +244,115 @@ async function deleteItem(){
 }
 
 //Charge
-async function charge() {
+async function cashCharge() {
 
+    const ip = connectSRV();
+    var cash = $("#cashInput").val()
+    var cashBack;
+
+    console.log(cash)
+
+    if(cash < totalAndTax){
+        console.log("Invalid Amount")
+
+        //Get out of charging
+        return 
+    }
+    else{
+        
+        cashBack = cash - totalAndTax
+        console.log("Cashback: " + cashBack.toFixed(2))
+
+        // read JSON object from local cart db to show 
+        fs.readFile('./src/db/cart.json', 'utf-8', (err, data) => {
+            if (err) {
+                throw err;
+            }
+
+            // parse JSON object
+            var obj = JSON.parse(data);
+            var sku;
+
+            //Write the sum of the total cost to the Ticket
+            var total = $("#totl").text()
+
+            //Write the tax of the total cost to the ticket
+            var totalTax = $("#tx").text()
+
+            var skus = []
+
+            for(var x in obj){
+                sku = obj[x].sku
+                skus.push(sku)
+                console.log(sku)
+            }
+
+            console.log(skus)
+            totalTax = totalTax.replace('$','')
+            total = total.replace('$', '')
+
+            console.log(totalTax)
+
+            axios({
+                method: 'post',
+                url: `${ip}api/pos/addTicket`,
+                headers: {
+                    'content-type': 'application/json',
+                    'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+                },
+                data: {
+                    id: 3,
+                    products: [skus],
+                    tax: totalTax,
+                    total: total
+                }
+              })
+                .then(function (response) {
+        
+                    console.log(response.data)
+
+                    if(response.data === "Success"){
+                        console.log("In succes")
+                    }
+                    else{
+
+                    }
+                    //console.log(fs.readFileSync('./src/db/cart.json').length)
+        
+                    //If file is empty do not push, instead create. Else, Push into array of objects
+                    //This is done to avoid JSON syntax errors
+                    // if((fs.readFileSync('./src/db/cart.json').length === 0)){
+        
+                    //     console.log("File is empty")
+        
+                    //     // itemsJson = fs.readFile('./src/db/cart.json')
+                    //     fs.writeFile('./src/db/cart.json', "[" + JSON.stringify(data) + "]", (err) => {
+                    //         if(err){
+                    //             throw err;
+                    //         }
+                    //         console.log("JSON data is save");
+                    //     });
+                    // }
+                    // else{
+        
+                    //     let itemsJson = fs.readFileSync('./src/db/cart.json', 'utf-8')
+        
+                    //     let items = JSON.parse(itemsJson)
+        
+                    //     items.push(data)
+        
+                    //     itemsJson = JSON.stringify(items)
+        
+                    //     fs.writeFileSync('./src/db/cart.json', itemsJson, 'utf-8')
+        
+                    // }
+        
+                    // cart()
+        
+                })
+    
+        });
+    }
 }
 
 //Print Ticket

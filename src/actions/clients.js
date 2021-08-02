@@ -48,10 +48,10 @@ async function getCli () {
             monthPayment = response.data[x].monthPayment
 
             // console.log(monthPayment)
-            for(i in monthPayment){
-                console.log(monthPayment[i])
-            }
-            console.log("-----")
+            // for(i in monthPayment){
+            //     console.log(monthPayment[i])
+            // }
+            // console.log("-----")
 
             //row = table.insertRow(x);
             row =  table.getElementsByTagName('tbody')[0].insertRow(x)

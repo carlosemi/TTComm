@@ -370,7 +370,11 @@ async function cashCharge() {
                             ipcRenderer.invoke('cashbackWindow', cashBack).then((result) => {
                                 // console.log(result)
                             })
-                                        
+                                     
+                            $("#totl").text("$0.00")
+                            $("#tx").text("$0.00")
+                            $("#totlAndTx").text("$0.00")
+                            
                         }
                     
             

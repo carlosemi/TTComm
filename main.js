@@ -162,3 +162,39 @@ ipcMain.on('paymentId', (event, arg) => {
   //console.log(arg) // prints "ping"
   event.returnValue = id
 })
+
+//---------------------------------------------------------------------------------------------------
+
+let cashbackWindow
+let cashback
+
+//Open new window to make payment
+ipcMain.handle('cashbackWindow', async (event, data) => {
+
+  cashbackWindow = new BrowserWindow({
+    width: 600,
+    height: 400,
+    webPreferences: {
+      nodeIntegration: true, 
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
+  
+  })
+
+  console.log(data)
+
+  cashback = data
+
+  // and load the index.html of the app.
+  cashbackWindow.loadFile('./src/components/cashback.html')  
+
+})
+
+
+//Send the id to the client payment window
+ipcMain.on('cashbackAmount', (event, arg) => {
+  //console.log(arg) // prints "ping"
+  event.returnValue = cashback
+})
+

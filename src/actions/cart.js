@@ -1,4 +1,6 @@
 
+//                       TABLE AND ROW FUNCTIONALITY
+
 //This changes the table row's class when clicked to change its background color to red to be deleted
 $("#vnt").on('click', '.clickable-row', function(event){
 
@@ -41,9 +43,7 @@ $("#vnt").on('click', '.clickable-row', function(event){
 
 })
 
-var totalCost = 0.00;
-var TAX = 0.16;
-var totalAndTax = 0.00;
+//                            CART FUNCTIONALITY
 
 //Add, update and show Total
 function cart() {
@@ -57,12 +57,15 @@ function cart() {
 
     //If the file is empty, ommit the reading so there is no JSON syntax error. Else read the file 
     if((fs.readFileSync('./src/db/cart.json').length === 0)){
+        console.log("Returned null")
         return null
     }
     else{
         // read JSON object from local cart db to show 
         fs.readFile('./src/db/cart.json', 'utf-8', (err, data) => {
+
             if (err) {
+                console.log("This is the error")
                 throw err;
             }
 
@@ -71,6 +74,10 @@ function cart() {
             
             // parse JSON object
             var obj = JSON.parse(data);
+
+            var totalCost = 0.00;
+            var TAX = 0.16;
+            var totalAndTax = 0.00;
 
             var sku, description, price, items, tax, weight, quantity;
 
@@ -132,6 +139,26 @@ function cart() {
             $("#cashInput").attr('min', totalAndTax.toFixed(2))
         });
     }
+
+}
+
+async function deleteCart(){
+
+    //Delete the db items 
+    fs.truncate('./src/db/cart.json', 0, function(){console.log("cart errased")})
+
+    //RE add the brackets of the json array after the file has been erased
+    fs.writeFile('./src/db/cart.json', "[]", (err) => {
+        if(err){
+            throw err;
+        }
+        console.log("Re added brackets");
+    });
+
+    //Call the cart fucntion to display again
+    cart()
+
+
 
 }
 
@@ -252,9 +279,12 @@ async function cashCharge() {
 
     console.log(cash)
 
+    var totalTax = $("#totlAndTx").text()
+    totalAndTax = totalTax.replace('$','')
+    console.log("Total and Tax: " + totalAndTax)
+
     if(cash < totalAndTax){
         console.log("Invalid Amount")
-
         //Get out of charging
         return 
     }
@@ -269,90 +299,89 @@ async function cashCharge() {
                 throw err;
             }
 
-            // parse JSON object
-            var obj = JSON.parse(data);
-            var sku;
+            var numOfTickets
 
-            //Write the sum of the total cost to the Ticket
-            var total = $("#totl").text()
-
-            //Write the tax of the total cost to the ticket
-            var totalTax = $("#tx").text()
-
-            var skus = []
-
-            for(var x in obj){
-                sku = obj[x].sku
-                skus.push(sku)
-                console.log(sku)
-            }
-
-            console.log(skus)
-            totalTax = totalTax.replace('$','')
-            total = total.replace('$', '')
-
-            console.log(totalTax)
-
+            //Do a call to get the number of ticket documents to increment the id number
             axios({
-                method: 'post',
-                url: `${ip}api/pos/addTicket`,
+                method: 'get',
+                url: `${ip}api/pos/numOfTickets`,
                 headers: {
                     'content-type': 'application/json',
                     'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
-                },
-                data: {
-                    id: 3,
-                    products: [skus],
-                    tax: totalTax,
-                    total: total
                 }
-              })
-                .then(function (response) {
-        
-                    console.log(response.data)
+            })
+            .then(function (response){
 
-                    if(response.data === "Success"){
-                        console.log("In succes")
-                    }
-                    else{
+                console.log("Response data: " + response.data)
+                numOfTickets = response.data
 
+                // parse JSON object
+                var obj = JSON.parse(data);
+                var sku;
+
+                //Write the sum of the total cost to the Ticket
+                var total = $("#totl").text()
+
+                //Write the tax of the total cost to the ticket
+                var totalTax = $("#tx").text()
+
+                var skus = []
+
+                for(var x in obj){
+                    sku = obj[x].sku
+                    skus.push(sku)
+                    console.log(sku)
+                }
+
+                console.log(skus)
+                totalTax = totalTax.replace('$','')
+                total = total.replace('$', '')
+
+                console.log(totalTax)
+
+                //Increment the number of tickets
+                numOfTickets = numOfTickets + 1
+
+                console.log(numOfTickets)
+
+                axios({
+                    method: 'post',
+                    url: `${ip}api/pos/addTicket`,
+                    headers: {
+                        'content-type': 'application/json',
+                        'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+                    },
+                    data: {
+                        id: numOfTickets,
+                        products: [skus],
+                        tax: totalTax,
+                        total: total
                     }
-                    //console.log(fs.readFileSync('./src/db/cart.json').length)
-        
-                    //If file is empty do not push, instead create. Else, Push into array of objects
-                    //This is done to avoid JSON syntax errors
-                    // if((fs.readFileSync('./src/db/cart.json').length === 0)){
-        
-                    //     console.log("File is empty")
-        
-                    //     // itemsJson = fs.readFile('./src/db/cart.json')
-                    //     fs.writeFile('./src/db/cart.json', "[" + JSON.stringify(data) + "]", (err) => {
-                    //         if(err){
-                    //             throw err;
-                    //         }
-                    //         console.log("JSON data is save");
-                    //     });
-                    // }
-                    // else{
-        
-                    //     let itemsJson = fs.readFileSync('./src/db/cart.json', 'utf-8')
-        
-                    //     let items = JSON.parse(itemsJson)
-        
-                    //     items.push(data)
-        
-                    //     itemsJson = JSON.stringify(items)
-        
-                    //     fs.writeFileSync('./src/db/cart.json', itemsJson, 'utf-8')
-        
-                    // }
-        
-                    // cart()
-        
                 })
-    
+                    .then(function (response) {
+            
+                        console.log(response.data)
+
+                        if(response.data === "Success"){
+                            //If the call was success, erase everything in the cart 
+
+                            deleteCart()
+
+                            ipcRenderer.invoke('cashbackWindow', cashBack).then((result) => {
+                                // console.log(result)
+                            })
+                                        
+                        }
+                    
+            
+                    });
+        
+            });
         });
+
     }
 }
+
+
 
 //Print Ticket

@@ -63,6 +63,7 @@ async function editPrd(sku){
         console.log(response.data)
 
         if(response.data==='Success'){
+            
             document.getElementById("Success").textContent += `Success!!`
 
             //Wait 2 seconds before closing the window

@@ -31,6 +31,7 @@ function createWindow () {
 
   reply = () => {
 
+    console.log("reply called")
     mainWindow.webContents.send('asynchronous-message', {'SAVED': 'File Saved'});
   
   }

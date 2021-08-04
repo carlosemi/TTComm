@@ -198,3 +198,10 @@ ipcMain.on('cashbackAmount', (event, arg) => {
   event.returnValue = cashback
 })
 
+//Close the cashback window when ready button is clicked
+ipcMain.handle('closeCashBackWnd', async (event) =>{
+
+  cashbackWindow.close()
+})
+
+

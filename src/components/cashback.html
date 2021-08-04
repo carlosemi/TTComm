@@ -20,11 +20,7 @@
         <!-- Font Awesome -->
         <script src='../../node_modules/@fortawesome/fontawesome-free/js/all.js'></script>
 
-        <script src='../actions/cashback.js'></script>
-
         <title>TTComm Punto De Venta</title>
-
-        <!-- <script>window.$ = window.jQuery = require('jquery');</script> -->
     
     </head>
 
@@ -32,24 +28,19 @@
  
         <div class="container-fluid justify-content-center">
 
-            <!-- Success -->
             <div class="row mt-4 justify-content-center">
                 <div class="d-flex justify-content-center">
                     <h4>Cambio: </h4>
                     <h4 id="cBack">$0.00</h4>
                 </div>
                 <div class="row">
-                    <button type="button" class="btn btn-secondary">Listo!</button>
+                    <button type="button" class="btn btn-secondary" onclick="ready()">Listo!</button>
                 </div>
                 
             </div>
 
-           
-
-
         </div>
-
         
-       
+        <script src='../actions/cashback.js'></script>
             
     </body>

@@ -363,8 +363,26 @@ async function cashCharge() {
                         console.log(response.data)
 
                         if(response.data === "Success"){
-                            //If the call was success, erase everything in the cart 
 
+                            //Update the quantity of each item
+                            for(var i in obj){
+
+                                axios({
+                                    method: 'post',
+                                    url: `${ip}api/pos/updateProduct/${obj[i].sku}`,
+                                    headers: {
+                                        'content-type': 'application/json',
+                                        'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+                                    },
+                                    data: {
+                                        numBought: obj[i].items
+                                    }
+                                }).then(function (response) {
+                                    console.log(response)
+                                })
+                            }
+
+                            //If the call was success, erase everything in the cart 
                             deleteCart()
 
                             ipcRenderer.invoke('cashbackWindow', cashBack).then((result) => {
@@ -380,7 +398,9 @@ async function cashCharge() {
             
                     });
         
-            });
+                 });
+
+                 
         });
 
     }

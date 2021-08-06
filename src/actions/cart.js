@@ -78,6 +78,7 @@ function cart() {
             var totalCost = 0.00;
             var TAX = 0.16;
             var totalAndTax = 0.00;
+            var totalTax = 0.00;
 
             var sku, description, price, items, tax, weight, quantity;
 
@@ -101,6 +102,13 @@ function cart() {
 
                     //Add the total of each item to display
                     totalCost = totalCost + price
+
+                    console.log("Tax " + tax)
+                    //If items contains tax added to the totalTax
+                    if(tax){
+
+                        totalTax = totalTax + (totalCost * TAX)
+                    }
                 }
 
             
@@ -129,7 +137,7 @@ function cart() {
             $("#totl").text("$" + totalCost.toFixed(2))
 
             //Write the tax of the total cost to the ticket
-            var totalTax = totalCost * TAX
+            //var totalTax = totalCost * TAX
             $("#tx").text("$" + totalTax.toFixed(2))
 
             //Write the sum of the total cost + tax to the ticket
@@ -183,11 +191,17 @@ async function srcProduct() {
       })
         .then(function (response) {
 
-            //console.log(response.data)
+            console.log(response.data)
 
-            const data = {sku: response.data.sku, description: response.data.description, price: response.data.price, items: 1, quantity: response.data.numOfItems}
+            //If there are no items in existence, don't add to the cart
+            if(response.data.numOfItems === 0){
+                console.log("No available items")
+                return 
+            }
 
-            console.log(data)
+            const data = {sku: response.data.sku, description: response.data.description, price: response.data.price, tax: response.data.tax, weight: response.data.weight, items: 1, quantity: response.data.numOfItems}
+
+            //console.log(data)
 
             //console.log(fs.readFileSync('./src/db/cart.json').length)
 
@@ -210,6 +224,29 @@ async function srcProduct() {
                 let itemsJson = fs.readFileSync('./src/db/cart.json', 'utf-8')
 
                 let items = JSON.parse(itemsJson)
+
+                //Check to see if items is already on the cart, if so just increase the number of items
+                for(x in items){
+
+                    if(items[x].sku === data.sku){
+
+                        items[x].items = items[x].items + 1
+                        //Check that the items does not surpase the amount avaiable
+                        if(items[x].items <= items[x].quantity){
+                            
+                            itemsJson = JSON.stringify(items)
+
+                            fs.writeFileSync('./src/db/cart.json', itemsJson, 'utf-8')
+
+                            cart()
+
+                            return
+                        }else{
+                            return
+                        }
+
+                    }
+                }
 
                 items.push(data)
 

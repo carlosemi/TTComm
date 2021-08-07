@@ -31,7 +31,9 @@
     "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
     "config": "^3.3.6",
+    "javascript-barcode-reader": "^0.6.9",
     "jquery": "^3.6.0",
+    "onscan.js": "^1.5.2",
     "popper": "^1.0.1"
   }
 }

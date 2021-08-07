@@ -1,6 +1,7 @@
 
 //                       TABLE AND ROW FUNCTIONALITY
 
+
 //This changes the table row's class when clicked to change its background color to red to be deleted
 $("#vnt").on('click', '.clickable-row', function(event){
 
@@ -103,7 +104,7 @@ function cart() {
                     //Add the total of each item to display
                     totalCost = totalCost + price
 
-                    console.log("Tax " + tax)
+                    //console.log("Tax " + tax)
                     //If items contains tax added to the totalTax
                     if(tax){
 
@@ -171,13 +172,19 @@ async function deleteCart(){
 }
 
 //Search and add Product to the cart
-async function srcProduct() { 
+async function srcProduct(SKU) { 
 
     const ip = connectSRV();
 
     //console.log(document.getElementById('srcPrd').value)
 
-    sku = document.getElementById('srcPrd').value;
+    if(SKU){
+        sku = SKU
+    }
+    else{
+        sku = document.getElementById('srcPrd').value;
+    }
+    
     var table = document.getElementById('vnt');
     var row;
 

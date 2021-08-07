@@ -10,6 +10,7 @@ const { ipcRenderer } = require('electron');
 let $ = jQuery = require('jquery');
 const axios = require('axios')
 const fs = require('fs')
+const onScan = require('onscan.js')
 
 //Connect to the server
 const connectSRV = require('./config/srv')
@@ -41,3 +42,17 @@ function rptFunction() {
 }
 
 
+//                           SCANNER FUNCTIONALITY
+
+//This function detects scanner input 
+onScan.attachTo(document, {
+  suffixKeyCodes: [13], // enter-key expected at the end of a scan
+  reactToPaste: true, // Compatibility to built-in scanners in paste-mode (as opposed to keyboard-mode)
+  onScan: function(sCode, iQty) { // Alternative to document.addEventListener('scan')
+      //console.log('Scanned: ' + iQty + 'x ' + sCode); 
+      srcProduct(sCode)
+  },
+  // onKeyDetect: function(iKeyCode){ // output all potentially relevant key events - great for debugging!
+  //     console.log('Pressed: ' + iKeyCode);
+  // }
+});

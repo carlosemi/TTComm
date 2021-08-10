@@ -5,7 +5,9 @@ const $ = require('jquery')
 const {ipcHandeler} = require('electron')
 const axios = require('axios')
 const {ipcRenderer} = require('electron');
-
+const {PosPrinter} = require('electron-pos-printer');
+const fs = require('fs')
+//const printer = require('printer')
 
 var reply
 
@@ -17,10 +19,13 @@ function createWindow () {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
-      contextIsolation: false
+      contextIsolation: false,
+      enableRemoteModule: true
     }
 
   })
+
+  //console.log(mainWindow.webContents.getPrinters())
 
   mainWindow.maximize()
 
@@ -29,12 +34,14 @@ function createWindow () {
   // Open the DevTools.
   //mainWindow.webContents.openDevTools()
 
-  reply = () => {
+  reply = async () => {
 
     console.log("reply called")
-    mainWindow.webContents.send('asynchronous-message', {'SAVED': 'File Saved'});
+    await mainWindow.webContents.send('asynchronous-message', {'SAVED': 'File Saved'});
   
   }
+
+  // printWindow()
 }
 
 
@@ -42,6 +49,7 @@ function createWindow () {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+
   createWindow()
   
   app.on('activate', function () {
@@ -85,8 +93,8 @@ ipcMain.handle('newWindow', async (event) => {
 //Close the add product window when add product button is clicked
 ipcMain.handle('closeWnd', async (event) =>{
   //The reply is to send back to the renderer process to update the table 
-  reply()
-  popWindow.close()
+  await reply()
+  await popWindow.close()
 })
 
 //------------------------------------------------------------------------------------------------------
@@ -125,8 +133,8 @@ ipcMain.on('synchronous-message', (event, arg) => {
 //Close the edit product window when edit product button is clicked
 ipcMain.handle('closeEditWnd', async (event) =>{
 
-  reply()
-  editWindow.close()
+  await reply()
+  await editWindow.close()
 })
 
 //---------------------------------------------------------------------------------------------------
@@ -153,7 +161,7 @@ ipcMain.handle('paymentWindow', async (event, data) => {
   id = data.id
 
   // and load the index.html of the app.
-  paymentWindow.loadFile('./src/components/clients/clientpayment.html')  
+  await paymentWindow.loadFile('./src/components/clients/clientpayment.html')  
 
 })
 
@@ -163,6 +171,13 @@ ipcMain.on('paymentId', (event, arg) => {
   //console.log(arg) // prints "ping"
   event.returnValue = id
 })
+
+//Close the cashback window when ready button is clicked
+ipcMain.handle('closeCliPaymentWnd', async (event) =>{
+
+  await paymentWindow.close()
+})
+
 
 //---------------------------------------------------------------------------------------------------
 
@@ -188,13 +203,13 @@ ipcMain.handle('cashbackWindow', async (event, data) => {
   cashback = data
 
   // and load the index.html of the app.
-  cashbackWindow.loadFile('./src/components/cashback.html')  
+  await cashbackWindow.loadFile('./src/components/cashback.html')  
 
 })
 
 
 //Send the id to the client payment window
-ipcMain.on('cashbackAmount', (event, arg) => {
+ipcMain.on('cashbackAmount', async (event, arg) => {
   //console.log(arg) // prints "ping"
   event.returnValue = cashback
 })
@@ -202,7 +217,66 @@ ipcMain.on('cashbackAmount', (event, arg) => {
 //Close the cashback window when ready button is clicked
 ipcMain.handle('closeCashBackWnd', async (event) =>{
 
-  cashbackWindow.close()
+  await cashbackWindow.close()
 })
 
+
+
+//                    PRINTER
+
+
+let win
+
+ipcMain.on('print', (event, arg) => {
+
+  // win = new BrowserWindow({ 
+  //   width: 302,
+  //   height: 793, 
+  //   show: false,
+  //   webPreferences: {
+  //     nodeIntegration: true, 
+  //     contextIsolation: false,
+  //     enableRemoteModule: true,
+  //   },
+  
+  // });
+
+  // win.loadFile('./src/components/print.html');
+
+  // let printer = 'Terow'
+
+  // const options = {
+  //     silent: true,
+  //     deviceName: printer,
+  //     pageSize: { height: 5000, width: 50000 }
+  // }
+
+  // //Print 
+  // win.webContents.print(options, () => {
+  //     //win = null;
+  //     // win.close()
+  //     console.log(options)
+
+  // });
+
+  var info = fs.readFileSync('ticket.txt').toString();
+
+  function sendPrint() {
+    printer.printDirect({
+      printer: 'Terow',
+      data: info,
+      type: 'RAW',
+      success: function (jobID) {
+        console.log("ID: " + jobID);
+      },
+      error: function (err) {
+        console.log('printer module error: '+err);
+        throw err;
+      }
+    });
+  }
+
+  sendPrint()
+
+});
 

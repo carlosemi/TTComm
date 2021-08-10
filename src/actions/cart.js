@@ -1,6 +1,8 @@
 
-//                       TABLE AND ROW FUNCTIONALITY
 
+// import {printTicket} from './printTicket.js'
+
+//                       TABLE AND ROW FUNCTIONALITY
 
 //This changes the table row's class when clicked to change its background color to red to be deleted
 $("#vnt").on('click', '.clickable-row', function(event){
@@ -108,7 +110,7 @@ function cart() {
                     //If items contains tax added to the totalTax
                     if(tax){
 
-                        totalTax = totalTax + (totalCost * TAX)
+                        totalTax = totalCost * TAX
                     }
                 }
 
@@ -321,13 +323,13 @@ async function cashCharge() {
     var cash = $("#cashInput").val()
     var cashBack;
 
-    console.log(cash)
-
     var totalTax = $("#totlAndTx").text()
     totalAndTax = totalTax.replace('$','')
     console.log("Total and Tax: " + totalAndTax)
+    console.log(typeof totalAndTax)
+    console.log('Cash: ' + cash)
 
-    if(cash < totalAndTax){
+    if(cash < parseInt(totalAndTax,10)){
         console.log("Invalid Amount")
         //Get out of charging
         return 
@@ -338,7 +340,7 @@ async function cashCharge() {
         console.log("Cashback: " + cashBack.toFixed(2))
 
         // read JSON object from local cart db to show 
-        fs.readFile('./src/db/cart.json', 'utf-8', (err, data) => {
+        await fs.readFile('./src/db/cart.json', 'utf-8', async (err, data) => {
             if (err) {
                 throw err;
             }
@@ -346,7 +348,7 @@ async function cashCharge() {
             var numOfTickets
 
             //Do a call to get the number of ticket documents to increment the id number
-            axios({
+            await axios({
                 method: 'get',
                 url: `${ip}api/pos/numOfTickets`,
                 headers: {
@@ -354,7 +356,7 @@ async function cashCharge() {
                     'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
                 }
             })
-            .then(function (response){
+            .then(async function (response){
 
                 console.log("Response data: " + response.data)
                 numOfTickets = response.data
@@ -388,7 +390,7 @@ async function cashCharge() {
 
                 console.log(numOfTickets)
 
-                axios({
+                await axios({
                     method: 'post',
                     url: `${ip}api/pos/addTicket`,
                     headers: {
@@ -402,54 +404,55 @@ async function cashCharge() {
                         total: total
                     }
                 })
-                    .then(function (response) {
-            
-                        console.log(response.data)
-
-                        if(response.data === "Success"){
-
-                            //Update the quantity of each item
-                            for(var i in obj){
-
-                                axios({
-                                    method: 'post',
-                                    url: `${ip}api/pos/updateProduct/${obj[i].sku}`,
-                                    headers: {
-                                        'content-type': 'application/json',
-                                        'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
-                                    },
-                                    data: {
-                                        numBought: obj[i].items
-                                    }
-                                }).then(function (response) {
-                                    console.log(response)
-                                })
-                            }
-
-                            //If the call was success, erase everything in the cart 
-                            deleteCart()
-
-                            ipcRenderer.invoke('cashbackWindow', cashBack).then((result) => {
-                                // console.log(result)
-                            })
-                                     
-                            $("#totl").text("$0.00")
-                            $("#tx").text("$0.00")
-                            $("#totlAndTx").text("$0.00")
-                            
-                        }
-                    
-            
-                    });
+                .then(async function (response) {
         
-                 });
+                    console.log(response.data)
 
-                 
+                    if(response.data === "Success"){
+
+                        //Update the quantity of each item
+                        for(var i in obj){
+
+                            await axios({
+                                method: 'post',
+                                url: `${ip}api/pos/updateProduct/${obj[i].sku}`,
+                                headers: {
+                                    'content-type': 'application/json',
+                                    'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+                                },
+                                data: {
+                                    numBought: obj[i].items
+                                }
+                            }).then(function (response) {
+                                console.log(response)
+                            })
+                        }
+                        
+                    }  
+                });
+            });           
         });
+
+        //Print ticket
+        //printTicket()
+
+        await ipcRenderer.invoke('cashbackWindow', cashBack).then((result) => {
+            // console.log(result)
+        })
+                 
+        $("#totl").text("$0.00")
+        $("#tx").text("$0.00")
+        $("#totlAndTx").text("$0.00")
+
+        //If the call was success, erase everything in the cart 
+        await deleteCart()
 
     }
 }
 
-
-
 //Print Ticket
+
+async function printTicket() {
+
+    ipcRenderer.sendSync('print', '')
+}

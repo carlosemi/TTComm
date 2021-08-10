@@ -11,6 +11,8 @@ let $ = jQuery = require('jquery');
 const axios = require('axios')
 const fs = require('fs')
 const onScan = require('onscan.js')
+const path = require('path')
+const {PosPrinter} = require('electron').remote.require("electron-pos-printer");
 
 //Connect to the server
 const connectSRV = require('./config/srv')

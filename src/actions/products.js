@@ -22,7 +22,7 @@ async function getPrds () {
 
     //First empty the Prds in the table. 
     //This is done so there are no repetition of items when you add a new item
-    $('#prdBdyId').empty()
+    await $('#prdBdyId').empty()
   
     await axios({
       method: 'get',
@@ -167,9 +167,3 @@ async function deletePrd(){
 
 }
   
-//When the edit product or add product window is closed update the products table, this
-//comes from the main process
-ipcRenderer.on('asynchronous-message', function (evt, message) {
-  //console.log(message); // Returns: {'SAVED': 'File Saved'}
-  getPrds()
-});

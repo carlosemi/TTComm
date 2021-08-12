@@ -7,9 +7,11 @@ const axios = require('axios')
 const {ipcRenderer} = require('electron');
 const {PosPrinter} = require('electron-pos-printer');
 const fs = require('fs')
+const { EventEmitter } = require('stream')
 //const printer = require('printer')
 
 var reply
+var reply2
 
 function createWindow () {
   // Create the browser window.
@@ -34,11 +36,20 @@ function createWindow () {
   // Open the DevTools.
   //mainWindow.webContents.openDevTools()
 
+  //This reply is to call the function getPrds() on the renderer to automatically update the table
+  //after a change has been made
   reply = async () => {
 
     console.log("reply called")
     await mainWindow.webContents.send('asynchronous-message', {'SAVED': 'File Saved'});
   
+  }
+
+  //This reply is to call the function getCli() on the renderer to automatically update the table
+  //after a change has been made
+  reply2 = async () => {
+
+    await mainWindow.webContents.send('reply2', {'SAVED': 'File Saved'});
   }
 
   // printWindow()
@@ -70,6 +81,7 @@ app.on('window-all-closed', function () {
 // code. You can also put them in separate files and require them here.
 
 //----------------------------------------------------------------------------------------------------
+//                                    ADD PRODUCT WINDOW
 let popWindow
 
 //Open new window to add product
@@ -98,6 +110,7 @@ ipcMain.handle('closeWnd', async (event) =>{
 })
 
 //------------------------------------------------------------------------------------------------------
+//                                     PRODUCT EDIT WINDOW
 let editWindow
 let obj
 
@@ -138,7 +151,7 @@ ipcMain.handle('closeEditWnd', async (event) =>{
 })
 
 //---------------------------------------------------------------------------------------------------
-
+//                                  CLIENT PAYMENT WINDOW
 let paymentWindow
 let id
 
@@ -179,7 +192,8 @@ ipcMain.handle('closeCliPaymentWnd', async (event) =>{
 })
 
 
-//---------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------
+//                                 CASH BACK WINDOW
 
 let cashbackWindow
 let cashback
@@ -220,10 +234,52 @@ ipcMain.handle('closeCashBackWnd', async (event) =>{
   await cashbackWindow.close()
 })
 
+//-------------------------------------------------------------------------------------
+//                               ADD CLIENT WINDOW
+
+//------------------------------------------------------------------------------------
+//                               EDIT CLIENT WINDOW
+let editClientWindow
+let cliObj
+
+//Open new window to edit product
+ipcMain.handle('editClientWindow', async (event, data) => {
+
+  editClientWindow = new BrowserWindow({
+    width: 500,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
+  
+  })
+
+  // console.log(data)
+
+  cliObj = data
+  // and load the index.html of the app.
+  editClientWindow.loadFile('./src/components/clients/editClient.html')  
+  
+})
+
+//Send the object to be edited to the edit window
+ipcMain.on('clientInfo', (event, arg) => {
+  //console.log(arg) // prints "ping"
+  event.returnValue = cliObj
+})
 
 
-//                    PRINTER
+//Close the edit client window when edit client button is clicked
+ipcMain.handle('closeClientEditWnd', async (event) =>{
 
+  await reply2()
+  await editClientWindow.close()
+})
+
+//-------------------------------------------------------------------------------------
+//                               THERMAL PRINTER
 
 let win
 
@@ -280,3 +336,4 @@ ipcMain.on('print', (event, arg) => {
 
 });
 
+//------------------------------------------------------------------------------------

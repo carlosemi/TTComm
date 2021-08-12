@@ -32,7 +32,7 @@
            
             <div class="row text-center">
                 <div class="col">
-                    <h3>Agregar Producto </h3>
+                    <h3>Editar Cliente </h3>
                 </div>
             </div>
 
@@ -40,57 +40,34 @@
 
                 <div class="row mt-4 justify-content-start">
                     <div class="col-3">
-                        <label>Codigo: </label>  
+                        <label>Nombre: </label>  
                     </div>
                     <div class="col-6">
-                        <input id="Codigo" type="text"/>
+                        <input id="Name" type="text"/>
                     </div>
                 </div>
 
                 <div class="row mt-2 justify-content-start">
                     <div class="col-3">
-                        <label>Descripcion: </label>   
+                        <label>Plan: </label>   
                     </div>
                     <div class="col-3">
-                        <input id="Descripcion" type="text"/>
+                        <input id="Plan" type="number"/>
                     </div>
                 </div>
 
                 <div class="row mt-2 justify-content-start">
                     <div class="col-3">
-                        <label>Precio: </label>  
+                        <label>Ubicacion: </label>  
                     </div>
                     <div class="col-6">
-                        <input id="Precio" type="number"/>
-                    </div>
-                    <div class="col-3">
-                        
-                        <label>Por peso:&nbsp;</label><input id="Weight" type="checkbox"/>
-                                        
-                    </div>
-                </div>
-
-                <div class="row mt-2 justify-content-start">
-                    <div class="col-3">
-                        <label>IVA: </label>  
-                    </div>
-                    <div class="col-3">
-                        <input id="Tax" type="checkbox"/>
-                    </div>
-                </div>
-
-                <div class="row mt-2 justify-content-start">
-                    <div class="col-3">
-                        <label>Existencia: </label>  
-                    </div>
-                    <div class="col-6">
-                        <input id="Existencia" type="number"/>
+                        <input id="Location" type="text"/>
                     </div>
                 </div>
 
                 <div class="row mt-4 justify-content-center">
                     <div class="col-5">
-                        <button type="button" class="btn btn-outline-success" onclick="addPrd()">Agregar Producto</button>
+                        <button type="button" class="btn btn-outline-warning" onclick="editCli()">Editar Cliente</button>
                     </div>
                 </div>
         

@@ -22,7 +22,7 @@ async function getCli () {
 
     //First empty the Prds in the table. 
     //This is done so there are no repetition of items when you add a new item
-    $('#cliBdyId').empty()
+    await $('#cliBdyId').empty()
   
     await axios({
       method: 'get',
@@ -107,6 +107,89 @@ async function payment() {
     }
   }
 
-  
+}
+
+var editClient = async() => {
+
+  var lng = $("#cli")[0].rows.length - 1;
+
+  //Var x starts in index 1 to not count the header
+  for(var x = 1; x < lng + 1; x++){
+
+    // console.log($('#prd')[0].rows[x].value)
+
+    //When you find the table row with className "clickable-row active", get info from that row
+    if($('#cli')[0].rows[x].className === "clickable-row active"){
+
+      // console.log("Sku: " + $("#prd")[0].rows[x].cells[0].innerHTML)
+      // console.log("Description: " + $("#prd")[0].rows[x].cells[1].innerHTML)
+      // console.log("Price: " + $("#prd")[0].rows[x].cells[2].innerHTML)
+      // console.log("numOfItems: " + $("#prd")[0].rows[x].cells[3].innerHTML)
+
+      const data = {
+        id: $("#cli")[0].rows[x].cells[0].innerHTML,
+        client: $("#cli")[0].rows[x].cells[1].innerHTML,
+        plan: $("#cli")[0].rows[x].cells[2].innerHTML,
+        location: $("#cli")[0].rows[x].cells[3].innerHTML,
+        active: $("#cli")[0].rows[x].cells[4].innerHTML,
+      }
+
+      // console.log(data)
+
+      //Open new Window when Edit client is clicked and send the product info
+      ipcRenderer.invoke('editClientWindow', data).then((result) => {
+        // console.log(result)
+      })
+
+      break
+    }
+    
+  }
+}
+
+
+//Delete a product
+var deletePrd = async() =>{
+
+  const ip = connectSRV();
+
+  // console.log($("#prd")[0].rows)
+  // console.log($("#prd")[0].rows[1].cells[0].innerHTML)
+
+  //X is rows.length - 1 because the head row is also counted
+  var lng = $("#cli")[0].rows.length - 1;
+
+  //Var x starts in index 1 to not count the header
+  for(var x = 1; x < lng + 1; x++){
+
+    // console.log($('#prd')[0].rows[x].value)
+
+    //When you find the table row with className "clickable-row active", remove that row
+    if($('#cli')[0].rows[x].className === "clickable-row active"){
+      console.log("Row clicked: " + $("#prd")[0].rows[x].cells[0].innerHTML)
+
+      await axios({
+        method: 'delete',
+        url: `${ip}api/clients`,
+        headers: {
+          'content-type': 'application/json',
+          'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+        },
+        data: {
+          id: $("#cli")[0].rows[x].cells[0].innerHTML
+        },
+      })
+      .then(function (response) {
+        console.log(response)
+      })
+    }
+      
+  }
+
+  //Call the getPrds function again to display the updated table
+  getCli()
 
 }
+
+
+

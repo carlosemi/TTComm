@@ -58,3 +58,19 @@ onScan.attachTo(document, {
   //     console.log('Pressed: ' + iKeyCode);
   // }
 });
+
+
+//When the edit product or add product window is closed update the products table, this
+//comes from the main process
+ipcRenderer.on('reply2', function (evt, message) {
+  //console.log(message); // Returns: {'SAVED': 'File Saved'}
+  getCli()
+});
+
+
+//When the edit product or add product window is closed update the products table, this
+//comes from the main process
+ipcRenderer.on('asynchronous-message', function (evt, message) {
+  //console.log(message); // Returns: {'SAVED': 'File Saved'}
+  getPrds()
+});

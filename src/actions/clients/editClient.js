@@ -4,74 +4,48 @@ const connectSRV = require('../../../config/srv')
 const $ = require('jquery')
 
 const ip = connectSRV();
-var id = ipcRenderer.sendSync('paymentId', '');
+
+var cli = ipcRenderer.sendSync('clientInfo', '');
+
+document.getElementById("Name").value = cli.client;
+document.getElementById("Plan").value = cli.plan;
+document.getElementById("Location").value = cli.location;
 
 
-document.getElementById("Codigo").innerHTML = prd.sku;
-document.getElementById("Descripcion").value = prd.description;
-document.getElementById("Precio").value = prd.price;
+async function editCli(){
 
-if(prd.tax === "true"){
-    $("#Tax").prop("checked", true)
-}
-else{
-    $("#Tax").prop("checked", 0)
-}
+    var client = document.getElementById("Name").value;
+    var plan = document.getElementById("Plan").value;
+    var location = document.getElementById("Location").value;
 
-document.getElementById("Existencia").value = prd.numOfItems
-
-if(prd.weight === "true"){
-    $("#Weight").prop("checked", true)
-}
-else{
-    $("#Weight").prop("checked", 0)
-}
-
-
-async function editPrd(sku){
-
-    const ip = connectSRV();
-
-    var code = document.getElementById("Codigo").innerHTML;
-    var descr = document.getElementById("Descripcion").value;
-    var prc = document.getElementById("Precio").value;
-    var tx = document.getElementById("Tax").checked;
-    var exis = document.getElementById("Existencia").value;
-    var wgh = document.getElementById("Weight").checked;
-
-    console.log(code)
-    console.log(descr)
-    console.log(prc)
-    console.log(tx)
-    console.log(exis)
-    console.log(wgh)
+    console.log(client)
+    console.log(plan)
+    console.log(location)
 
     await axios({
     method: 'post',
-    url: `${ip}api/pos/addProduct`,
+    url: `${ip}api/clients`,
     headers: {'content-type': 'application/json' , 
                 'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'},
     data: {
-        sku: code,
-        description: descr,
-        price: prc,
-        tax: tx,
-        numOfItems: exis,
-        weight: wgh
+        name: client,
+        id: cli.id,
+        plan: plan,
+        location: location
     }
     })
     .then(function (response){
         
         console.log(response.data)
 
-        if(response.data==='Success'){
+        if(response.data ==='Success'){
             
             document.getElementById("Success").textContent += `Success!!`
 
             //Wait 2 seconds before closing the window
             setTimeout(function () {
             // console.log("waited 3 seconds")
-            ipcRenderer.invoke('closeEditWnd').then((result) => {
+            ipcRenderer.invoke('closeClientEditWnd').then((result) => {
                 
             })
             }, 2000)

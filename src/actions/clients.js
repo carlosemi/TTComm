@@ -109,6 +109,17 @@ async function payment() {
 
 }
 
+
+//Open new Window when Add Client is clicked, code to add product is in addPrd.js
+var addClient = async() => {
+
+  ipcRenderer.invoke('addClientWindow').then((result) => {
+    // console.log(result)
+  })
+
+}
+
+
 var editClient = async() => {
 
   var lng = $("#cli")[0].rows.length - 1;
@@ -148,13 +159,11 @@ var editClient = async() => {
 }
 
 
-//Delete a product
-var deletePrd = async() =>{
+//Delete a client
+var deleteCli = async() =>{
 
   const ip = connectSRV();
 
-  // console.log($("#prd")[0].rows)
-  // console.log($("#prd")[0].rows[1].cells[0].innerHTML)
 
   //X is rows.length - 1 because the head row is also counted
   var lng = $("#cli")[0].rows.length - 1;
@@ -166,7 +175,8 @@ var deletePrd = async() =>{
 
     //When you find the table row with className "clickable-row active", remove that row
     if($('#cli')[0].rows[x].className === "clickable-row active"){
-      console.log("Row clicked: " + $("#prd")[0].rows[x].cells[0].innerHTML)
+
+      console.log("Row clicked: " + $("#cli")[0].rows[x].cells[0].innerHTML)
 
       await axios({
         method: 'delete',
@@ -191,5 +201,34 @@ var deletePrd = async() =>{
 
 }
 
+
+var cliHistory = async() => {
+
+  var lng = $("#cli")[0].rows.length - 1;
+
+  //Var x starts in index 1 to not count the header
+  for(var x = 1; x < lng + 1; x++){
+
+    //When you find the table row with className "clickable-row active", get info from that row
+    if($('#cli')[0].rows[x].className === "clickable-row active"){
+
+
+      const data = {
+        id: $("#cli")[0].rows[x].cells[0].innerHTML,
+      }
+
+      // console.log(data)
+
+      //Open new Window when Edit client is clicked and send the product info
+      ipcRenderer.invoke('cliHistoryWindow', data).then((result) => {
+        // console.log(result)
+      })
+
+      break
+    }
+    
+  }
+
+}
 
 

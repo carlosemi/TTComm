@@ -236,7 +236,34 @@ ipcMain.handle('closeCashBackWnd', async (event) =>{
 
 //-------------------------------------------------------------------------------------
 //                               ADD CLIENT WINDOW
+let addCliWindow
 
+//Open new window to add product
+ipcMain.handle('addClientWindow', async (event) => {
+
+  addCliWindow = new BrowserWindow({
+    width: 500,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
+  
+  })
+
+  // and load the index.html of the app.
+  addCliWindow.loadFile('./src/components/clients/addClient.html')
+})
+
+//Close the add product window when add product button is clicked
+ipcMain.handle('closeCliWnd', async (event) =>{
+
+  //The reply is to send back to the renderer process to update the table 
+  await reply2()
+  await addCliWindow.close()
+
+})
 //------------------------------------------------------------------------------------
 //                               EDIT CLIENT WINDOW
 let editClientWindow
@@ -278,9 +305,51 @@ ipcMain.handle('closeClientEditWnd', async (event) =>{
   await editClientWindow.close()
 })
 
+//------------------------------------------------------------------------------------
+//                           CLIENT PAYMENT HISTORY
+let cliHistoryWindow
+let cliObj2
+
+//Open new window to edit product
+ipcMain.handle('cliHistoryWindow', async (event, data) => {
+
+  cliHistoryWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
+  
+  })
+
+  // console.log(data)
+
+  cliObj2 = data
+  // and load the index.html of the app.
+  cliHistoryWindow.loadFile('./src/components/clients/clientHistory.html')  
+  
+})
+
+//Send the object to be edited to the edit window
+ipcMain.on('clientInfo2', (event, arg) => {
+  //console.log(arg) // prints "ping"
+  event.returnValue = cliObj2
+})
+
+
+//Close the edit client window when edit client button is clicked
+ipcMain.handle('closeHistoryWnd', async (event) =>{
+
+  await reply2()
+  await cliHistoryWindow.close()
+})
+
+
+
 //-------------------------------------------------------------------------------------
 //                               THERMAL PRINTER
-
 let win
 
 ipcMain.on('print', (event, arg) => {

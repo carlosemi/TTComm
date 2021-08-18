@@ -304,6 +304,44 @@ ipcMain.handle('closeClientEditWnd', async (event) =>{
   await reply2()
   await editClientWindow.close()
 })
+//------------------------------------------------------------------------------------
+//                            INVOICE DETAIL WINDOW
+let invoiceWindow
+let invoiceObj
+
+//Open new window to edit product
+ipcMain.handle('invoiceWindow', async (event, data) => {
+
+  invoiceWindow = new BrowserWindow({
+    width: 500,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
+  
+  })
+
+  invoiceObj = data
+  // and load the index.html of the app.
+  invoiceWindow.loadFile('./src/components/invoices/invoiceDetails.html')  
+  
+})
+
+//Send the object to be edited to the edit window
+ipcMain.on('invoiceInfo', (event, arg) => {
+
+  event.returnValue = invoiceObj
+})
+
+
+//Close the edit client window when edit client button is clicked
+ipcMain.handle('closeInvoiceWnd', async (event) =>{
+
+  await invoiceWindow.close()
+})
+
 
 //------------------------------------------------------------------------------------
 //                           CLIENT PAYMENT HISTORY

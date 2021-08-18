@@ -36,7 +36,7 @@ function cliFunction() {
 }
 
 function fctFunction() {
-  $("#main").load("./src/components/facturas.html");
+  $("#main").load("./src/components//invoices/invoices.html");
 }
 
 function rptFunction() {

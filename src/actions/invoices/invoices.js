@@ -103,3 +103,151 @@ var invoiceDetail = async() => {
     }
 
 }
+
+var getInvoicesByDate = async() => {
+
+    const ip = connectSRV();
+  
+    var table = document.getElementById('invoiceTbl');
+    var row;
+    var searchDate = document.getElementById('searchDate').value
+
+    // console.log(searchDate)
+
+    //First empty the Prds in the table. 
+    //This is done so there are no repetition of items when you add a new item
+    await $('#invoiceBdy').empty()
+  
+    await axios({
+      method: 'get',
+      url: `${ip}api/pos/tickets`,
+      headers: {
+        'content-type': 'application/json',
+        'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+      }
+    })
+      .then(function (response) {
+  
+        var id, client, products, tax, total, date;
+        var y = 0;
+  
+        for (var x = 0; x < response.data.length; x++) {
+
+            // console.log(response.data[x])
+
+            id = response.data[x].id
+            client = response.data[x].client
+            products = response.data[x].products
+            tax = response.data[x].tax
+            total = response.data[x].total
+            date = response.data[x].date
+
+
+            //This splits the date to not show time just date
+            var c = date.split("T")
+            // console.log(c[0])
+
+            if(c[0] === searchDate){
+
+                console.log("True")
+                //row = table.insertRow(x);
+                row =  table.getElementsByTagName('tbody')[0].insertRow(y)
+                row.className = "clickable-row"
+
+                var cell0 = row.insertCell(0)
+                var cell1 = row.insertCell(1)
+                var cell2 = row.insertCell(2)
+
+                var totalAndTax
+
+                //If the tax is included added to the total so it does not give an error amount
+                if(tax){
+                    totalAndTax = total + tax
+                }
+                else{
+                    totalAndTax = total
+                }
+
+                //This splits the date to not show milliseconds
+                var b = date.split(".")
+
+                cell0.innerHTML = id
+                cell1.innerHTML = b[0]
+                cell2.innerHTML = totalAndTax.toFixed(2)
+                
+                y++
+            }
+          }
+  
+      })
+
+}
+
+var getInvoiceById = async() => {
+
+    const ip = connectSRV();
+  
+    var table = document.getElementById('invoiceTbl');
+    var row;
+    var ticketId = document.getElementById('searchId').value
+
+    // console.log(searchDate)
+
+    //First empty the Prds in the table. 
+    //This is done so there are no repetition of items when you add a new item
+    await $('#invoiceBdy').empty()
+  
+    await axios({
+      method: 'get',
+      url: `${ip}api/pos/tickets/${ticketId}`,
+      headers: {
+        'content-type': 'application/json',
+        'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+      }
+    })
+    .then(function (response) {
+  
+        var id, client, products, tax, total, date;
+
+        id = response.data.id
+        client = response.data.client
+        products = response.data.products
+        tax = response.data.tax
+        total = response.data.total
+        date = response.data.date
+
+        //This splits the date to not show time just date
+        var c = date.split("T")
+        // console.log(c[0])
+
+
+        console.log("True")
+        //row = table.insertRow(x);
+        row =  table.getElementsByTagName('tbody')[0].insertRow(0)
+        row.className = "clickable-row"
+
+        var cell0 = row.insertCell(0)
+        var cell1 = row.insertCell(1)
+        var cell2 = row.insertCell(2)
+
+        var totalAndTax
+
+        //If the tax is included added to the total so it does not give an error amount
+        if(tax){
+            totalAndTax = total + tax
+        }
+        else{
+            totalAndTax = total
+        }
+
+        //This splits the date to not show milliseconds
+        var b = date.split(".")
+
+        cell0.innerHTML = id
+        cell1.innerHTML = b[0]
+        cell2.innerHTML = totalAndTax.toFixed(2)
+            
+  
+    })
+
+}

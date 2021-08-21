@@ -17,63 +17,73 @@
     }
   </style>
 
+
+  <div class="position-fixed w-100 border-top" style="background-color: white;">
+
     <h2>Facturas</h2>
 
-    <div class="row h-100">
-        <!-- Half of the column containing product table -->
+    <div class="row mt-2">
 
-        <div class="col-12 d-flex flex-column">
-           
-            <div class="row mt-2">
-              <div class="col-6">
-                <h5>Id</h5> 
-                <input type="text" class=""/>
-                <button type="button" class="btn btn-outline-success">Buscar</button>
-              </div>
-            </div>
+      <div class="col-6">
+        <h5>Id</h5> 
+        <input type="number" id="searchId"/>
+        <button type="button" class="btn btn-outline-success" onclick="getInvoiceById()">Buscar</button>
+      </div>
+      
+    </div>
 
-            <div class="row mt-2">
+    <div class="row mt-2 border-top justify-content-start no-gutters">  
+              
+      <div class="col-12">
+        <input class="mt-4 mb-4" type="date" id="searchDate">
+        <button type="button" class="btn btn-outline-success" onclick="getInvoicesByDate()">Buscar</button>
+        <button type="button" class="btn btn-info" onclick="invoiceDetail()">Detalles</button>
+      </div>
+      
+    </div>   
 
-              <div class="row mt-2 border-top justify-content-start no-gutters">  
-                <div class="col-12">
-                  <input class="mt-4 mb-4" type="date">
-                  <button type="button" class="btn btn-outline-success">Buscar</button>
-                  <button type="button" class="btn btn-info" onclick="invoiceDetail()">Detalles</button>
-                </div>
-                
-            </div>   
-                
-                <table id="invoiceTbl" class="table table-striped table-hover table-bordered">
-                   
-                  <thead>
-                    <tr>
-                      <div class="border-right">
-                        
-                      </div>
-                      <th class="col-1">Id de Factura</th>
-                      <th class="col-4">Fecha</th>
-                      <th class="col">Monto Total</th>
-                    </tr>
-                  </thead>
-
-                  <tbody id="invoiceBdy">
-                    <!-- <tr>
-                      <th>
-                       10145
-                      </th>
-                      <td>
-                        600.00
-                      </td>
-                    </tr> -->
-
-                  </tbody>
-        
-                </table>    
-            </div>
-            
-        </div>
-        
-     </div>
- 
   </div>
+
+  <!-- <div class="row h-100"> -->
+      <!-- Half of the column containing product table -->
+
+      <!-- <div class="col-12 d-flex flex-column"> -->
+          
+          
+
+  <div class="row mt-2" style="padding-top:200px; padding-left: 10px;">
+      
+    <table id="invoiceTbl" class="table table-striped table-hover table-bordered">
+        
+      <thead>
+        <tr>
+          <div class="border-right">
+            
+          </div>
+          <th class="col-1">Id de Factura</th>
+          <th class="col-4">Fecha</th>
+          <th class="col">Monto Total</th>
+        </tr>
+      </thead>
+
+      <tbody id="invoiceBdy">
+        <!-- <tr>
+          <th>
+            10145
+          </th>
+          <td>
+            600.00
+          </td>
+        </tr> -->
+
+      </tbody>
+
+    </table>    
+  </div>
+          
+      <!-- </div>
+      
+    </div>
+  -->
+</div>
   <!-- Div class body ends -->

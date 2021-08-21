@@ -30,36 +30,43 @@
 
       <div class="container-fluid">
 
+        <div class="position-fixed w-100" style="background-color: white;">
+
           <!-- Top Row -->
           <div class="row border-bottom">
             <div class="col">
               <h1>TTComm POS</h1>   
             </div>
             
-              <div class="col">
-                <span class="align-text-bottom">
-                  <h4>Empleado: </h4> <h4></h4>
-                </span>
-              </div>
+            <div class="col">
+              <span class="align-text-bottom">
+                <h4>Empleado: </h4> <h4></h4>
+              </span>
+            </div>
           </div>
           
           <!-- Buttons Row -->
           <div class="row border-bottom justify-content-start no-gutters">        
             <div class="col-12">
                 <div class="mt-2 mb-2">
-                <button type="button" class="btn btn-outline-primary" onclick="vntFunction()">Ventas</button>
-                <button type="button" class="btn btn-outline-primary" onclick="prdFunction()">Productos</button>
-                <button type="button" class="btn btn-outline-primary" onclick="cliFunction()">Clientes</button>
-                <button type="button" class="btn btn-outline-primary" onclick="fctFunction()">Facturas</button>
-                <button type="button" class="btn btn-outline-primary" onclick="rptFunction()">Reportes</button>
-                <button type="button" class="btn btn-outline-primary">Config</button>
+                  <button type="button" class="btn btn-outline-primary" onclick="vntFunction()">Ventas</button>
+                  <button type="button" class="btn btn-outline-primary" onclick="prdFunction()">Productos</button>
+                  <button type="button" class="btn btn-outline-primary" onclick="cliFunction()">Clientes</button>
+                  <button type="button" class="btn btn-outline-primary" onclick="fctFunction()">Facturas</button>
+                  <button type="button" class="btn btn-outline-primary" onclick="rptFunction()">Reportes</button>
+                  <button type="button" class="btn btn-outline-primary">Config</button>
                 </div>
             </div>
           </div>
 
 
+        </div>
+
+        <div class="" style="padding-top: 100px;">
           <!-- Aqui ira ya sea ventas, productos, clientes o facturas -->
-          <div id="main"></div>       
+          <div id="main"></div> 
+        </div>
+              
           
 
       </div>

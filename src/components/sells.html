@@ -15,15 +15,47 @@
     .clickable-row.active td{
       color: white;
     }
+    .header-fixed {
+      width: 100% 
+    }
+    .header-fixed > thead,
+    .header-fixed > tbody,
+    .header-fixed > thead > tr,
+    .header-fixed > tbody > tr,
+    .header-fixed > thead > tr > th,
+    .header-fixed > tbody > tr > td {
+        display: block;
+    }
+
+    .header-fixed > tbody > tr:after,
+    .header-fixed > thead > tr:after {
+        content: ' ';
+        display: block;
+        visibility: hidden;
+        clear: both;
+    }
+
+    .header-fixed > tbody {
+        overflow-y: auto;
+        height: 600px;
+    }
+
+    .header-fixed > tbody > tr > td,
+    .header-fixed > thead > tr > th {
+        width: 20%;
+        float: left;
+}
+
   </style>
 
-  <h2 class="mt-2">Ventas</h2>
-
   <div class="row h-100">
-      <!-- Half of the column containing product table -->
+
+      <!-- 3/4 of the column containing product table -->
       <div class="col-9 d-flex flex-column">
-          <div class="row mt-2 border-top">  
-              <div class="col">
+
+          <div class="row mt-2 border-top position-fixed w-100" style="background-color: white;"> 
+            <h2 class="mt-2">Ventas</h2> 
+              <div class="col" style="background-color: white;">
                   <label class="h4 mt-2">Codigo de Producto: </label>
                   <input id="srcPrd" type="text"/>
                   <button type="button" class="btn btn-outline-success" onclick="srcProduct()">Enter - Agregar Producto</button>
@@ -32,46 +64,40 @@
               
           </div>         
 
-          <!-- <div class="row mt-2 border-bottom border-top justify-content-start no-gutters">  
-              <div class="col">
-                  
-                  <label class="h4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id de Cliente: </label>
-                  <input id="srcId" type="text"/>
-                  <button type="button" class="btn btn-outline-success">Enter</button>
-                  <button type="button" class="btn btn-outline-danger">Borrar Articulo</button>
-              </div>
-              
-          </div>
-           -->
-          <div class="row mt-2 border-top">
-            <h3 class="mt-2">Carreton</h3>
-              <table id="vnt" class="vnt table table-hover table-striped">
+          <div class="row mt-2 border-top" style="padding-top:93px; padding-left: 10px;">
+
+            <h3 class="mt-2 position-fixed" style="padding-bottom:15px; background-color: white;">Carreton</h3>
+
+            <div style="margin-top: 60px">
+              <table id="vnt" class="vnt table table-hover table-borderless header-fixed">
                 <thead>
                   <tr>
-                    <th scope="col">Codigo</th>
-                    <th scope="col">Descripcion</th>
-                    <th scope="col">Precio Venta</th>
-                    <th scope="col">Cantidad/O Peso(lb)</th>
-                    <th scope="col">Existencia</th>
+                    <th scope="col">Codigo </th>
+                    <th scope="col" >Descripcion </th>
+                    <th scope="col" >Precio Venta</th>
+                    <th scope="col" >Cant./Peso(lb)</th>
+                    <th scope="col" >Existencia</th>
                   </tr>
                 </thead>
-
-                <tbody id='vntBdyId'>
-
+  
+                <tbody id='vntBdyId' class="" >
+              
                 </tbody>
-      
-              </table>    
+                
+                </table>    
+            </div>
+            
           </div>
           
       </div>
 
-      <!-- Half of the column containing payment info -->
+      <!-- 1/4 of the column containing payment info -->
   
-      <div class="col-3 border">
+      <div class="col-3 border position-fixed end-0 mt-3" style="background-color: white;">
 
         <div class="txt">
 
-          <h2 class="text-center border-bottom">Ticket</h2>
+          <h2 class="text-center border-bottom mt-2">Ticket</h2>
       
           <div class="row">
             <div class="col-6 text-end">

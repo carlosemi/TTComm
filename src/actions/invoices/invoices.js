@@ -35,7 +35,10 @@ var getInvoices = async() => {
   
         var id, client, products, tax, total, date;
   
-        for (var x = 0; x < response.data.length; x++) {
+        var y = 0
+
+        //Display the ticket from newest first to oldest
+        for (var x = response.data.length - 1; x >= 0; x--) {
 
           // console.log(response.data[x])
 
@@ -47,7 +50,7 @@ var getInvoices = async() => {
           date = response.data[x].date
   
           //row = table.insertRow(x);
-          row =  table.getElementsByTagName('tbody')[0].insertRow(x)
+          row =  table.getElementsByTagName('tbody')[0].insertRow(y)
           row.className = "clickable-row"
 
           var cell0 = row.insertCell(0)
@@ -70,6 +73,8 @@ var getInvoices = async() => {
           cell0.innerHTML = id
           cell1.innerHTML = b[0]
           cell2.innerHTML = totalAndTax.toFixed(2)
+
+          y++
         }
   
       })

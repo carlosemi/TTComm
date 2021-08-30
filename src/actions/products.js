@@ -167,3 +167,132 @@ async function deletePrd(){
 
 }
   
+var searchBySku = async() => {
+
+  var sku = document.getElementById("sku").value;
+
+  const ip = connectSRV();
+  
+  var table = document.getElementById('prd');
+  var row;
+
+  //First empty the Prds in the table. 
+  //This is done so there are no repetition of items when you add a new item
+  await $('#prdBdyId').empty()
+
+  await axios({
+    method: 'get',
+    url: `${ip}api/pos/getProduct/${sku}`,
+    headers: {
+      'content-type': 'application/json',
+      'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+    }
+  })
+  .then(function (response) {
+
+    var sku, description, price, tax, weight, quantity;
+
+    // console.log(response.data[x])
+
+    sku = response.data.sku
+    description = response.data.description
+    price = response.data.price
+    tax = response.data.tax
+    weight = response.data.weight
+    quantity = response.data.numOfItems
+
+    //row = table.insertRow(x);
+    row =  table.getElementsByTagName('tbody')[0].insertRow(0)
+    row.className = "clickable-row"
+
+    var cell0 = row.insertCell(0)
+    var cell1 = row.insertCell(1)
+    var cell2 = row.insertCell(2)
+    var cell3 = row.insertCell(3)
+    var cell4 = row.insertCell(4)
+    var cell5 = row.insertCell(5)
+
+    cell0.innerHTML = sku
+    cell1.innerHTML = description
+    cell2.innerHTML = price
+    cell3.innerHTML = tax
+    cell4.innerHTML = weight
+    cell5.innerHTML = quantity
+  
+  
+
+  })
+
+}
+
+//When there is a key press on the name search input, do a get call do a search
+//based on the input
+$("#src").keypress(async function() {
+
+  var name = document.getElementById("src").value;
+
+  const ip = connectSRV();
+  
+  var table = document.getElementById('prd');
+  var row;
+
+  //First empty the Prds in the table. 
+  //This is done so there are no repetition of items when you add a new item
+  await $('#prdBdyId').empty()
+
+  await axios({
+    method: 'get',
+    url: `${ip}api/pos/getProduct/name/${name}`,
+    headers: {
+      'content-type': 'application/json',
+      'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+    }
+  })
+  .then(function (response) {
+
+    var sku, description, price, tax, weight, quantity;
+
+    console.log(response.data)
+
+    if(response.data.length === 0){
+      console.log("Nothing to search")
+    }
+    else{
+      console.log(response.data)
+
+      for(x in response.data){
+        sku = response.data[x].sku
+        description = response.data[x].description
+        price = response.data[x].price
+        tax = response.data[x].tax
+        weight = response.data[x].weight
+        quantity = response.data[x].numOfItems
+    
+        //row = table.insertRow(x);
+        row =  table.getElementsByTagName('tbody')[0].insertRow(x)
+        row.className = "clickable-row"
+    
+        var cell0 = row.insertCell(0)
+        var cell1 = row.insertCell(1)
+        var cell2 = row.insertCell(2)
+        var cell3 = row.insertCell(3)
+        var cell4 = row.insertCell(4)
+        var cell5 = row.insertCell(5)
+    
+        cell0.innerHTML = sku
+        cell1.innerHTML = description
+        cell2.innerHTML = price
+        cell3.innerHTML = tax
+        cell4.innerHTML = weight
+        cell5.innerHTML = quantity
+      }
+      
+
+    }
+
+   
+  
+  
+
+  })
+})

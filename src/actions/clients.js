@@ -231,7 +231,6 @@ var cliHistory = async() => {
 
 }
 
-
 var searchByName = async() => {
 
   var name = document.getElementById("src").value;

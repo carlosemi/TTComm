@@ -150,7 +150,7 @@ var getInvoicesByDate = async() => {
 
             //This splits the date to not show time just date
             var c = date.split("T")
-            // console.log(c[0])
+            console.log(c[0])
 
             if(c[0] === searchDate){
 

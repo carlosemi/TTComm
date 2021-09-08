@@ -32,15 +32,17 @@
               <button type="button" class="btn btn-outline-success" onclick="addClient()">Agregar Cliente</button>
               <button type="button" class="btn btn-outline-warning" onclick="editClient()">Editar Cliente</button>
               <button type="button" class="btn btn-outline-danger" onclick="deleteCli()">Borrar Cliente</button>
+              <button type="button" class="btn btn-outline-info" onclick="getCli()">Lista Completa</button>
             </div>
             
           </div>   
 
           <div class="row mt-2 pb-2 border-bottom border-top justify-content-start no-gutters">
             <div class="col-12 mt-3">
-              <button type="button" class="btn btn-secondary" onclick="searchByName()">Buscar por Nombre</button>
-              <button type="button" class="btn btn-secondary" onclick="searchById()">Buscar por Id</button>
+              <label>Buscar por Nombre: </label>
               <input id="src" type="text"/>
+              <button type="button" class="btn btn-secondary" onclick="searchById()">Buscar por Id</button>
+              <input id="src2" type="text"/>
             </div>
           </div>
       <!-- </div> -->

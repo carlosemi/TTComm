@@ -285,13 +285,14 @@ var searchByName = async() => {
 
 var searchById = async() => {
 
-  var id = document.getElementById("src").value;
+  var id = document.getElementById("src2").value;
 
   const ip = connectSRV();
   
   var table = document.getElementById('cli');
   var row;
 
+  console.log(id)
   //First empty the Prds in the table. 
   //This is done so there are no repetition of items when you add a new item
   await $('#cliBdyId').empty()
@@ -333,3 +334,72 @@ var searchById = async() => {
   })
 
 }
+
+//When there is a key press on the name search input, do a get call do a search
+//based on the input
+$("#src").keypress(async function() {
+
+  var name = document.getElementById("src").value;
+
+  const ip = connectSRV();
+  
+  var table = document.getElementById('cli');
+  var row;
+
+  //First empty the Prds in the table. 
+  //This is done so there are no repetition of items when you add a new item
+
+  console.log(name)
+  await $('#cliBdyId').empty()
+
+  await axios({
+    method: 'get',
+    url: `${ip}api/clients/client/name/${name}`,
+    headers: {
+      'content-type': 'application/json',
+      'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+    }
+  })
+  .then(function (response) {
+
+    var name, id, plan, location;
+
+    console.log(response.data)
+
+    if(response.data.length === 0){
+      console.log("Nothing to search")
+    }
+    else{
+      console.log(response.data)
+
+      for(x in response.data){
+        name = response.data[x].name
+        id = response.data[x].id
+        plan = response.data[x].plan
+        location = response.data[x].location
+
+        //row = table.insertRow(x);
+        row =  table.getElementsByTagName('tbody')[0].insertRow(x)
+        row.className = "clickable-row"
+    
+        var cell0 = row.insertCell(0)
+        var cell1 = row.insertCell(1)
+        var cell2 = row.insertCell(2)
+        var cell3 = row.insertCell(3)
+    
+        cell0.innerHTML = name
+        cell1.innerHTML = id
+        cell2.innerHTML = plan
+        cell3.innerHTML = location
+
+      }
+      
+
+    }
+
+   
+  
+  
+
+  })
+})

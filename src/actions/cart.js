@@ -1,7 +1,4 @@
 
-
-// import {printTicket} from './printTicket.js'
-
 //                       TABLE AND ROW FUNCTIONALITY
 
 //This changes the table row's class when clicked to change its background color to red to be deleted
@@ -329,7 +326,7 @@ async function cashCharge() {
     console.log(typeof totalAndTax)
     console.log('Cash: ' + cash)
 
-    if(cash < parseInt(totalAndTax,10)){
+    if(cash < totalAndTax && totalAndTax == 0){
         console.log("Invalid Amount")
         //Get out of charging
         return 

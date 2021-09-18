@@ -24,7 +24,7 @@ $(function () {
 });
 
 function vntFunction() {
-  $("#main").load("./src/components/sells.html");
+  $("#main").load("./src/components/sells.html")
 }
 
 function prdFunction() {
@@ -41,6 +41,10 @@ function fctFunction() {
 
 function rptFunction() {
   $("#main").load("./src/components/reports.html");
+}
+
+function confFunction() {
+  $("#main").load("./src/components/config/config.html")
 }
 
 

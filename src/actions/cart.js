@@ -431,7 +431,7 @@ async function cashCharge() {
         });
 
         //Print ticket
-        //printTicket()
+        printTicket()
 
         await ipcRenderer.invoke('cashbackWindow', cashBack).then((result) => {
             // console.log(result)

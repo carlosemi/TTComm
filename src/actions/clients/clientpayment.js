@@ -8,7 +8,7 @@ var id = ipcRenderer.sendSync('paymentId', '');
 
 console.log(id)
 
-var id, name, plan, location
+var id, name, plan, location, amountOwed
 
 
 //Get the information of the client based on the id given by the main process sent from the client.js
@@ -33,6 +33,25 @@ axios({
     document.getElementById("paymentCash").min = response.data.plan
     document.getElementById("paymentCash").value = response.data.plan
     document.getElementById("location").innerHTML = response.data.location;
+
+})
+
+//Get the total amount of credit owed
+axios({
+    method: 'get',
+    url: `${ip}api/clients/creditTotal/${id}`,
+    headers: {'content-type': 'application/json' , 
+                'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'},
+ 
+})
+.then(function (response){
+    
+    console.log(response)
+
+    amountOwed = response.data
+
+    document.getElementById("creditOwed").value = amountOwed;
+
 
 })
 
@@ -140,6 +159,52 @@ const payment = async () => {
             document.getElementById("addBtn").innerHTML = button
 
         }
+    }
+
+    
+}
+
+const creditPayment = async() => {
+
+    var creditPayment = $("#creditOwed").val()
+
+    //If there is actual amount of credit Owed and if the credit Payment is greater than 0 (So it is an actual payment) 
+    //do the payment
+    if(amountOwed > 0 && creditPayment > 0){ 
+        await axios({
+            method: 'post',
+            url: `${ip}api/clients/creditPayment/${id}`,
+            headers: {'content-type': 'application/json' , 
+                        'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'},
+            data: {
+                payment: creditPayment
+            }
+         
+        })
+        .then(function (response){
+            
+            console.log(response)
+        
+        
+            document.getElementById("Success2").textContent += `Success!!`
+
+            //If the amount returned is less then 0 then that means you need to give cashback
+            if(response.data < 0){
+
+                //First make number positive
+                var cashBack = Math.abs(response.data)
+
+                $("#cshBack2").text("Cambio: " + cashBack.toFixed(2))
+
+                
+            }
+
+            var button = '<button type="button" class="btn btn-primary" onclick="ready()">Listo</button>'
+                
+            document.getElementById("addBtn2").innerHTML = button
+            
+        
+        })
     }
 
     

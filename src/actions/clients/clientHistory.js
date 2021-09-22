@@ -37,6 +37,8 @@ axios({
     //location = response.data.location
     monthpayments = response.data.monthPayment
 
+    var creditStatements = response.data.credit
+
     //console.log("monthpayments: " + monthpayments)
     //console.log(response.data.location)
 
@@ -44,11 +46,18 @@ axios({
     document.getElementById("clientName").innerHTML = response.data.name;
     document.getElementById("plan").innerHTML = response.data.plan;
     document.getElementById("location").innerHTML = response.data.location
+    document.getElementById("creditOwed").innerHTML = "$" + response.data.creditOwed
     //document.getElementById("location").innerHTML = response.data.location;
 
     // for(x in monthpayments){
     //     document.getElementById("mnthPayment").innerHTML += `<label>${monthpayments[x]}</label><br>`
     // }
+
+    console.log(creditStatements)
+
+    for(x in creditStatements){
+        document.getElementById("creditStatements").innerHTML += creditStatements[x].description + " | Costo: $" + creditStatements[x].amount + "<br>"
+    }
 
     
     for(x in monthpayments){

@@ -82,6 +82,49 @@ app.on('window-all-closed', function () {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
+
+//------------------------------------------------------------------------------------------------
+//                                 CASH BACK WINDOW
+
+let cashbackWindow
+let cashback
+
+//Open new window to make payment
+ipcMain.handle('cashbackWindow', async (event, data) => {
+
+  cashbackWindow = new BrowserWindow({
+    width: 600,
+    height: 400,
+    webPreferences: {
+      nodeIntegration: true, 
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
+  
+  })
+
+  console.log(data)
+
+  cashback = data
+
+  // and load the index.html of the app.
+  await cashbackWindow.loadFile('./src/components/cashback.html')  
+
+})
+
+
+//Send the id to the client payment window
+ipcMain.on('cashbackAmount', async (event, arg) => {
+  //console.log(arg) // prints "ping"
+  event.returnValue = cashback
+})
+
+//Close the cashback window when ready button is clicked
+ipcMain.handle('closeCashBackWnd', async (event) =>{
+
+  await cashbackWindow.close()
+})
+
 //----------------------------------------------------------------------------------------------------
 //                                    ADD PRODUCT WINDOW
 let popWindow
@@ -162,7 +205,7 @@ ipcMain.handle('paymentWindow', async (event, data) => {
 
   paymentWindow = new BrowserWindow({
     width: 500,
-    height: 600,
+    height: 800,
     webPreferences: {
       nodeIntegration: true, 
       contextIsolation: false,
@@ -193,19 +236,16 @@ ipcMain.handle('closeCliPaymentWnd', async (event) =>{
   await paymentWindow.close()
 })
 
-
-//------------------------------------------------------------------------------------------------
-//                                 CASH BACK WINDOW
-
-let cashbackWindow
-let cashback
+//---------------------------------------------------------------------------------------------------
+//                                  CLIENT CREDIT WINDOW
+let creditWindow
 
 //Open new window to make payment
-ipcMain.handle('cashbackWindow', async (event, data) => {
+ipcMain.handle('creditWindow', async (event, data) => {
 
-  cashbackWindow = new BrowserWindow({
-    width: 600,
-    height: 400,
+  creditWindow = new BrowserWindow({
+    width: 500,
+    height: 800,
     webPreferences: {
       nodeIntegration: true, 
       contextIsolation: false,
@@ -214,26 +254,26 @@ ipcMain.handle('cashbackWindow', async (event, data) => {
   
   })
 
-  console.log(data)
+  console.log(data.id)
 
-  cashback = data
+  id = data.id
 
   // and load the index.html of the app.
-  await cashbackWindow.loadFile('./src/components/cashback.html')  
+  await creditWindow.loadFile('./src/components/clients/clientcredit.html')  
 
 })
 
 
 //Send the id to the client payment window
-ipcMain.on('cashbackAmount', async (event, arg) => {
+ipcMain.on('creditId', (event, arg) => {
   //console.log(arg) // prints "ping"
-  event.returnValue = cashback
+  event.returnValue = id
 })
 
 //Close the cashback window when ready button is clicked
-ipcMain.handle('closeCashBackWnd', async (event) =>{
+ipcMain.handle('closeCliCreditWnd', async (event) =>{
 
-  await cashbackWindow.close()
+  await creditWindow.close()
 })
 
 //-------------------------------------------------------------------------------------
@@ -355,7 +395,7 @@ ipcMain.handle('cliHistoryWindow', async (event, data) => {
 
   cliHistoryWindow = new BrowserWindow({
     width: 800,
-    height: 600,
+    height: 700,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,

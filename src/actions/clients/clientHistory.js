@@ -49,14 +49,30 @@ axios({
     document.getElementById("creditOwed").innerHTML = "$" + response.data.creditOwed
     //document.getElementById("location").innerHTML = response.data.location;
 
-    // for(x in monthpayments){
-    //     document.getElementById("mnthPayment").innerHTML += `<label>${monthpayments[x]}</label><br>`
-    // }
-
     console.log(creditStatements)
 
-    for(x in creditStatements){
-        document.getElementById("creditStatements").innerHTML += creditStatements[x].description + " | Costo: $" + creditStatements[x].amount + "<br>"
+
+    var description, cost
+    var table = document.getElementById('cliCredit');
+    var row;
+
+  
+    for (x in creditStatements) {
+
+        description = creditStatements[x].description
+        cost = creditStatements[x].amount
+
+        //row = table.insertRow(x);
+        row =  table.getElementsByTagName('tbody')[0].insertRow(x)
+        row.className = "clickable-row"
+
+        var cell0 = row.insertCell(0)
+        var cell1 = row.insertCell(1)
+
+
+        cell0.innerHTML = description
+        cell1.innerHTML = cost
+
     }
 
     

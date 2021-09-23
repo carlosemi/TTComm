@@ -4,6 +4,7 @@ var getMonthReport = async() => {
 
     const ip = connectSRV();
 
+    //Get the Brute Month Report
     await axios({
       method: 'get',
       url: `${ip}api/pos/getInvoice/monthEarning`,
@@ -24,6 +25,52 @@ var getMonthReport = async() => {
 
         $("#monthReport").text("$" + iNum.format(monthEarning.toFixed(2)))
       })
+
+      //Get the Net Month Report
+      await axios({
+        method: 'get',
+        url: `${ip}api/pos/getInvoice/netMonthEarning`,
+        headers: {
+          'content-type': 'application/json',
+          'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+        }
+      })
+        .then(function (response) {
+    
+          var netMonthEarning = response.data
+  
+          console.log(netMonthEarning)
+  
+          //Format number with commas
+          var iNum = new Intl.NumberFormat('en-US')
+  
+  
+          $("#netMonthReport").text("$" + iNum.format(netMonthEarning.toFixed(2)))
+        })
+
+        //Get the Net Month Taxes
+        await axios({
+        method: 'get',
+        url: `${ip}api/pos/getInvoice/monthTaxes`,
+        headers: {
+          'content-type': 'application/json',
+          'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+        }
+      })
+        .then(function (response) {
+    
+          var monthTaxes = response.data
+  
+          console.log(monthTaxes)
+  
+          //Format number with commas
+          var iNum = new Intl.NumberFormat('en-US')
+  
+  
+          $("#monthTaxes").text("$" + iNum.format(monthTaxes.toFixed(2)))
+        })
+
+
 
 }
 

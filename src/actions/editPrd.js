@@ -5,9 +5,13 @@ const $ = require('jquery')
 
 var prd = ipcRenderer.sendSync('synchronous-message', '');
 
+console.log(prd.numOfItems)
+
 document.getElementById("Codigo").innerHTML = prd.sku;
 document.getElementById("Descripcion").value = prd.description;
 document.getElementById("Precio").value = prd.price;
+document.getElementById("Cost").value = prd.cost
+document.getElementById("Existance").value = prd.numOfItems
 
 if(prd.tax === "true"){
     $("#Tax").prop("checked", true)
@@ -16,7 +20,7 @@ else{
     $("#Tax").prop("checked", 0)
 }
 
-document.getElementById("Existencia").value = prd.numOfItems
+
 
 if(prd.weight === "true"){
     $("#Weight").prop("checked", true)
@@ -33,13 +37,15 @@ async function editPrd(sku){
     var code = document.getElementById("Codigo").innerHTML;
     var descr = document.getElementById("Descripcion").value;
     var prc = document.getElementById("Precio").value;
+    var cst = document.getElementById("Cost").value;
     var tx = document.getElementById("Tax").checked;
-    var exis = document.getElementById("Existencia").value;
+    var exis = document.getElementById("Existance").value;
     var wgh = document.getElementById("Weight").checked;
 
     console.log(code)
     console.log(descr)
     console.log(prc)
+    console.log(cst)
     console.log(tx)
     console.log(exis)
     console.log(wgh)
@@ -53,6 +59,7 @@ async function editPrd(sku){
         sku: code,
         description: descr,
         price: prc,
+        cost: cst,
         tax: tx,
         numOfItems: exis,
         weight: wgh

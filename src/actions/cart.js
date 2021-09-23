@@ -178,7 +178,7 @@ async function srcProduct(SKU) {
     //console.log(document.getElementById('srcPrd').value)
 
     if(SKU){
-        sku = SKU
+        sku = Number(SKU)
     }
     else{
         sku = document.getElementById('srcPrd').value;
@@ -431,7 +431,7 @@ async function cashCharge() {
         });
 
         //Print ticket
-        printTicket()
+        //printTicket()
 
         await ipcRenderer.invoke('cashbackWindow', cashBack).then((result) => {
             // console.log(result)

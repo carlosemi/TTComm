@@ -34,7 +34,7 @@ async function getPrds () {
     })
       .then(function (response) {
   
-        var sku, description, price, tax, weight, quantity;
+        var sku, description, price, cost, tax, weight, quantity;
   
         for (var x = 0; x < response.data.length; x++) {
 
@@ -43,6 +43,7 @@ async function getPrds () {
           sku = response.data[x].sku
           description = response.data[x].description
           price = response.data[x].price
+          cost = response.data[x].cost
           tax = response.data[x].tax
           weight = response.data[x].weight
           quantity = response.data[x].numOfItems
@@ -57,13 +58,15 @@ async function getPrds () {
           var cell3 = row.insertCell(3)
           var cell4 = row.insertCell(4)
           var cell5 = row.insertCell(5)
+          var cell6 = row.insertCell(6)
   
           cell0.innerHTML = sku
           cell1.innerHTML = description
           cell2.innerHTML = price
-          cell3.innerHTML = tax
-          cell4.innerHTML = weight
-          cell5.innerHTML = quantity
+          cell3.innerHTML = cost
+          cell4.innerHTML = tax
+          cell5.innerHTML = weight
+          cell6.innerHTML = quantity
         }
   
       })
@@ -104,9 +107,10 @@ async function editPrd() {
         sku: $("#prd")[0].rows[x].cells[0].innerHTML,
         description: $("#prd")[0].rows[x].cells[1].innerHTML,
         price: $("#prd")[0].rows[x].cells[2].innerHTML,
-        tax: $("#prd")[0].rows[x].cells[3].innerHTML,
-        weight: $("#prd")[0].rows[x].cells[4].innerHTML,
-        numOfItems: $("#prd")[0].rows[x].cells[5].innerHTML
+        cost: $("#prd")[0].rows[x].cells[3].innerHTML,
+        tax: $("#prd")[0].rows[x].cells[4].innerHTML,
+        weight: $("#prd")[0].rows[x].cells[5].innerHTML,
+        numOfItems: $("#prd")[0].rows[x].cells[6].innerHTML
       }
 
       // console.log(data)

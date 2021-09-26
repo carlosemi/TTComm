@@ -33,11 +33,21 @@ async function getCli () {
       }
     })
       .then(function (response) {
+
   
-        var name, id, plan, location, monthPayment;
+        var name, id, plan, location, monthPayment
+
+        var icon = `<i class="far fa-times-circle"></i>`
   
         for (var x = 0; x < response.data.length; x++) {
         
+          //Get todays date, more specifically year and month
+            var date = new Date();
+            var dd = String(date.getDate()).padStart(2, '0');
+            var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = date.getFullYear();
+
+            //today = mm + '/' + dd + '/' + yyyy;
 
             // console.log(response.data[x])
 
@@ -47,13 +57,38 @@ async function getCli () {
             location = response.data[x].location
             monthPayment = response.data[x].monthPayment
 
-            // console.log(monthPayment)
-            // for(i in monthPayment){
-            //     console.log(monthPayment[i])
-            // }
-            // console.log("-----")
+            //If the day of the month is below the 20th check for the current month status
+            if(dd < 20){
 
-            //row = table.insertRow(x);
+              date = yyyy + '-' + mm
+
+              for(i in monthPayment){
+
+                  //If there is a month payment with todays payment mark active as true
+                  if(monthPayment[i] == date){
+                    icon = `<i class="fas fa-check"></i>`
+                  }
+              }
+            }
+            //Else, if the day is past the 20th check for the next month status
+            else{
+
+              mm = parseInt(mm) + 1 
+              console.log("mm" + mm)
+
+              date = yyyy + '-' + mm
+
+              for(i in monthPayment){
+
+                  //If there is a month payment with todays payment mark active as true
+                  if(monthPayment[i] == date){
+                    icon = `<i class="fas fa-check"></i>`
+                  }
+              }
+            }
+            
+
+
             row =  table.getElementsByTagName('tbody')[0].insertRow(x)
             row.className = "clickable-row"
 
@@ -68,8 +103,10 @@ async function getCli () {
             cell1.innerHTML = name
             cell2.innerHTML = plan
             cell3.innerHTML = location
-            cell4.innerHTML = "Activo"
+            cell4.innerHTML = icon
 
+            //Get the icon back to 'x'
+            icon = `<i class="far fa-times-circle"></i>`
         }
   
       })

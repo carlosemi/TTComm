@@ -14,6 +14,12 @@ const onScan = require('onscan.js')
 const path = require('path')
 const {PosPrinter} = require('electron').remote.require("electron-pos-printer");
 
+
+async function printTicket() {
+
+  ipcRenderer.sendSync('print', '')
+}
+
 //Connect to the server
 const connectSRV = require('./config/srv')
 

@@ -99,6 +99,28 @@ var getYearReport = async() => {
         $("#yearReport").text("$" + iNum.format(yearEarning.toFixed(2)))
       })
 
+      //Get net year earning
+      await axios({
+        method: 'get',
+        url: `${ip}api/pos/getInvoice/netYearEarning`,
+        headers: {
+          'content-type': 'application/json',
+          'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+        }
+      })
+        .then(function (response) {
+    
+          var netYearEarning = response.data
+  
+          console.log(netYearEarning)
+  
+          //Format number with commas
+          var iNum = new Intl.NumberFormat('en-US')
+  
+  
+          $("#netYearReport").text("$" + iNum.format(netYearEarning.toFixed(2)))
+        })
+
 }
 
 var getDayReport = async() => {

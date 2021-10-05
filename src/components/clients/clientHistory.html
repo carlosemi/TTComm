@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+
+        <!-- The following is causing problems when trying to add another html file -->
+        <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
+        
+        <link rel="stylesheet" href="../styles.css">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="../../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+
+        <!-- Bootstrap Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src='../../../node_modules/jquery/dist/jquery.min.js'></script>
+        <script src='../../../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+
+        <!-- Font Awesome -->
+        <script src='../../../node_modules/@fortawesome/fontawesome-free/js/all.js'></script>
+
+        <title>TTComm Punto De Venta</title>
+
+        <!-- <script>window.$ = window.jQuery = require('jquery');</script> -->
+    
+    </head>
+
+    <body>
+ 
+        <div class="row container-fluid justify-content-center">
+           
+            <div class="row text-center">
+                <div class="col">
+                    <h3>Estado de Cuenta</h3>
+                </div>
+            </div>
+
+            <div class="form-group form-inline">
+
+                <div class="row mt-4 justify-content-start">
+                    <div class="col-3">
+                        <label>Id de cliente: </label>  
+                    </div>
+                    <div class="col-6">
+                        <label id="clientId"></label>
+                    </div>
+                </div>
+
+                <div class="row mt-2 justify-content-start">
+                    <div class="col-3">
+                        <label>Nombre: </label>   
+                    </div>
+                    <div class="col-3">
+                        <label id="clientName"></label>
+                    </div>
+                </div>
+
+                <div class="row mt-2 justify-content-start">
+                    <div class="col-3">
+                        <label>Plan: </label>  
+                    </div>
+                    <div class="col-6">
+                        <label id="plan"></label>
+                    </div>
+                </div>
+
+                <div class="row mt-2 justify-content-start">
+                    <div class="col-3">
+                        <label>Ubicacion: </label>  
+                    </div>
+                    <div class="col-6">
+                        <label id="location"></label>
+                    </div>
+                </div>
+
+                <div class="row mt-2 justify-content-start">
+                    <div class="col-3">
+                        <label>Saldo de Credito: </label>  
+                    </div>
+                    <div class="col-6">
+                        <label id="creditOwed"></label>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center border-top mt-2">
+    
+                    <h4>Historial de Pago</h4>
+
+                </div>
+
+                <div class="d-flex justify-content-center align-items-center form-inline ml-2 mr-2">
+                    <button class="btn" onclick="left()"><i class="fas fa-arrow-left"></i></button>
+                    <h5 id="Year"></h5>
+                    <button class="btn" onclick="right()"><i class="fas fa-arrow-right"></i></button> 
+                </div>
+
+                <div class="row">
+                    <div id="jan" class="col-1 border bg-danger">
+                        <p>Ene</p>
+                    </div>
+                    <div id="feb" class="col-1 border bg-danger">
+                        <p>Feb</p>
+                    </div>
+                    <div id="mar" class="col-1 border bg-danger">
+                        <p>Mar</p>
+                    </div>
+                    <div id="apr" class="col-1 border bg-danger">
+                        <p>Abr</p>
+                    </div>
+                    <div id="may" class="col-1 border bg-danger">
+                        <p>May</p>
+                    </div>
+                    <div id="jun" class="col-1 border bg-danger">
+                        <p>Jun</p>
+                    </div>
+                    <div id="jul" class="col-1 border bg-danger">
+                        <p>Jul</p>
+                    </div>
+                    <div id="aug" class="col-1 border bg-danger">
+                        <p>Ago</p>
+                    </div>
+                    <div id="sep" class="col-1 border bg-danger">
+                        <p>Sep</p>
+                    </div>
+                    <div id="oct" class="col-1 border bg-danger">
+                        <p>Oct</p>
+                    </div>
+                    <div id="nov" class="col-1 border bg-danger">
+                        <p>Nov</p>
+                    </div>
+                    <div id="dec" class="col-1 border bg-danger">
+                        <p>Dic</p>
+                    </div>
+                </div>
+
+                <div class="row mt-3 border-top">
+
+                </div>
+
+                <div class="d-flex justify-content-center mt-2">
+    
+                    <h4>Historial de Credito</h4>
+
+                </div>
+
+                <div class="row overflow-auto" id="creditStatements" style="height: 220px">
+
+                    <table id="cliCredit" class="table table-striped table-hover table-bordered">
+                        
+                        <thead>
+                        <tr>
+                            <div class="border-right">
+                            
+                            </div>
+                            <th scope="col">Servicio</th>
+                            <th scope="col">Costo $</th>
+                        </tr>
+                        </thead>
+
+                        <tbody id="cliCreditBdyId">
+
+                        </tbody>
+
+                    </table>    
+
+                </div>
+        
+            </div>
+
+        </div>
+
+        
+
+        <script src='../../actions/clients/clientHistory.js'></script>
+       
+            
+    </body>
+
+</html>

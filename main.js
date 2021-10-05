@@ -5,6 +5,16 @@ const $ = require('jquery')
 const {ipcHandeler} = require('electron')
 const axios = require('axios')
 const {ipcRenderer} = require('electron');
+const {PosPrinter} = require('electron-pos-printer');
+const fs = require('fs')
+const { EventEmitter } = require('stream')
+
+//Printer
+const escpos = require('escpos');
+//const { printFile } = require('printer')
+
+var reply
+var reply2
 
 function createWindow () {
   // Create the browser window.
@@ -14,10 +24,14 @@ function createWindow () {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
-      contextIsolation: false
+      contextIsolation: false,
+      enableRemoteModule: true
     }
 
   })
+
+  //Print out in the console the printers available
+  // console.log(mainWindow.webContents.getPrinters())
 
   mainWindow.maximize()
 
@@ -25,14 +39,32 @@ function createWindow () {
   mainWindow.loadFile('index.html')
   // Open the DevTools.
   //mainWindow.webContents.openDevTools()
-}
 
+  //This reply is to call the function getPrds() on the renderer to automatically update the table
+  //after a change has been made
+  reply = async () => {
+
+    console.log("reply called")
+    await mainWindow.webContents.send('asynchronous-message', {'SAVED': 'File Saved'});
+  
+  }
+
+  //This reply is to call the function getCli() on the renderer to automatically update the table
+  //after a change has been made
+  reply2 = async () => {
+
+    await mainWindow.webContents.send('reply2', {'SAVED': 'File Saved'});
+  }
+
+  // printWindow()
+}
 
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+
   createWindow()
   
   app.on('activate', function () {
@@ -52,6 +84,51 @@ app.on('window-all-closed', function () {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
+
+//------------------------------------------------------------------------------------------------
+//                                 CASH BACK WINDOW
+
+let cashbackWindow
+let cashback
+
+//Open new window to make payment
+ipcMain.handle('cashbackWindow', async (event, data) => {
+
+  cashbackWindow = new BrowserWindow({
+    width: 600,
+    height: 400,
+    webPreferences: {
+      nodeIntegration: true, 
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
+  
+  })
+
+  console.log(data)
+
+  cashback = data
+
+  // and load the index.html of the app.
+  await cashbackWindow.loadFile('./src/components/cashback.html')  
+
+})
+
+
+//Send the id to the client payment window
+ipcMain.on('cashbackAmount', async (event, arg) => {
+  //console.log(arg) // prints "ping"
+  event.returnValue = cashback
+})
+
+//Close the cashback window when ready button is clicked
+ipcMain.handle('closeCashBackWnd', async (event) =>{
+
+  await cashbackWindow.close()
+})
+
+//----------------------------------------------------------------------------------------------------
+//                                    ADD PRODUCT WINDOW
 let popWindow
 
 //Open new window to add product
@@ -69,10 +146,437 @@ ipcMain.handle('newWindow', async (event) => {
   })
 
   // and load the index.html of the app.
-  popWindow.loadFile('./src/components/productPop.html')
+  popWindow.loadFile('./src/components/products/addPrd.html')
 })
+
+//Close the add product window when add product button is clicked
+ipcMain.handle('closeWnd', async (event) =>{
+  //The reply is to send back to the renderer process to update the table 
+  await reply()
+  await popWindow.close()
+})
+
+//------------------------------------------------------------------------------------------------------
+//                                     PRODUCT EDIT WINDOW
+let editWindow
+let obj
+
+//Open new window to edit product
+ipcMain.handle('editWindow', async (event, data) => {
+
+  editWindow = new BrowserWindow({
+    width: 500,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
+  
+  })
+
+  // console.log(data)
+
+  obj = data
+  // and load the index.html of the app.
+  editWindow.loadFile('./src/components/products/editPrd.html')  
+  
+})
+
+//Send the object to be edited to the edit window
+ipcMain.on('synchronous-message', (event, arg) => {
+  //console.log(arg) // prints "ping"
+  event.returnValue = obj
+})
+
+
+//Close the edit product window when edit product button is clicked
+ipcMain.handle('closeEditWnd', async (event) =>{
+
+  await reply()
+  await editWindow.close()
+})
+
+//---------------------------------------------------------------------------------------------------
+//                                  CLIENT PAYMENT WINDOW
+let paymentWindow
+let id
+
+//Open new window to make payment
+ipcMain.handle('paymentWindow', async (event, data) => {
+
+  paymentWindow = new BrowserWindow({
+    width: 500,
+    height: 800,
+    webPreferences: {
+      nodeIntegration: true, 
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
+  
+  })
+
+  console.log(data.id)
+
+  id = data.id
+
+  // and load the index.html of the app.
+  await paymentWindow.loadFile('./src/components/clients/clientpayment.html')  
+
+})
+
+
+//Send the id to the client payment window
+ipcMain.on('paymentId', (event, arg) => {
+  //console.log(arg) // prints "ping"
+  event.returnValue = id
+})
+
+//Close the cashback window when ready button is clicked
+ipcMain.handle('closeCliPaymentWnd', async (event) =>{
+
+  await paymentWindow.close()
+})
+
+//---------------------------------------------------------------------------------------------------
+//                                  CLIENT CREDIT WINDOW
+let creditWindow
+
+//Open new window to make payment
+ipcMain.handle('creditWindow', async (event, data) => {
+
+  creditWindow = new BrowserWindow({
+    width: 500,
+    height: 800,
+    webPreferences: {
+      nodeIntegration: true, 
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
+  
+  })
+
+  console.log(data.id)
+
+  id = data.id
+
+  // and load the index.html of the app.
+  await creditWindow.loadFile('./src/components/clients/clientcredit.html')  
+
+})
+
+
+//Send the id to the client payment window
+ipcMain.on('creditId', (event, arg) => {
+  //console.log(arg) // prints "ping"
+  event.returnValue = id
+})
+
+//Close the cashback window when ready button is clicked
+ipcMain.handle('closeCliCreditWnd', async (event) =>{
+
+  await creditWindow.close()
+})
+
+//-------------------------------------------------------------------------------------
+//                               ADD CLIENT WINDOW
+let addCliWindow
+
+//Open new window to add product
+ipcMain.handle('addClientWindow', async (event) => {
+
+  addCliWindow = new BrowserWindow({
+    width: 500,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
+  
+  })
+
+  // and load the index.html of the app.
+  addCliWindow.loadFile('./src/components/clients/addClient.html')
+})
+
+//Close the add product window when add product button is clicked
+ipcMain.handle('closeCliWnd', async (event) =>{
+
+  //The reply is to send back to the renderer process to update the table 
+  await reply2()
+  await addCliWindow.close()
+
+})
+//------------------------------------------------------------------------------------
+//                               EDIT CLIENT WINDOW
+let editClientWindow
+let cliObj
+
+//Open new window to edit product
+ipcMain.handle('editClientWindow', async (event, data) => {
+
+  editClientWindow = new BrowserWindow({
+    width: 500,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
+  
+  })
+
+  // console.log(data)
+
+  cliObj = data
+  // and load the index.html of the app.
+  editClientWindow.loadFile('./src/components/clients/editClient.html')  
+  
+})
+
+//Send the object to be edited to the edit window
+ipcMain.on('clientInfo', (event, arg) => {
+  //console.log(arg) // prints "ping"
+  event.returnValue = cliObj
+})
+
+
+//Close the edit client window when edit client button is clicked
+ipcMain.handle('closeClientEditWnd', async (event) =>{
+
+  await reply2()
+  await editClientWindow.close()
+})
+//------------------------------------------------------------------------------------
+//                            INVOICE DETAIL WINDOW
+let invoiceWindow
+let invoiceObj
+
+//Open new window to edit product
+ipcMain.handle('invoiceWindow', async (event, data) => {
+
+  invoiceWindow = new BrowserWindow({
+    width: 500,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
+  
+  })
+
+  invoiceObj = data
+  // and load the index.html of the app.
+  invoiceWindow.loadFile('./src/components/invoices/invoiceDetails.html')  
+  
+})
+
+//Send the object to be edited to the edit window
+ipcMain.on('invoiceInfo', (event, arg) => {
+
+  event.returnValue = invoiceObj
+})
+
+
+//Close the edit client window when edit client button is clicked
+ipcMain.handle('closeInvoiceWnd', async (event) =>{
+
+  await invoiceWindow.close()
+})
+
+
+//------------------------------------------------------------------------------------
+//                           CLIENT PAYMENT HISTORY
+let cliHistoryWindow
+let cliObj2
+
+//Open new window to edit product
+ipcMain.handle('cliHistoryWindow', async (event, data) => {
+
+  cliHistoryWindow = new BrowserWindow({
+    width: 800,
+    height: 700,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
+  
+  })
+
+  // console.log(data)
+
+  cliObj2 = data
+  // and load the index.html of the app.
+  cliHistoryWindow.loadFile('./src/components/clients/clientHistory.html')  
+  
+})
+
+//Send the object to be edited to the edit window
+ipcMain.on('clientInfo2', (event, arg) => {
+  //console.log(arg) // prints "ping"
+  event.returnValue = cliObj2
+})
+
+
+//Close the edit client window when edit client button is clicked
+ipcMain.handle('closeHistoryWnd', async (event) =>{
+
+  await reply2()
+  await cliHistoryWindow.close()
+})
+
+
+
+//-------------------------------------------------------------------------------------
+//                               THERMAL PRINTER
+let win
+
+ipcMain.on('print', async (event, data) => {
+
+
+  
+  if(data){
+    console.log(data)
+
+    PosPrinter.print(data, {
+      printerName: 'POS-58',
+      silent: true,
+      preview: false,
+    }).catch(error => console.error(error))
+  }
+
+  // const data = [
+  //   {
+  //     type: 'text',
+  //     value: 'This is the value to print',
+  //     style: 'font-size: 16px; color: #3CAF50'
+  //   },
+  //   {
+  //     type: 'barCode',
+  //     value: 'HB4587896',
+  //     height: 12,                     // height of barcode, applicable only to bar and QR codes
+  //     width: 1,                       // width of barcode, applicable only to bar and QR codes
+  //     displayValue: true,             // Display value below barcode
+  //     fontsize: 8,
+  //  },{
+  //    type: 'qrCode',
+  //     value: 'https://github.com/Hubertformin/electron-pos-printer',
+  //     height: 55,
+  //     width: 55,
+  //     style: 'margin: 10 20px 20 20px'
+  //   }
+  // ]
+
   
 
-ipcMain.handle('closeWnd', async (event) =>{
-  popWindow.close()
-})
+//---------------------------------------------------------------------------------------
+  // win = new BrowserWindow({ 
+  //   width: 302,
+  //   height: 793, 
+  //   show: false,
+  //   webPreferences: {
+  //     nodeIntegration: true, 
+  //     contextIsolation: false,
+  //     enableRemoteModule: true,
+  //   },
+  
+  // });
+
+  // win.loadFile('./src/components/print.html');
+
+  // let printer = 'POS-58'
+
+  // const options = {
+  //     silent: true,
+  //     deviceName: printer,
+  //     pageSize: { height: 5000, width: 50000 }
+  // }
+
+  // //Print 
+  // win.webContents.print(options, () => {
+  //     //win = null;
+  //     // win.close()
+  //     console.log(options)
+
+  // });
+
+  // var info = fs.readFileSync('ticket.txt').toString();
+
+  // console.log("File: \n" + info)
+
+  // function sendPrint() {
+  //   printer.printDirect({
+  //     printer: 'POS-58',
+  //     data: info,
+  //     type: 'RAW',
+  //     success: function (jobID) {
+  //       console.log("ID: " + jobID);
+  //     },
+  //     error: function (err) {
+  //       console.log('printer module error: '+err);
+  //       throw err;
+  //     }
+  //   });
+  // }
+
+  // sendPrint()
+
+//------------------------------------------------------------------------------------------------------------
+  // console.log("Trying to print")
+
+  // const path = require("path");
+  
+  // const options = {
+  //   preview: true,               // Preview in window or print
+  //   printerName: 'POS-58',        // printerName: string, check with webContent.getPrinters()
+  //   silent: true,
+  //   width: '170px',               //  width of content body
+  //   margin: '0 0 0 0',            // margin of content body
+  //   copies: 1,                    // Number of copies to print
+  //   timeOutPerLine: 400,
+  //   pageSize: { height: 301000, width: 71000 }  // page size
+  // }
+  
+  // const data = [
+  //   // {
+  //   //   type: 'image',                                       
+  //   //   path: path.join(__dirname, 'assets/banner.png'),     // file path
+  //   //   position: 'center',                                  // position of image: 'left' | 'center' | 'right'
+  //   //   width: '60px',                                           // width of image in px; default: auto
+  //   //   height: '60px',                                          // width of image in px; default: 50 or '50px'
+  //   // },
+  //   {
+  //       type: 'text',                                       // 'text' | 'barCode' | 'qrCode' | 'image' | 'table
+  //       value: 'SAMPLE HEADING',
+  //       style: `text-align:center;`,
+  //       css: {"font-weight": "700", "font-size": "18px"}
+  //   },
+  //   {
+  //       type: 'text',                       // 'text' | 'barCode' | 'qrCode' | 'image' | 'table'
+  //       value: 'Secondary text',
+  //       style: `text-align:left;color: red;`,
+  //       css: {"text-decoration": "underline", "font-size": "10px"}
+  //   },
+  //   {
+  //       type: 'barCode',
+  //       value: 'HB4587896',
+  //       height: 12,                     // height of barcode, applicable only to bar and QR codes
+  //       width: 1,                       // width of barcode, applicable only to bar and QR codes
+  //       displayValue: true,             // Display value below barcode
+  //       fontsize: 8,
+  //   },
+  // ]
+ 
+  // PosPrinter.print(data, options)
+  // .then(() => {})
+  // .catch((error) => {
+  //     console.error(error);
+  //   });
+  
+
+});
+
+//------------------------------------------------------------------------------------

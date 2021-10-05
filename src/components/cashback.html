@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+
+        <!-- The following is causing problems when trying to add another html file -->
+        <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
+        
+        <link rel="stylesheet" href="./styles.css">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+
+        <!-- Bootstrap Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src='../../node_modules/jquery/dist/jquery.min.js'></script>
+        <script src='../../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+
+        <!-- Font Awesome -->
+        <script src='../../node_modules/@fortawesome/fontawesome-free/js/all.js'></script>
+
+        <title>TTComm Punto De Venta</title>
+    
+    </head>
+
+    <body>
+ 
+        <div class="container-fluid justify-content-center">
+
+            <div class="row mt-4 justify-content-center">
+                <div class="d-flex justify-content-center">
+                    <h4>Cambio: </h4>
+                    <h4 id="cBack">$0.00</h4>
+                </div>
+                <div class="row">
+                    <button type="button" class="btn btn-secondary" onclick="ready()">Listo!</button>
+                </div>
+                
+            </div>
+
+        </div>
+        
+        <script src='../actions/cashback.js'></script>
+            
+    </body>
+</html>

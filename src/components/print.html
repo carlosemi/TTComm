@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+
+        <style>
+            @page {
+                size: auto;   /* auto is the initial value */
+                margin: 0;  /* this affects the margin in the printer settings */
+                height: auto !important;
+                width: 58mm !important;
+            }
+
+            body {
+            display: block;
+            left: 0;
+            top: 0;
+            visibility: initial !important;
+            padding: 1px !important;
+            background: white;
+            border: none;
+            outline: none;
+            margin-left: 5mm;
+            height: auto !important;
+            width: 58mm !important;
+            height: auto !important;
+            overflow: visible !important;
+            }
+        </style>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+
+        <!-- Bootstrap Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src='../../node_modules/jquery/dist/jquery.min.js'></script>
+        <script src='../../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+
+    </head>
+
+    <body>
+            
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <p>TTCOMM</p>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <table id="prt">
+                    <thead>
+                        <tr>
+                        <th scope="col">Sku/Id:  |</th>
+                        <th scope="col">#    |</th>
+                        <th scope="col">Precio</th>
+                        </tr>
+                    </thead>
+        
+                    <tbody>
+        
+                    </tbody>
+        
+                </table>
+            </div>
+        </div>
+        
+
+        <div class="row border-top">
+            <div class="col-6 text-end">
+            <p>Total:</p>
+            </div>
+            <div class="col-6">
+            <p id="totl">$0.00</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 text-end">
+            <p>IVA:</p>
+            </div>
+            <div class="col-6">
+            <p id="tx">$0.00</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 text-end">
+            <p>Total + IVA:</p>
+            </div>
+            <div class="col-6">
+            <p id="totlAndTx">$0.00</p>
+            </div>
+        </div>
+
+
+        <script src="../actions/printTicket.js"></script>
+    </body>
+
+</html>

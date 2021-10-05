@@ -10,44 +10,79 @@ const { ipcRenderer } = require('electron');
 let $ = jQuery = require('jquery');
 const axios = require('axios')
 const fs = require('fs')
+const onScan = require('onscan.js')
+const path = require('path')
+const {PosPrinter} = require('electron').remote.require("electron-pos-printer");
+
+
+async function printTicket() {
+
+  ipcRenderer.sendSync('print', '')
+}
 
 //Connect to the server
 const connectSRV = require('./config/srv')
 
-//Global List of the cart
-var cartList = new Array;
-
+//Get the authorized token for the user to make API calls
+const getToken = require('./config/token')
 
 //This functions change the main component based on the menu button clicks
 $(function () {
-  $("#main").load("./src/components/ventas.html");
+  $("#main").load("./src/components/sells.html");
 });
 
 function vntFunction() {
-  $("#main").load("./src/components/ventas.html");
+  $("#main").load("./src/components/sells.html")
 }
 
 function prdFunction() {
-  $("#main").load("./src/components/productos.html");
+  $("#main").load("./src/components/products.html");
 }
 
 function cliFunction() {
-  $("#main").load("./src/components/clientes.html");
+  $("#main").load("./src/components/clients.html");
 }
 
 function fctFunction() {
-  $("#main").load("./src/components/facturas.html");
+  $("#main").load("./src/components//invoices/invoices.html");
 }
 
 function rptFunction() {
-  $("#main").load("./src/components/reportes.html");
+  $("#main").load("./src/components/reports.html");
+}
+
+function confFunction() {
+  $("#main").load("./src/components/config/config.html")
 }
 
 
-//Open new Window when Add Product is clicked
-function productWindow() {
-  ipcRenderer.invoke('newWindow').then((result) => {
-    console.log(result)
-  })
-}
+//                           SCANNER FUNCTIONALITY
 
+//This function detects scanner input 
+onScan.attachTo(document, {
+  suffixKeyCodes: [13], // enter-key expected at the end of a scan
+  reactToPaste: true, // Compatibility to built-in scanners in paste-mode (as opposed to keyboard-mode)
+  onScan: function(sCode, iQty) { // Alternative to document.addEventListener('scan')
+      //console.log('Scanned: ' + iQty + 'x ' + sCode); 
+      srcProduct(sCode)
+  },
+  // onKeyDetect: function(iKeyCode){ // output all potentially relevant key events - great for debugging!
+  //     console.log('Pressed: ' + iKeyCode);
+  // }
+});
+
+
+//When the edit product or add product window is closed update the products table, this
+//comes from the main process
+ipcRenderer.on('reply2', function (evt, message) {
+  //console.log(message); // Returns: {'SAVED': 'File Saved'}
+  getCli()
+});
+
+
+//When the edit product or add product window is closed update the products table, this
+//comes from the main process
+ipcRenderer.on('asynchronous-message', function (evt, message) {
+  //console.log(message); // Returns: {'SAVED': 'File Saved'}
+  getPrds()
+});

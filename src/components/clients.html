@@ -1,0 +1,80 @@
+<div class="divheight">
+
+  <script src="./src/actions/clients.js"></script>
+
+  <!-- Show the clients -->
+  <script>getCli()</script>
+
+  <style>
+    .clickable-row.active{
+      background-color: #6262ff;
+      color: white;
+    }
+
+    .clickable-row.active td{
+      color: white;
+    }
+  </style>
+
+  <div class="position-fixed w-100 border-top mt-2" style="background-color: white;">
+
+      <h2 class="mt-2">Clientes</h2>
+
+      <!-- Half of the column containing product table -->
+
+      <!-- <div class="col-12 d-flex flex-column"> -->
+        
+          <div class="row mt-2 border-top justify-content-start no-gutters">  
+            <div class="col-12">
+              <h4>Lista de Clientes</h4>
+              <button type="button" class="btn btn-success" onclick="payment()">PAGO</button>
+              <button type="button" class="btn btn-primary" onclick="creditPurchase()">Credito</button>
+              <button type="button" class="btn btn-info" onclick="cliHistory()">Estado de Cuenta</button>
+              <button type="button" class="btn btn-outline-success" onclick="addClient()">Agregar Cliente</button>
+              <button type="button" class="btn btn-outline-warning" onclick="editClient()">Editar Cliente</button>
+              <button type="button" class="btn btn-outline-danger" onclick="deleteCli()">Borrar Cliente</button>
+              <button type="button" class="btn btn-outline-info" onclick="getCli()">Lista Completa</button>
+            </div>
+            
+          </div>   
+
+          <div class="row mt-2 pb-2 border-bottom border-top justify-content-start no-gutters">
+            <div class="col-12 mt-3">
+              <label>Buscar por Nombre: </label>
+              <input id="src" type="text"/>
+              <button type="button" class="btn btn-secondary" onclick="searchById()">Buscar por Id</button>
+              <input id="src2" type="text"/>
+            </div>
+          </div>
+      <!-- </div> -->
+        
+  </div>
+          
+  <div class="row" style="padding-top:220px; padding-left: 10px;">
+      
+      <table id="cli" class="table table-striped table-hover table-bordered">
+          
+        <thead>
+          <tr>
+            <div class="border-right">
+              
+            </div>
+            <th scope="col">Id</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Plan</th>
+            <th scope="col">Ubicacion</th>
+            <th scope="col">Activo</th>
+          </tr>
+        </thead>
+
+        <tbody id="cliBdyId">
+
+        </tbody>
+
+      </table>    
+  </div>
+        
+      
+
+</div>
+  <!-- Div class body ends -->

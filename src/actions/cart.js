@@ -1,4 +1,6 @@
 
+//                       TABLE AND ROW FUNCTIONALITY
+
 //This changes the table row's class when clicked to change its background color to red to be deleted
 $("#vnt").on('click', '.clickable-row', function(event){
 
@@ -41,27 +43,29 @@ $("#vnt").on('click', '.clickable-row', function(event){
 
 })
 
+//                            CART FUNCTIONALITY
 
 //Add, update and show Total
 function cart() {
 
     var table = document.getElementById('vnt');
     var row;
-    var totalCost = 0.00;
-
-
+    
     //First empty the items in the cart at init of the function call. 
     //This is done so there are no repetition of items when you add a new item
     $('#vntBdyId').empty()
 
     //If the file is empty, ommit the reading so there is no JSON syntax error. Else read the file 
     if((fs.readFileSync('./src/db/cart.json').length === 0)){
+        console.log("Returned null")
         return null
     }
     else{
         // read JSON object from local cart db to show 
         fs.readFile('./src/db/cart.json', 'utf-8', (err, data) => {
+
             if (err) {
+                console.log("This is the error")
                 throw err;
             }
 
@@ -71,7 +75,12 @@ function cart() {
             // parse JSON object
             var obj = JSON.parse(data);
 
-            var sku, description, price, items, quantity;
+            var totalCost = 0.00;
+            var TAX = 0.16;
+            var totalAndTax = 0.00;
+            var totalTax = 0.00;
+
+            var sku, description, price, items, tax, weight, quantity;
 
             var i = 0;
 
@@ -81,6 +90,8 @@ function cart() {
                 description = obj[x].description
                 price = obj[x].price
                 items = obj[x].items
+                tax = obj[x].tax
+                weight = obj[x].weight
                 quantity = obj[x].quantity
 
                 //console.log("Num of Items: " + items)
@@ -91,6 +102,13 @@ function cart() {
 
                     //Add the total of each item to display
                     totalCost = totalCost + price
+
+                    //console.log("Tax " + tax)
+                    //If items contains tax added to the totalTax
+                    if(tax){
+
+                        totalTax = totalCost * TAX
+                    }
                 }
 
             
@@ -117,20 +135,56 @@ function cart() {
 
             //Write the sum of the total cost to the Ticket
             $("#totl").text("$" + totalCost.toFixed(2))
+
+            //Write the tax of the total cost to the ticket
+            //var totalTax = totalCost * TAX
+            $("#tx").text("$" + totalTax.toFixed(2))
+
+            //Write the sum of the total cost + tax to the ticket
+            totalAndTax = totalCost + totalTax
+
+            $("#totlAndTx").text("$" + totalAndTax.toFixed(2))
+            $("#cashInput").attr('min', totalAndTax.toFixed(2))
         });
     }
 
-  
+}
+
+async function deleteCart(){
+
+    //Delete the db items 
+    fs.truncate('./src/db/cart.json', 0, function(){console.log("cart errased")})
+
+    //RE add the brackets of the json array after the file has been erased
+    fs.writeFile('./src/db/cart.json', "[]", (err) => {
+        if(err){
+            throw err;
+        }
+        console.log("Re added brackets");
+    });
+
+    //Call the cart fucntion to display again
+    cart()
+
+
+
 }
 
 //Search and add Product to the cart
-async function srcProduct() { 
+async function srcProduct(SKU) { 
 
     const ip = connectSRV();
+    const token = getToken();
 
     //console.log(document.getElementById('srcPrd').value)
 
-    sku = document.getElementById('srcPrd').value;
+    if(SKU){
+        sku = Number(SKU)
+    }
+    else{
+        sku = document.getElementById('srcPrd').value;
+    }
+    
     var table = document.getElementById('vnt');
     var row;
 
@@ -139,16 +193,22 @@ async function srcProduct() {
         url: `${ip}api/pos/getProduct/${sku}`,
         headers: {
             'content-type': 'application/json',
-            'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+            'x-auth-token': token,
         }
       })
         .then(function (response) {
 
-            //console.log(response.data)
+            console.log(response.data)
 
-            const data = {sku: response.data.sku, description: response.data.description, price: response.data.price, items: 1, quantity: response.data.numOfItems}
+            //If there are no items in existence, don't add to the cart
+            if(response.data.numOfItems === 0){
+                console.log("No available items")
+                return 
+            }
 
-            console.log(data)
+            const data = {sku: response.data.sku, description: response.data.description, price: response.data.price, tax: response.data.tax, weight: response.data.weight, items: 1, quantity: response.data.numOfItems}
+
+            //console.log(data)
 
             //console.log(fs.readFileSync('./src/db/cart.json').length)
 
@@ -171,6 +231,29 @@ async function srcProduct() {
                 let itemsJson = fs.readFileSync('./src/db/cart.json', 'utf-8')
 
                 let items = JSON.parse(itemsJson)
+
+                //Check to see if items is already on the cart, if so just increase the number of items
+                for(x in items){
+
+                    if(items[x].sku === data.sku){
+
+                        items[x].items = items[x].items + 1
+                        //Check that the items does not surpase the amount avaiable
+                        if(items[x].items <= items[x].quantity){
+                            
+                            itemsJson = JSON.stringify(items)
+
+                            fs.writeFileSync('./src/db/cart.json', itemsJson, 'utf-8')
+
+                            cart()
+
+                            return
+                        }else{
+                            return
+                        }
+
+                    }
+                }
 
                 items.push(data)
 
@@ -232,8 +315,178 @@ async function deleteItem(){
 }
 
 //Charge
-async function charge() {
+var cashCharge = async() => {
 
+    const ip = connectSRV();
+    const token = getToken();
+
+    var cash = $("#cashInput").val()
+    var cashBack;
+
+    var ticketData = [
+        {
+            type: 'text',
+            value: 'TTCOMM',
+            style: 'font-size: 20px; color: black;'
+        },
+        {
+            type: 'text',
+            value: 'Gracias por su preferencia!',
+            style: 'font-size: 18px; color: #3CAF50'
+        },
+    ]
+
+    var totalTax = $("#totlAndTx").text()
+    totalAndTax = totalTax.replace('$','')
+    console.log("Total and Tax: " + totalAndTax)
+    console.log(typeof totalAndTax)
+    console.log('Cash: ' + cash)
+
+    if(cash < totalAndTax && totalAndTax == 0){
+        console.log("Invalid Amount")
+        //Get out of charging
+        return 
+    }
+    else{
+        
+        cashBack = cash - totalAndTax
+        console.log("Cashback: " + cashBack.toFixed(2))
+
+        // read JSON object from local cart db to show 
+        await fs.readFile('./src/db/cart.json', 'utf-8', async (err, data) => {
+            if (err) {
+                throw err;
+            }
+
+            var numOfTickets
+            
+
+            //Do a call to get the number of ticket documents to increment the id number
+            await axios({
+                method: 'get',
+                url: `${ip}api/pos/numOfTickets`,
+                headers: {
+                    'content-type': 'application/json',
+                    'x-auth-token': token,
+                }
+            })
+            .then(async function (response){
+
+                console.log("Response data: " + response.data)
+                numOfTickets = response.data
+
+                // parse JSON object
+                var obj = JSON.parse(data);
+                var sku;
+
+                //Write the sum of the total cost to the Ticket
+                var total = $("#totl").text()
+
+                //Write the tax of the total cost to the ticket
+                var totalTax = $("#tx").text()
+
+                var skus = []
+
+                var skuDataArray = []
+                var skuDataObj = {}
+
+                for(var x in obj){
+                    sku = obj[x].sku
+                    skus.push(sku)
+                    console.log(sku)
+
+                    //Sku obj
+                    skuDataObj = {
+                        type: 'text',
+                        value: sku,
+                        style: 'font-size: 18px; color: black;'
+                    }
+
+                    console.log(skuDataObj)
+
+                    console.log("THiz happens")
+                    await ticketData.push(skuDataObj)
+                }
+
+                console.log(skus)
+                totalTax = totalTax.replace('$','')
+                total = total.replace('$', '')
+
+                console.log(totalTax)
+
+                //Increment the number of tickets
+                numOfTickets = numOfTickets + 1
+                
+
+                console.log(numOfTickets)
+
+                await axios({
+                    method: 'post',
+                    url: `${ip}api/pos/addTicket`,
+                    headers: {
+                        'content-type': 'application/json',
+                        'x-auth-token': token,
+                    },
+                    data: {
+                        id: numOfTickets,
+                        products: [skus],
+                        tax: totalTax,
+                        total: total
+                    }
+                })
+                .then(async function (response) {
+        
+                    console.log(response.data)
+
+                    if(response.data === "Success"){
+
+                        //Update the quantity of each item
+                        for(var i in obj){
+
+                            await axios({
+                                method: 'post',
+                                url: `${ip}api/pos/updateProduct/${obj[i].sku}`,
+                                headers: {
+                                    'content-type': 'application/json',
+                                    'x-auth-token': token,
+                                },
+                                data: {
+                                    numBought: obj[i].items
+                                }
+                            }).then(function (response) {
+                                console.log(response)
+                            })
+                        }
+                        
+                    }  
+                });
+            });           
+        });
+
+        await ipcRenderer.invoke('cashbackWindow', cashBack).then((result) => {
+            // console.log(result)
+        })
+                 
+        $("#totl").text("$0.00")
+        $("#tx").text("$0.00")
+        $("#totlAndTx").text("$0.00")
+
+        console.log("Ticket DATA in 1st: " + ticketData)
+        //Print ticket
+        await printTicket(ticketData)
+
+        //If the call was success, erase everything in the cart 
+        await deleteCart()
+
+    }
 }
 
 //Print Ticket
+
+var printTicket = async (ticketData) => {
+
+
+    console.log("PrintTicketCalled")
+    console.log("DATA in funct: " + ticketData)
+    ipcRenderer.sendSync('print', ticketData)
+}

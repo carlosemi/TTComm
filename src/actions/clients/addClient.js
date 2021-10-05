@@ -4,42 +4,36 @@ const connectSRV = require('../../../config/srv')
 const getToken = require('../../../config/token')
 const $ = require('jquery')
 
-
 console.log('Current directory: ' + process.cwd());
 
-async function addPrd() { 
+async function addCli() { 
 
   const ip = connectSRV();
+
   const token = getToken();
 
-  console.log('addPrdcall This')
+  console.log('addCli This')
 
-  var code = document.getElementById("Codigo").value;
-  var descr = document.getElementById("Descripcion").value;
-  var prc = document.getElementById("Precio").value;
-  var tx = document.getElementById("Tax").checked;
-  var exis = document.getElementById("Existencia").value;
-  var wgh = document.getElementById("Weight").checked;
+  var id = document.getElementById("id").value;
+  var name = document.getElementById("name").value;
+  var plan = document.getElementById("plan").value;
+  var location = document.getElementById("location").value;
 
-  console.log(code)
-  console.log(descr)
-  console.log(prc)
-  console.log(tx)
-  console.log(exis)
-  console.log(wgh)
+  console.log(id)
+  console.log(name)
+  console.log(plan)
+  console.log(location)
 
   await axios({
     method: 'post',
-    url: `${ip}api/pos/addProduct`,
+    url: `${ip}api/clients`,
     headers: {'content-type': 'application/json' , 
                 'x-auth-token': token},
     data: {
-      sku: code,
-      description: descr,
-      price: prc,
-      tax: tx,
-      numOfItems: exis,
-      weight: wgh
+      name: name,
+      id: id,
+      plan: plan,
+      location: location
     }
   })
   .then(function (response){
@@ -51,7 +45,7 @@ async function addPrd() {
       //Wait 2 seconds before closing the window
       setTimeout(function () {
         // console.log("waited 3 seconds")
-        ipcRenderer.invoke('closeWnd').then((result) => {
+        ipcRenderer.invoke('closeCliWnd').then((result) => {
           
         })
       }, 2000)
@@ -60,6 +54,4 @@ async function addPrd() {
     }
   })
 
-
-  
 }

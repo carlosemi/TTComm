@@ -1,9 +1,11 @@
 const {ipcRenderer} = require('electron');
 const axios = require('axios');
 const connectSRV = require('../../../config/srv')
+const getToken = require('../../../config/token')
 const $ = require('jquery')
 
 const ip = connectSRV();
+const token = getToken();
 var id = ipcRenderer.sendSync('paymentId', '');
 
 console.log(id)
@@ -16,7 +18,7 @@ axios({
     method: 'get',
     url: `${ip}api/clients/client/${id}`,
     headers: {'content-type': 'application/json' , 
-                'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'},
+                'x-auth-token': token},
  
 })
 .then(function (response){
@@ -41,7 +43,7 @@ axios({
     method: 'get',
     url: `${ip}api/clients/creditTotal/${id}`,
     headers: {'content-type': 'application/json' , 
-                'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'},
+                'x-auth-token': token},
  
 })
 .then(function (response){
@@ -88,7 +90,7 @@ const payment = async () => {
                 url: `${ip}api/pos/numOfTickets`,
                 headers: {
                     'content-type': 'application/json',
-                    'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+                    'x-auth-token': token
                 }
             })
             .then(async function (response){
@@ -109,7 +111,7 @@ const payment = async () => {
                     url: `${ip}api/clients/clientPayment/${id}`,
                     headers: {
                         'content-type': 'application/json',
-                        'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+                        'x-auth-token': token
                     },
                     data: {
                         paymentMonth: monthPayment
@@ -129,7 +131,7 @@ const payment = async () => {
                     url: `${ip}api/pos/addTicket`,
                     headers: {
                         'content-type': 'application/json',
-                        'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+                        'x-auth-token': token
                     },
                     data: {
                         id: numOfTickets,
@@ -175,7 +177,7 @@ const creditPayment = async() => {
             method: 'post',
             url: `${ip}api/clients/creditPayment/${id}`,
             headers: {'content-type': 'application/json' , 
-                        'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'},
+                        'x-auth-token': token},
             data: {
                 payment: creditPayment
             }

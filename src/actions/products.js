@@ -132,6 +132,7 @@ async function editPrd() {
 async function deletePrd(){
 
   const ip = connectSRV();
+  const token = getToken();
 
   // console.log($("#prd")[0].rows)
   // console.log($("#prd")[0].rows[1].cells[0].innerHTML)
@@ -153,7 +154,7 @@ async function deletePrd(){
         url: `${ip}api/pos/deleteProduct`,
         headers: {
           'content-type': 'application/json',
-          'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+          'x-auth-token': token
         },
         data: {
           sku: $("#prd")[0].rows[x].cells[0].innerHTML
@@ -176,7 +177,8 @@ var searchBySku = async() => {
   var sku = document.getElementById("sku").value;
 
   const ip = connectSRV();
-  
+  const token = getToken();
+
   var table = document.getElementById('prd');
   var row;
 
@@ -189,7 +191,7 @@ var searchBySku = async() => {
     url: `${ip}api/pos/getProduct/${sku}`,
     headers: {
       'content-type': 'application/json',
-      'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+      'x-auth-token': token
     }
   })
   .then(function (response) {
@@ -236,6 +238,7 @@ $("#src").keypress(async function() {
   var name = document.getElementById("src").value;
 
   const ip = connectSRV();
+  const token = getToken();
   
   var table = document.getElementById('prd');
   var row;
@@ -249,7 +252,7 @@ $("#src").keypress(async function() {
     url: `${ip}api/pos/getProduct/name/${name}`,
     headers: {
       'content-type': 'application/json',
-      'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+      'x-auth-token': token
     }
   })
   .then(function (response) {

@@ -1,6 +1,7 @@
 const {ipcRenderer} = require('electron');
 const axios = require('axios');
 const connectSRV = require('../../../config/srv')
+const getToken = require('../../../config/token')
 const $ = require('jquery')
 
 
@@ -9,6 +10,7 @@ console.log('Current directory: ' + process.cwd());
 async function addPrd() { 
 
   const ip = connectSRV();
+  const token = getToken();
 
   console.log('addPrdcall This')
 
@@ -30,7 +32,7 @@ async function addPrd() {
     method: 'post',
     url: `${ip}api/pos/addProduct`,
     headers: {'content-type': 'application/json' , 
-                'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'},
+                'x-auth-token': token},
     data: {
       sku: code,
       description: descr,

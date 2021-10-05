@@ -1,9 +1,12 @@
 const {ipcRenderer} = require('electron');
 const axios = require('axios');
 const connectSRV = require('../../../config/srv')
+const getToken = require('../../../config/token')
 const $ = require('jquery')
 
 const ip = connectSRV();
+const token = getToken();
+
 var id = ipcRenderer.sendSync('paymentId', '');
 
 console.log(id)
@@ -15,7 +18,7 @@ axios({
     method: 'get',
     url: `${ip}api/clients/client/${id}`,
     headers: {'content-type': 'application/json' , 
-                'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'},
+                'x-auth-token': token},
  
 })
 .then(function (response){
@@ -45,7 +48,7 @@ const creditPurchase = async() => {
         method: 'post',
         url: `${ip}api/clients/creditPurchase/${id}`,
         headers: {'content-type': 'application/json' , 
-                    'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'},
+                    'x-auth-token': token},
         data: {
             description: description,
             amount: cost

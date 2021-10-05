@@ -15,7 +15,8 @@ $("#invoiceTbl").on('click', '.clickable-row', function(event){
 var getInvoices = async() => {
 
     const ip = connectSRV();
-  
+    const token = getToken();
+
     var table = document.getElementById('invoiceTbl');
     var row;
 
@@ -28,7 +29,7 @@ var getInvoices = async() => {
       url: `${ip}api/pos/tickets`,
       headers: {
         'content-type': 'application/json',
-        'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+        'x-auth-token': token
       }
     })
       .then(function (response) {
@@ -112,7 +113,8 @@ var invoiceDetail = async() => {
 var getInvoicesByDate = async() => {
 
     const ip = connectSRV();
-  
+    const token = getToken();
+
     var table = document.getElementById('invoiceTbl');
     var row;
     var searchDate = document.getElementById('searchDate').value
@@ -128,7 +130,7 @@ var getInvoicesByDate = async() => {
       url: `${ip}api/pos/tickets`,
       headers: {
         'content-type': 'application/json',
-        'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+        'x-auth-token': token
       }
     })
       .then(function (response) {
@@ -191,7 +193,8 @@ var getInvoicesByDate = async() => {
 var getInvoiceById = async() => {
 
     const ip = connectSRV();
-  
+    const token = getToken();
+
     var table = document.getElementById('invoiceTbl');
     var row;
     var ticketId = document.getElementById('searchId').value
@@ -207,7 +210,7 @@ var getInvoiceById = async() => {
       url: `${ip}api/pos/tickets/${ticketId}`,
       headers: {
         'content-type': 'application/json',
-        'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+        'x-auth-token': token
       }
     })
     .then(function (response) {

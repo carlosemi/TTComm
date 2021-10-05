@@ -1,9 +1,11 @@
 const {ipcRenderer} = require('electron');
 const axios = require('axios');
 const connectSRV = require('../../../config/srv')
+const getToken = require('../../../config/token')
 const $ = require('jquery')
 
 const ip = connectSRV();
+const token = getToken();
 
 var cli = ipcRenderer.sendSync('clientInfo', '');
 
@@ -26,7 +28,7 @@ async function editCli(){
     method: 'post',
     url: `${ip}api/clients`,
     headers: {'content-type': 'application/json' , 
-                'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'},
+                'x-auth-token': token},
     data: {
         name: client,
         id: cli.id,

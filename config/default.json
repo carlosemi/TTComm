@@ -1,4 +1,5 @@
 {
     "ip": "http://54.85.207.124:5000/",
-    "localip": "http://localhost:5000/"
+    "localip": "http://localhost:5000/",
+    "x-auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs"
 }

@@ -16,6 +16,7 @@ $("#cli").on('click', '.clickable-row', function(event){
 async function getCli () {
 
     const ip = connectSRV();
+    const token = getToken()
   
     var table = document.getElementById('cli');
     var row;
@@ -29,7 +30,7 @@ async function getCli () {
       url: `${ip}api/clients`,
       headers: {
         'content-type': 'application/json',
-        'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+        'x-auth-token': token,
       }
     })
       .then(function (response) {
@@ -226,7 +227,7 @@ var editClient = async() => {
 var deleteCli = async() =>{
 
   const ip = connectSRV();
-
+  const token = getToken();
 
   //X is rows.length - 1 because the head row is also counted
   var lng = $("#cli")[0].rows.length - 1;
@@ -246,7 +247,7 @@ var deleteCli = async() =>{
         url: `${ip}api/clients`,
         headers: {
           'content-type': 'application/json',
-          'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+          'x-auth-token': token
         },
         data: {
           id: $("#cli")[0].rows[x].cells[0].innerHTML
@@ -299,7 +300,8 @@ var searchByName = async() => {
   var name = document.getElementById("src").value;
 
   const ip = connectSRV();
-  
+  const token = getToken();
+
   var table = document.getElementById('cli');
   var row;
 
@@ -312,7 +314,7 @@ var searchByName = async() => {
     url: `${ip}api/clients/client/name/${name}`,
     headers: {
       'content-type': 'application/json',
-      'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+      'x-auth-token': token
     }
   })
   .then(function (response) {
@@ -351,7 +353,8 @@ var searchById = async() => {
   var id = document.getElementById("src2").value;
 
   const ip = connectSRV();
-  
+  const token = getToken();
+
   var table = document.getElementById('cli');
   var row;
 
@@ -365,7 +368,7 @@ var searchById = async() => {
     url: `${ip}api/clients/client/${id}`,
     headers: {
       'content-type': 'application/json',
-      'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+      'x-auth-token': token
     }
   })
   .then(function (response) {
@@ -405,7 +408,8 @@ $("#src").keypress(async function() {
   var name = document.getElementById("src").value;
 
   const ip = connectSRV();
-  
+  const token = getToken();
+
   var table = document.getElementById('cli');
   var row;
 
@@ -420,7 +424,7 @@ $("#src").keypress(async function() {
     url: `${ip}api/clients/client/name/${name}`,
     headers: {
       'content-type': 'application/json',
-      'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+      'x-auth-token': token
     }
   })
   .then(function (response) {

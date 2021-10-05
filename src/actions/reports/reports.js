@@ -3,6 +3,7 @@
 var getMonthReport = async() => {
 
     const ip = connectSRV();
+    const token = getToken();
 
     //Get the Brute Month Report
     await axios({
@@ -10,7 +11,7 @@ var getMonthReport = async() => {
       url: `${ip}api/pos/getInvoice/monthEarning`,
       headers: {
         'content-type': 'application/json',
-        'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+        'x-auth-token': token
       }
     })
       .then(function (response) {
@@ -32,7 +33,7 @@ var getMonthReport = async() => {
         url: `${ip}api/pos/getInvoice/netMonthEarning`,
         headers: {
           'content-type': 'application/json',
-          'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+          'x-auth-token': token
         }
       })
         .then(function (response) {
@@ -54,7 +55,7 @@ var getMonthReport = async() => {
         url: `${ip}api/pos/getInvoice/monthTaxes`,
         headers: {
           'content-type': 'application/json',
-          'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+          'x-auth-token': token
         }
       })
         .then(function (response) {
@@ -77,13 +78,14 @@ var getMonthReport = async() => {
 var getYearReport = async() => {
 
     const ip = connectSRV();
+    const token = getToken();
 
     await axios({
       method: 'get',
       url: `${ip}api/pos/getInvoice/yearEarning`,
       headers: {
         'content-type': 'application/json',
-        'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+        'x-auth-token': token
       }
     })
       .then(function (response) {
@@ -105,7 +107,7 @@ var getYearReport = async() => {
         url: `${ip}api/pos/getInvoice/netYearEarning`,
         headers: {
           'content-type': 'application/json',
-          'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+          'x-auth-token': token
         }
       })
         .then(function (response) {
@@ -126,13 +128,14 @@ var getYearReport = async() => {
 var getDayReport = async() => {
 
     const ip = connectSRV();
+    const token = getToken();
 
     await axios({
       method: 'get',
       url: `${ip}api/pos/getInvoice/dayEarning`,
       headers: {
         'content-type': 'application/json',
-        'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+        'x-auth-token': token
       }
     })
       .then(function (response) {

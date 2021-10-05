@@ -23,6 +23,8 @@ async function printTicket() {
 //Connect to the server
 const connectSRV = require('./config/srv')
 
+//Get the authorized token for the user to make API calls
+const getToken = require('./config/token')
 
 //This functions change the main component based on the menu button clicks
 $(function () {

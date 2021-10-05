@@ -1,6 +1,7 @@
 const {ipcRenderer} = require('electron');
 const axios = require('axios');
 const connectSRV = require('../../../config/srv')
+const getToken = require('../../../config/token')
 const $ = require('jquery')
 
 var prd = ipcRenderer.sendSync('synchronous-message', '');
@@ -33,6 +34,7 @@ else{
 async function editPrd(sku){
 
     const ip = connectSRV();
+    const token = getToken();
 
     var code = document.getElementById("Codigo").innerHTML;
     var descr = document.getElementById("Descripcion").value;
@@ -54,7 +56,7 @@ async function editPrd(sku){
     method: 'post',
     url: `${ip}api/pos/addProduct`,
     headers: {'content-type': 'application/json' , 
-                'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'},
+                'x-auth-token': token},
     data: {
         sku: code,
         description: descr,

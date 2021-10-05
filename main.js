@@ -30,7 +30,8 @@ function createWindow () {
 
   })
 
-  console.log(mainWindow.webContents.getPrinters())
+  //Print out in the console the printers available
+  // console.log(mainWindow.webContents.getPrinters())
 
   mainWindow.maximize()
 
@@ -433,35 +434,43 @@ ipcMain.handle('closeHistoryWnd', async (event) =>{
 //                               THERMAL PRINTER
 let win
 
-ipcMain.on('print', async (event, arg) => {
+ipcMain.on('print', async (event, data) => {
 
-  const data = [
-    {
-      type: 'text',
-      value: 'This is the value to print',
-      style: 'font-size: 16px; color: #3CAF50'
-    },
-    {
-      type: 'barCode',
-      value: 'HB4587896',
-      height: 12,                     // height of barcode, applicable only to bar and QR codes
-      width: 1,                       // width of barcode, applicable only to bar and QR codes
-      displayValue: true,             // Display value below barcode
-      fontsize: 8,
-   },{
-     type: 'qrCode',
-      value: 'https://github.com/Hubertformin/electron-pos-printer',
-      height: 55,
-      width: 55,
-      style: 'margin: 10 20px 20 20px'
-    }
-  ]
 
-  PosPrinter.print(data, {
-    printerName: 'POS-58',
-    silent: true,
-    preview: true,
-  }).catch(error => console.error(error))
+  
+  if(data){
+    console.log(data)
+
+    PosPrinter.print(data, {
+      printerName: 'POS-58',
+      silent: true,
+      preview: false,
+    }).catch(error => console.error(error))
+  }
+
+  // const data = [
+  //   {
+  //     type: 'text',
+  //     value: 'This is the value to print',
+  //     style: 'font-size: 16px; color: #3CAF50'
+  //   },
+  //   {
+  //     type: 'barCode',
+  //     value: 'HB4587896',
+  //     height: 12,                     // height of barcode, applicable only to bar and QR codes
+  //     width: 1,                       // width of barcode, applicable only to bar and QR codes
+  //     displayValue: true,             // Display value below barcode
+  //     fontsize: 8,
+  //  },{
+  //    type: 'qrCode',
+  //     value: 'https://github.com/Hubertformin/electron-pos-printer',
+  //     height: 55,
+  //     width: 55,
+  //     style: 'margin: 10 20px 20 20px'
+  //   }
+  // ]
+
+  
 
 //---------------------------------------------------------------------------------------
   // win = new BrowserWindow({ 

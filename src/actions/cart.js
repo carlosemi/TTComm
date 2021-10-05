@@ -174,6 +174,7 @@ async function deleteCart(){
 async function srcProduct(SKU) { 
 
     const ip = connectSRV();
+    const token = getToken();
 
     //console.log(document.getElementById('srcPrd').value)
 
@@ -192,7 +193,7 @@ async function srcProduct(SKU) {
         url: `${ip}api/pos/getProduct/${sku}`,
         headers: {
             'content-type': 'application/json',
-            'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+            'x-auth-token': token,
         }
       })
         .then(function (response) {
@@ -314,11 +315,26 @@ async function deleteItem(){
 }
 
 //Charge
-async function cashCharge() {
+var cashCharge = async() => {
 
     const ip = connectSRV();
+    const token = getToken();
+
     var cash = $("#cashInput").val()
     var cashBack;
+
+    var ticketData = [
+        {
+            type: 'text',
+            value: 'TTCOMM',
+            style: 'font-size: 20px; color: black;'
+        },
+        {
+            type: 'text',
+            value: 'Gracias por su preferencia!',
+            style: 'font-size: 18px; color: #3CAF50'
+        },
+    ]
 
     var totalTax = $("#totlAndTx").text()
     totalAndTax = totalTax.replace('$','')
@@ -343,6 +359,7 @@ async function cashCharge() {
             }
 
             var numOfTickets
+            
 
             //Do a call to get the number of ticket documents to increment the id number
             await axios({
@@ -350,7 +367,7 @@ async function cashCharge() {
                 url: `${ip}api/pos/numOfTickets`,
                 headers: {
                     'content-type': 'application/json',
-                    'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+                    'x-auth-token': token,
                 }
             })
             .then(async function (response){
@@ -370,10 +387,25 @@ async function cashCharge() {
 
                 var skus = []
 
+                var skuDataArray = []
+                var skuDataObj = {}
+
                 for(var x in obj){
                     sku = obj[x].sku
                     skus.push(sku)
                     console.log(sku)
+
+                    //Sku obj
+                    skuDataObj = {
+                        type: 'text',
+                        value: sku,
+                        style: 'font-size: 18px; color: black;'
+                    }
+
+                    console.log(skuDataObj)
+
+                    console.log("THiz happens")
+                    await ticketData.push(skuDataObj)
                 }
 
                 console.log(skus)
@@ -384,6 +416,7 @@ async function cashCharge() {
 
                 //Increment the number of tickets
                 numOfTickets = numOfTickets + 1
+                
 
                 console.log(numOfTickets)
 
@@ -392,7 +425,7 @@ async function cashCharge() {
                     url: `${ip}api/pos/addTicket`,
                     headers: {
                         'content-type': 'application/json',
-                        'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+                        'x-auth-token': token,
                     },
                     data: {
                         id: numOfTickets,
@@ -415,7 +448,7 @@ async function cashCharge() {
                                 url: `${ip}api/pos/updateProduct/${obj[i].sku}`,
                                 headers: {
                                     'content-type': 'application/json',
-                                    'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkMjUwNTY1ZmVjODg0NTJjYzZhMWNlIn0sImlhdCI6MTYyNTAxMTEwM30.5Vr4INSKQUcnyl2CBx7NLKbDcQltuFR5Hv3qFVK9Afs'
+                                    'x-auth-token': token,
                                 },
                                 data: {
                                     numBought: obj[i].items
@@ -430,9 +463,6 @@ async function cashCharge() {
             });           
         });
 
-        //Print ticket
-        printTicket()
-
         await ipcRenderer.invoke('cashbackWindow', cashBack).then((result) => {
             // console.log(result)
         })
@@ -440,6 +470,10 @@ async function cashCharge() {
         $("#totl").text("$0.00")
         $("#tx").text("$0.00")
         $("#totlAndTx").text("$0.00")
+
+        console.log("Ticket DATA in 1st: " + ticketData)
+        //Print ticket
+        await printTicket(ticketData)
 
         //If the call was success, erase everything in the cart 
         await deleteCart()
@@ -449,7 +483,10 @@ async function cashCharge() {
 
 //Print Ticket
 
-async function printTicket() {
+var printTicket = async (ticketData) => {
 
-    ipcRenderer.sendSync('print', '')
+
+    console.log("PrintTicketCalled")
+    console.log("DATA in funct: " + ticketData)
+    ipcRenderer.sendSync('print', ticketData)
 }

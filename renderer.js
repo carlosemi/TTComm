@@ -28,7 +28,7 @@ const getToken = require('./config/token')
 
 //This functions change the main component based on the menu button clicks
 $(function () {
-  $("#main").load("./src/components/sells.html");
+  $("#main").load("./src/components/clients.html");
 });
 
 function vntFunction() {

@@ -52,12 +52,15 @@ axios({
 
     amountOwed = response.data
 
-    document.getElementById("creditOwed").value = amountOwed;
+    document.getElementById("creditOwed").innerHTML = amountOwed;
 
 
 })
 
 const payment = async () => {
+
+    var today = new Date()
+    var date = today.getFullYear() + '-' + (today.getMonth()+1)+'-'+today.getDate();
 
     var cash = $("#paymentCash").val()
     var monthPayment = $("#paymentMonth").val()
@@ -123,6 +126,7 @@ const payment = async () => {
                         console.log("Updating client Success")
                     }
 
+
                 })
 
                 //Add Ticket to collection
@@ -136,7 +140,8 @@ const payment = async () => {
                     data: {
                         id: numOfTickets,
                         client: name,
-                        total: total
+                        total: total,
+                        monthPayment: monthPayment
                     }
                 })
                 .then(async function (response) {
@@ -148,18 +153,70 @@ const payment = async () => {
                         console.log("Adding ticket Success")
 
                         document.getElementById("Success").textContent += `Success!!`
+
+                        var ticketData = [
+                            {
+                                type: 'text',
+                                value: 'TTCOMM',
+                                style: 'font-size: 20px; color: black;'
+                            },
+                            {
+                                type: 'text',
+                                value: date,
+                                style: 'font-size: 16px;  margin-top:15px '
+                            },
+                            {
+                                type: 'text',
+                                value: '____________',
+                                style: 'font-size: 18px; '
+                            },{
+                                type: 'text',
+                                value: 'Id de ticket: ' + numOfTickets,
+                                style: 'font-size: 11px; color: black; margin-top:15px'
+                            },
+                            {
+                                type: 'text',
+                                value: 'Mes de pago: ' + monthPayment,
+                                style: 'font-size: 11px; color: black; margin-top:15px'
+                            },
+                            {
+                                type: 'text',
+                                value: 'Cliente: ' + name,
+                                style: 'font-size: 11px; color: black; margin-top:15px'
+                            },
+                            {
+                                type: 'text',
+                                value: 'Plan: ' + total,
+                                style: 'font-size: 11px; color: black; margin-top:15px'
+                            },
+                            {
+                                type: 'text',
+                                value: 'Gracias por su preferencia',
+                                style: 'font-size: 10px; color: black; margin-top:200px'
+                            }
+                        ]
+
+                        console.log(ticketData)
+
+                        try {
+                            await ipcRenderer.send('print', ticketData)
+                        } catch (error) {
+                            console.error(error)
+                        }
+
+                        var cashBack = cash - plan
+            
+                        $("#cshBack").text("Cambio: " + cashBack.toFixed(2))
+            
+                        var button = '<button type="button" class="btn btn-primary" onclick="ready()">Listo</button>'
+                        
+                        document.getElementById("addBtn").innerHTML = button
+                        
                     }  
                 });
             });           
 
-            var cashBack = cash - plan
-
-            $("#cshBack").text("Cambio: " + cashBack.toFixed(2))
-
-            var button = '<button type="button" class="btn btn-primary" onclick="ready()">Listo</button>'
             
-            document.getElementById("addBtn").innerHTML = button
-
         }
     }
 
@@ -168,7 +225,11 @@ const payment = async () => {
 
 const creditPayment = async() => {
 
-    var creditPayment = $("#creditOwed").val()
+    var today = new Date()
+    var date = today.getFullYear() + '-' + (today.getMonth()+1)+'-'+today.getDate();
+
+    var creditPayment = $("#creditOwedPay").val()
+    var name = $("#clientName").text()
 
     //If there is actual amount of credit Owed and if the credit Payment is greater than 0 (So it is an actual payment) 
     //do the payment
@@ -183,7 +244,7 @@ const creditPayment = async() => {
             }
          
         })
-        .then(function (response){
+        .then(async function (response){
             
             console.log(response)
         
@@ -199,6 +260,52 @@ const creditPayment = async() => {
                 $("#cshBack2").text("Cambio: " + cashBack.toFixed(2))
 
                 
+            }
+
+            var ticketData = [
+                {
+                    type: 'text',
+                    value: 'TTCOMM',
+                    style: 'font-size: 20px; color: black;'
+                },
+                {
+                    type: 'text',
+                    value: date,
+                    style: 'font-size: 16px;  margin-top:15px '
+                },
+                {
+                    type: 'text',
+                    value: '____________',
+                    style: 'font-size: 18px; '
+                },
+                {
+                    type: 'text',
+                    value: 'Pago de Credito',
+                    style: 'font-size: 11px; color: black; margin-top:15px'
+                },
+                {
+                    type: 'text',
+                    value: 'Cliente: ' + name,
+                    style: 'font-size: 11px; color: black; margin-top:15px'
+                },
+                {
+                    type: 'text',
+                    value: 'Pago: ' + creditPayment,
+                    style: 'font-size: 11px; color: black; margin-top:15px'
+                },
+                {
+                    type: 'text',
+                    value: 'Gracias por su preferencia',
+                    style: 'font-size: 10px; color: black; margin-top:200px'
+                }
+            ]
+
+            console.log(ticketData)
+
+            try {
+                await ipcRenderer.send('print', ticketData)
+            } catch (error) {
+                console.error(error)
             }
 
             var button = '<button type="button" class="btn btn-primary" onclick="ready()">Listo</button>'

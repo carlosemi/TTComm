@@ -207,7 +207,7 @@ ipcMain.handle('paymentWindow', async (event, data) => {
 
   paymentWindow = new BrowserWindow({
     width: 500,
-    height: 800,
+    height: 900,
     webPreferences: {
       nodeIntegration: true, 
       contextIsolation: false,
@@ -216,7 +216,7 @@ ipcMain.handle('paymentWindow', async (event, data) => {
   
   })
 
-  console.log(data.id)
+  //console.log(data.id)
 
   id = data.id
 
@@ -435,147 +435,20 @@ ipcMain.handle('closeHistoryWnd', async (event) =>{
 let win
 
 ipcMain.on('print', async (event, data) => {
-
-
   
   if(data){
-    console.log(data)
 
-    PosPrinter.print(data, {
+    console.log(data)
+    await PosPrinter.print(data, {
       printerName: 'POS-58',
       silent: true,
       preview: false,
-    }).catch(error => console.error(error))
+      copies: 2,
+      width: '170px',
+      margin: '0 0 0 0',
+    })
+    .catch(error => console.error(error))
   }
-
-  // const data = [
-  //   {
-  //     type: 'text',
-  //     value: 'This is the value to print',
-  //     style: 'font-size: 16px; color: #3CAF50'
-  //   },
-  //   {
-  //     type: 'barCode',
-  //     value: 'HB4587896',
-  //     height: 12,                     // height of barcode, applicable only to bar and QR codes
-  //     width: 1,                       // width of barcode, applicable only to bar and QR codes
-  //     displayValue: true,             // Display value below barcode
-  //     fontsize: 8,
-  //  },{
-  //    type: 'qrCode',
-  //     value: 'https://github.com/Hubertformin/electron-pos-printer',
-  //     height: 55,
-  //     width: 55,
-  //     style: 'margin: 10 20px 20 20px'
-  //   }
-  // ]
-
-  
-
-//---------------------------------------------------------------------------------------
-  // win = new BrowserWindow({ 
-  //   width: 302,
-  //   height: 793, 
-  //   show: false,
-  //   webPreferences: {
-  //     nodeIntegration: true, 
-  //     contextIsolation: false,
-  //     enableRemoteModule: true,
-  //   },
-  
-  // });
-
-  // win.loadFile('./src/components/print.html');
-
-  // let printer = 'POS-58'
-
-  // const options = {
-  //     silent: true,
-  //     deviceName: printer,
-  //     pageSize: { height: 5000, width: 50000 }
-  // }
-
-  // //Print 
-  // win.webContents.print(options, () => {
-  //     //win = null;
-  //     // win.close()
-  //     console.log(options)
-
-  // });
-
-  // var info = fs.readFileSync('ticket.txt').toString();
-
-  // console.log("File: \n" + info)
-
-  // function sendPrint() {
-  //   printer.printDirect({
-  //     printer: 'POS-58',
-  //     data: info,
-  //     type: 'RAW',
-  //     success: function (jobID) {
-  //       console.log("ID: " + jobID);
-  //     },
-  //     error: function (err) {
-  //       console.log('printer module error: '+err);
-  //       throw err;
-  //     }
-  //   });
-  // }
-
-  // sendPrint()
-
-//------------------------------------------------------------------------------------------------------------
-  // console.log("Trying to print")
-
-  // const path = require("path");
-  
-  // const options = {
-  //   preview: true,               // Preview in window or print
-  //   printerName: 'POS-58',        // printerName: string, check with webContent.getPrinters()
-  //   silent: true,
-  //   width: '170px',               //  width of content body
-  //   margin: '0 0 0 0',            // margin of content body
-  //   copies: 1,                    // Number of copies to print
-  //   timeOutPerLine: 400,
-  //   pageSize: { height: 301000, width: 71000 }  // page size
-  // }
-  
-  // const data = [
-  //   // {
-  //   //   type: 'image',                                       
-  //   //   path: path.join(__dirname, 'assets/banner.png'),     // file path
-  //   //   position: 'center',                                  // position of image: 'left' | 'center' | 'right'
-  //   //   width: '60px',                                           // width of image in px; default: auto
-  //   //   height: '60px',                                          // width of image in px; default: 50 or '50px'
-  //   // },
-  //   {
-  //       type: 'text',                                       // 'text' | 'barCode' | 'qrCode' | 'image' | 'table
-  //       value: 'SAMPLE HEADING',
-  //       style: `text-align:center;`,
-  //       css: {"font-weight": "700", "font-size": "18px"}
-  //   },
-  //   {
-  //       type: 'text',                       // 'text' | 'barCode' | 'qrCode' | 'image' | 'table'
-  //       value: 'Secondary text',
-  //       style: `text-align:left;color: red;`,
-  //       css: {"text-decoration": "underline", "font-size": "10px"}
-  //   },
-  //   {
-  //       type: 'barCode',
-  //       value: 'HB4587896',
-  //       height: 12,                     // height of barcode, applicable only to bar and QR codes
-  //       width: 1,                       // width of barcode, applicable only to bar and QR codes
-  //       displayValue: true,             // Display value below barcode
-  //       fontsize: 8,
-  //   },
-  // ]
- 
-  // PosPrinter.print(data, options)
-  // .then(() => {})
-  // .catch((error) => {
-  //     console.error(error);
-  //   });
-  
 
 });
 

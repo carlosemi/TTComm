@@ -2,7 +2,8 @@ const {ipcRenderer} = require('electron');
 const axios = require('axios');
 const connectSRV = require('../../../config/srv')
 const getToken = require('../../../config/token')
-const $ = require('jquery')
+const $ = require('jquery');
+const { dirname } = require('path');
 
 var invoice = ipcRenderer.sendSync('invoiceInfo', '');
 const ip = connectSRV();
@@ -33,6 +34,14 @@ axios({
     else{
         document.getElementById("client").innerHTML = "N/A"
     }
+
+    if(response.data.monthPayment){
+        document.getElementById("monthPayment").innerHTML = response.data.monthPayment
+    }
+    else{
+        document.getElementById("monthPayment").innerHTML = "N/A"
+    }
+
 
     if(response.data.products){
         for(x in response.data.products){
@@ -73,56 +82,99 @@ axios({
 })
 
 
-async function editPrd(sku){
+var print = async () => {
 
-    const ip = connectSRV();
-    const token = getToken();
+    const path = require("path");
 
-    var code = document.getElementById("Codigo").innerHTML;
-    var descr = document.getElementById("Descripcion").value;
-    var prc = document.getElementById("Precio").value;
-    var tx = document.getElementById("Tax").checked;
-    var exis = document.getElementById("Existencia").value;
-    var wgh = document.getElementById("Weight").checked;
+    console.log( path.join(__dirname, '../../../img/ttcomm.png'))
 
-    console.log(code)
-    console.log(descr)
-    console.log(prc)
-    console.log(tx)
-    console.log(exis)
-    console.log(wgh)
+    var today = new Date()
+    var date = today.getFullYear() + '-' + (today.getMonth()+1)+'-'+today.getDate();
+    var name = $("#client").text()
+    var monthPayment = $("#monthPayment").text()
+    var plan = $("#total").text()
+    var id = $("#id").text()
 
-    await axios({
-    method: 'post',
-    url: `${ip}api/pos/addProduct`,
-    headers: {'content-type': 'application/json' , 
-                'x-auth-token': token},
-    data: {
-        sku: code,
-        description: descr,
-        price: prc,
-        tax: tx,
-        numOfItems: exis,
-        weight: wgh
-    }
-    })
-    .then(function (response){
-        
-        console.log(response.data)
-
-        if(response.data==='Success'){
-            
-            document.getElementById("Success").textContent += `Success!!`
-
-            //Wait 2 seconds before closing the window
-            setTimeout(function () {
-            // console.log("waited 3 seconds")
-            ipcRenderer.invoke('closeEditWnd').then((result) => {
-                
-            })
-            }, 2000)
-            
+    const ticketData = [
+        // {
+        //     type: 'image',                                       
+        //     path: path.join(__dirname, '../../../img/ttcomm.png'),     // file path
+        //     position: 'center',                                  // position of image: 'left' | 'center' | 'right'
+        //     width: '90px',                                           // width of image in px; default: auto
+        //     height: '90px',                                          // width of image in px; default: 50 or '50px'
+        // },
+        {
+            type: 'text',
+            value: 'TTCOMM',
+            style: 'margin-left: 20px ;font-size: 22px; color: black;'
+        },
+        {
+            type: 'text',
+            value: 'Venustiano Carranza 125 Zona Centro',
+            position: 'center',
+            style: 'font-size: 10px; color: black; font-weight: bold;'
+        },
+        {
+            type: 'text',
+            position: 'center',
+            value: 'Fecha de Hoy: ' + date,
+            style: 'font-size: 10px;  margin-top:15px; font-weight: bold; '
+        },
+        {
+            type: 'text',
+            position: 'center',
+            value: '_______________',
+            style: 'font-size: 18px; '
+        },
+        // {
+        //     type: 'text',
+        //     value: 'Id de ticket: ' + id,
+        //     style: 'font-size: 11px; color: black; margin-top:15px; font-weight: bold;'
+        // },
+        {
+            type: 'text',
+            value: 'Mes de pago: ' + monthPayment,
+            style: 'font-size: 11px; color: black; margin-top:15px; font-weight: bold;'
+        },
+        {
+            type: 'text',
+            value: 'Cliente: ' + name,
+            style: 'font-size: 11px; color: black; margin-top:15px; font-weight: bold;'
+        },
+        {
+            type: 'text',
+            value: 'Plan: ' + plan,
+            style: 'font-size: 11px; color: black; margin-top:15px; font-weight: bold;'
+        },
+        {
+            type: 'text',
+            value: 'Total: $' + plan,
+            style: 'font-size: 11px; color: black; margin-top:15px;margin-left: 78px; font-weight: bold;'
+        },
+        {
+            type: 'text',
+            value: 'Cambio: $',
+            style: 'font-size: 11px; color: black; margin-top:15px;margin-left: 63px; font-weight: bold;'
+        },
+        {
+            type: 'qrCode',
+             value: 'Ticket Id: ' + id,
+             height: 100,
+             width: 100,
+             style: 'margin-top: 250px; margin-left: 23px;'
+           },
+        {
+            type: 'text',
+            value: 'Gracias por su preferencia',
+            style: 'font-size: 10px; color: black; font-weight: bold;'
         }
-    })
+    ]
 
+    console.log(ticketData)
+
+    try {
+        await ipcRenderer.send('print', ticketData)
+    } catch (error) {
+        console.error(error)
+    }
 }

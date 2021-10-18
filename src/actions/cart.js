@@ -398,8 +398,8 @@ var cashCharge = async() => {
                     //Sku obj
                     skuDataObj = {
                         type: 'text',
-                        value: sku,
-                        style: 'font-size: 18px; color: black;'
+                        value: sku + ' ' + obj[x].description + ' ' + totalAndTax,
+                        style: 'font-size: 14px; color: black;'
                     }
 
                     console.log(skuDataObj)
@@ -457,6 +457,19 @@ var cashCharge = async() => {
                                 console.log(response)
                             })
                         }
+
+                        console.log("Ticket DATA in 1st: " + ticketData)
+                        //Print ticket
+                        await printTicket(ticketData)
+
+                                
+                        $("#totl").text("$0.00")
+                        $("#tx").text("$0.00")
+                        $("#totlAndTx").text("$0.00")
+
+                        //If the call was success, erase everything in the cart 
+                        await deleteCart()
+
                         
                     }  
                 });
@@ -466,17 +479,7 @@ var cashCharge = async() => {
         await ipcRenderer.invoke('cashbackWindow', cashBack).then((result) => {
             // console.log(result)
         })
-                 
-        $("#totl").text("$0.00")
-        $("#tx").text("$0.00")
-        $("#totlAndTx").text("$0.00")
-
-        console.log("Ticket DATA in 1st: " + ticketData)
-        //Print ticket
-        await printTicket(ticketData)
-
-        //If the call was success, erase everything in the cart 
-        await deleteCart()
+        
 
     }
 }
@@ -485,8 +488,7 @@ var cashCharge = async() => {
 
 var printTicket = async (ticketData) => {
 
-
     console.log("PrintTicketCalled")
     console.log("DATA in funct: " + ticketData)
-    ipcRenderer.sendSync('print', ticketData)
+    ipcRenderer.send('print', ticketData)
 }

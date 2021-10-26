@@ -84,6 +84,7 @@ axios({
 
 var print = async () => {
 
+
     const path = require("path");
 
     console.log( path.join(__dirname, '../../../img/ttcomm.png'))
@@ -94,6 +95,22 @@ var print = async () => {
     var monthPayment = $("#monthPayment").text()
     var plan = $("#total").text()
     var id = $("#id").text()
+
+    var clientId
+
+     //Get the clients id
+     await axios({
+        method: 'get',
+        url: `${ip}api/clients/client/name2/${name}`,
+        headers: {'content-type': 'application/json' , 
+                    'x-auth-token': token},
+    })
+    .then(function (response){
+
+        console.log(response.data)
+        clientId = response.data.id
+        console.log(clientId)
+    })
 
     const ticketData = [
         // {
@@ -158,7 +175,7 @@ var print = async () => {
         },
         {
             type: 'qrCode',
-             value: 'Ticket Id: ' + id,
+             value: 'Ticket Id: ' + id + '\n' + 'Id de Cliente: ' + clientId,
              height: 100,
              width: 100,
              style: 'margin-top: 250px; margin-left: 23px;'

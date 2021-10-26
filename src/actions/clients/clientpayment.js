@@ -3,6 +3,7 @@ const axios = require('axios');
 const connectSRV = require('../../../config/srv')
 const getToken = require('../../../config/token')
 const $ = require('jquery')
+const printT = require('../../../renderer')
 
 const ip = connectSRV();
 const token = getToken();
@@ -154,52 +155,86 @@ const payment = async () => {
 
                         document.getElementById("Success").textContent += `Success!!`
 
-                        var ticketData = [
+                        const ticketData = [
+                            // {
+                            //     type: 'image',                                       
+                            //     path: path.join(__dirname, '../../../img/ttcomm.png'),     // file path
+                            //     position: 'center',                                  // position of image: 'left' | 'center' | 'right'
+                            //     width: '90px',                                           // width of image in px; default: auto
+                            //     height: '90px',                                          // width of image in px; default: 50 or '50px'
+                            // },
                             {
                                 type: 'text',
                                 value: 'TTCOMM',
-                                style: 'font-size: 20px; color: black;'
+                                style: 'margin-left: 20px ;font-size: 22px; color: black;'
                             },
                             {
                                 type: 'text',
-                                value: date,
-                                style: 'font-size: 16px;  margin-top:15px '
+                                value: 'Venustiano Carranza 125 Zona Centro',
+                                position: 'center',
+                                style: 'font-size: 10px; color: black; font-weight: bold;'
                             },
                             {
                                 type: 'text',
-                                value: '____________',
+                                position: 'center',
+                                value: 'Fecha de Hoy: ' + date,
+                                style: 'font-size: 10px;  margin-top:15px; font-weight: bold; '
+                            },
+                            {
+                                type: 'text',
+                                position: 'center',
+                                value: '_______________',
                                 style: 'font-size: 18px; '
-                            },{
-                                type: 'text',
-                                value: 'Id de ticket: ' + numOfTickets,
-                                style: 'font-size: 11px; color: black; margin-top:15px'
                             },
+                            // {
+                            //     type: 'text',
+                            //     value: 'Id de ticket: ' + id,
+                            //     style: 'font-size: 11px; color: black; margin-top:15px; font-weight: bold;'
+                            // },
                             {
                                 type: 'text',
                                 value: 'Mes de pago: ' + monthPayment,
-                                style: 'font-size: 11px; color: black; margin-top:15px'
+                                style: 'font-size: 11px; color: black; margin-top:15px; font-weight: bold;'
                             },
                             {
                                 type: 'text',
                                 value: 'Cliente: ' + name,
-                                style: 'font-size: 11px; color: black; margin-top:15px'
+                                style: 'font-size: 11px; color: black; margin-top:15px; font-weight: bold;'
                             },
                             {
                                 type: 'text',
-                                value: 'Plan: ' + total,
-                                style: 'font-size: 11px; color: black; margin-top:15px'
+                                value: 'Plan: ' + plan,
+                                style: 'font-size: 11px; color: black; margin-top:15px; font-weight: bold;'
                             },
+                            {
+                                type: 'text',
+                                value: 'Total: $' + plan,
+                                style: 'font-size: 11px; color: black; margin-top:15px;margin-left: 78px; font-weight: bold;'
+                            },
+                            {
+                                type: 'text',
+                                value: 'Cambio: $',
+                                style: 'font-size: 11px; color: black; margin-top:15px;margin-left: 63px; font-weight: bold;'
+                            },
+                            {
+                                type: 'qrCode',
+                                 value: 'Ticket Id: ' + numOfTickets + '\n' + 'Id de Cliente: ' + id,
+                                 height: 100,
+                                 width: 100,
+                                 style: 'margin-top: 250px; margin-left: 23px;'
+                               },
                             {
                                 type: 'text',
                                 value: 'Gracias por su preferencia',
-                                style: 'font-size: 10px; color: black; margin-top:200px'
+                                style: 'font-size: 10px; color: black; font-weight: bold;'
                             }
                         ]
 
                         console.log(ticketData)
 
                         try {
-                            await ipcRenderer.send('print', ticketData)
+                            //await ipcRenderer.send('print', ticketData)
+                            printT(ticketData)
                         } catch (error) {
                             console.error(error)
                         }

@@ -86,3 +86,15 @@ ipcRenderer.on('asynchronous-message', function (evt, message) {
   //console.log(message); // Returns: {'SAVED': 'File Saved'}
   getPrds()
 });
+
+
+
+
+//                                      PRINT
+
+const printT = async (ticketData) => {
+    await ipcRenderer.send('print', ticketData)
+}
+
+
+module.exports = printT

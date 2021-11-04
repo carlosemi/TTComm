@@ -1,15 +1,15 @@
 const {ipcRenderer} = require('electron');
 const axios = require('axios');
 const connectSRV = require('../../../config/srv')
-const getToken = require('../../../config/token')
+//const getToken = require('../../../config/token')
 const $ = require('jquery')
 
 const ip = connectSRV();
-const token = getToken();
+//const token = getToken();
 
 var id = ipcRenderer.sendSync('paymentId', '');
 
-console.log(id)
+//console.log(id)
 
 var id, name, plan, location, amountOwed
 
@@ -23,7 +23,7 @@ axios({
 })
 .then(function (response){
     
-    console.log(response)
+    //console.log(response)
 
     id = response.data.id;
     name = response.data.name;
@@ -42,7 +42,7 @@ const creditPurchase = async() => {
     var description = $("#description").val()
     var cost = $("#cost").val()
 
-    console.log(description + cost)
+    //console.log(description + cost)
 
     await axios({
         method: 'post',
@@ -57,7 +57,7 @@ const creditPurchase = async() => {
     })
     .then(function (response){
         
-        console.log(response)
+        //console.log(response)
     
         if(response.data){
 

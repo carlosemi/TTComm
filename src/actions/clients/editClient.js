@@ -1,11 +1,11 @@
 const {ipcRenderer} = require('electron');
 const axios = require('axios');
 const connectSRV = require('../../../config/srv')
-const getToken = require('../../../config/token')
+//const getToken = require('../../../config/token')
 const $ = require('jquery')
 
 const ip = connectSRV();
-const token = getToken();
+//const token = getToken();
 
 var cli = ipcRenderer.sendSync('clientInfo', '');
 
@@ -20,13 +20,13 @@ async function editCli(){
     var plan = document.getElementById("Plan").value;
     var location = document.getElementById("Location").value;
 
-    console.log(client)
-    console.log(plan)
-    console.log(location)
+    // console.log(client)
+    // console.log(plan)
+    // console.log(location)
 
     await axios({
     method: 'post',
-    url: `${ip}api/clients`,
+    url: `${ip}api/clients/update`,
     headers: {'content-type': 'application/json' , 
                 'x-auth-token': localStorage.token},
     data: {

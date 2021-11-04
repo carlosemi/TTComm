@@ -1,18 +1,20 @@
 const {ipcRenderer} = require('electron');
 const axios = require('axios');
 const connectSRV = require('../../../config/srv')
-const getToken = require('../../../config/token')
+//const getToken = require('../../../config/token')
 const $ = require('jquery')
 const printT = require('../../../renderer')
 
 const ip = connectSRV();
-const token = getToken();
+//const token = getToken();
 var id = ipcRenderer.sendSync('paymentId', '');
 
-console.log(id)
+//console.log(id)
 
 var id, name, plan, location, amountOwed
 
+//console.log(localStorage.token)
+console.log("In clientPayment")
 
 //Get the information of the client based on the id given by the main process sent from the client.js
 axios({
@@ -24,7 +26,7 @@ axios({
 })
 .then(function (response){
     
-    console.log(response)
+    //console.log(response)
 
     id = response.data.id;
     name = response.data.name;
@@ -49,7 +51,7 @@ axios({
 })
 .then(function (response){
     
-    console.log(response)
+    //console.log(response)
 
     amountOwed = response.data
 
@@ -82,8 +84,8 @@ const payment = async () => {
     }
     else{
 
-        console.log(cash)
-        console.log(monthPayment)
+        //console.log(cash)
+        //console.log(monthPayment)
 
         //If cash is more or equal to the amount to pay, go with the transaction
         if(cash >= plan){
@@ -99,7 +101,7 @@ const payment = async () => {
             })
             .then(async function (response){
 
-                console.log("Response data: " + response.data)
+                //console.log("Response data: " + response.data)
                 numOfTickets = response.data
                 
                 var total = parseInt(plan, 10)
@@ -107,7 +109,7 @@ const payment = async () => {
                 //Increment the number of tickets
                 numOfTickets = numOfTickets + 1
 
-                console.log(numOfTickets)
+                //console.log(numOfTickets)
 
                 //Save the client payment
                 await axios({
@@ -124,7 +126,7 @@ const payment = async () => {
                 .then(async function (response) {
 
                     if(response.data === "Success"){
-                        console.log("Updating client Success")
+                        //console.log("Updating client Success")
                     }
 
 
@@ -147,11 +149,11 @@ const payment = async () => {
                 })
                 .then(async function (response) {
         
-                    console.log(response.data)
+                    //console.log(response.data)
 
                     if(response.data === "Success"){
 
-                        console.log("Adding ticket Success")
+                        //console.log("Adding ticket Success")
 
                         document.getElementById("Success").textContent += `Success!!`
 
@@ -230,7 +232,7 @@ const payment = async () => {
                             }
                         ]
 
-                        console.log(ticketData)
+                        //console.log(ticketData)
 
                         try {
                             //await ipcRenderer.send('print', ticketData)
@@ -281,7 +283,7 @@ const creditPayment = async() => {
         })
         .then(async function (response){
             
-            console.log(response)
+            //console.log(response)
         
         
             document.getElementById("Success2").textContent += `Success!!`
@@ -335,7 +337,7 @@ const creditPayment = async() => {
                 }
             ]
 
-            console.log(ticketData)
+            //console.log(ticketData)
 
             try {
                 await ipcRenderer.send('print', ticketData)

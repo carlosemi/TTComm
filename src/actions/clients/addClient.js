@@ -1,18 +1,16 @@
 const {ipcRenderer} = require('electron');
 const axios = require('axios');
 const connectSRV = require('../../../config/srv')
-const getToken = require('../../../config/token')
+//const getToken = require('../../../config/token')
 const $ = require('jquery')
 
-console.log('Current directory: ' + process.cwd());
 
 async function addCli() { 
 
   const ip = connectSRV();
 
-  const token = getToken();
+  //const token = getToken();
 
-  console.log('addCli This')
 
   var id = document.getElementById("id").value;
   var name = document.getElementById("name").value;
@@ -49,8 +47,20 @@ async function addCli() {
           
         })
       }, 2000)
-     
-      
+
+    }
+
+    else if( response.data == 0){
+
+      document.getElementById("Error").textContent += `Error: Id ya existe!!`
+
+      //Wait 2 seconds before closing the window
+      setTimeout(function () {
+        // console.log("waited 3 seconds")
+        ipcRenderer.invoke('closeCliWnd').then((result) => {
+          
+        })
+      }, 2000)
     }
   })
 

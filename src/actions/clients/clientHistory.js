@@ -1,11 +1,11 @@
 const {ipcRenderer} = require('electron');
 const axios = require('axios');
 const connectSRV = require('../../../config/srv')
-const getToken = require('../../../config/token')
+//const getToken = require('../../../config/token')
 const $ = require('jquery')
 
 const ip = connectSRV();
-const token = getToken();
+//const token = getToken();
 
 var obj = ipcRenderer.sendSync('clientInfo2', '');
 
@@ -52,7 +52,7 @@ axios({
     document.getElementById("creditOwed").innerHTML = "$" + response.data.creditOwed
     //document.getElementById("location").innerHTML = response.data.location;
 
-    console.log(creditStatements)
+    //console.log(creditStatements)
 
 
     var description, cost
@@ -106,7 +106,6 @@ axios({
                     element.classList.add("bg-success")
                 }
                 if(arr[1] === "04"){
-                    console.log("True 04")
                     var element = document.getElementById("apr")
                     element.classList.remove("bg-danger")
                     element.classList.add("bg-success")

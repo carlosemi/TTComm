@@ -19,7 +19,7 @@ const escpos = require('escpos');
 var reply
 var reply2
 
-function createWindow () {
+async function createWindow () {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 100,
@@ -30,24 +30,26 @@ function createWindow () {
       contextIsolation: false,
       enableRemoteModule: true
     }
-
   })
 
   //Print out in the console the printers available
   // console.log(mainWindow.webContents.getPrinters())
 
-  mainWindow.maximize()
+  await mainWindow.maximize()
 
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
+  await mainWindow.loadFile('index.html')
   // Open the DevTools.
   //mainWindow.webContents.openDevTools()
+
+  await mainWindow.webContents.send('tok', 'done');
+  
 
   //This reply is to call the function getPrds() on the renderer to automatically update the table
   //after a change has been made
   reply = async () => {
 
-    console.log("reply called")
+    //console.log("reply called")
     await mainWindow.webContents.send('asynchronous-message', {'SAVED': 'File Saved'});
   
   }
@@ -59,9 +61,10 @@ function createWindow () {
     await mainWindow.webContents.send('reply2', {'SAVED': 'File Saved'});
   }
 
+  
+
   // printWindow()
 }
-
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -74,13 +77,16 @@ app.whenReady().then(() => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
+
   })
+
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
-app.on('window-all-closed', function () {
+app.on('window-all-closed', async function () {
+
   if (process.platform !== 'darwin') app.quit()
 })
 
@@ -108,7 +114,7 @@ ipcMain.handle('cashbackWindow', async (event, data) => {
   
   })
 
-  console.log(data)
+  //console.log(data)
 
   cashback = data
 
@@ -259,7 +265,7 @@ ipcMain.handle('creditWindow', async (event, data) => {
   
   })
 
-  console.log(data.id)
+  //console.log(data.id)
 
   id = data.id
 
@@ -441,7 +447,7 @@ ipcMain.on('print', async (event, data) => {
   
   if(data){
 
-    console.log(data)
+    //console.log(data)
     await PosPrinter.print(data, {
       printerName: 'POS-58',
       silent: true,

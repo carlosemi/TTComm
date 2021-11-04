@@ -6,7 +6,7 @@
 // process.
 
 const electron = require('electron');
-const { ipcRenderer } = require('electron');
+const { ipcRenderer, ipcMain } = require('electron');
 let $ = jQuery = require('jquery');
 const axios = require('axios')
 const fs = require('fs')
@@ -23,12 +23,23 @@ var isAuthenticated = false
 var user
 
 //Erase the token when program is opened
-localStorage.token = null
+//localStorage.token = null
+
+//When the program starts make sure the token is null
+ipcRenderer.on('tok', async (event, arg) => {
+  //console.log(arg) // prints "pong"
+  console.log("Tokkk")
+  localStorage.token = null
+  console.log(localStorage.token)
+})
+
+console.log(localStorage.token)
 
 const authenticate = async () => {
   console.log("Authenticated")
   isAuthenticated = true
 
+  console.log(localStorage.token)
   $("#user").text(user.name)
 }
 

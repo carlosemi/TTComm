@@ -17,6 +17,20 @@ const {PosPrinter} = require('electron').remote.require("electron-pos-printer");
 //Login
 //import setAuthToken from '../utils/setAuthToken';
 const setAuthToken = require('./src/utils/setAuthToken')
+var isAuthenticated = false
+
+//Once user is authenticated it will get it's properties
+var user
+
+//Erase the token when program is opened
+localStorage.token = null
+
+const authenticate = async () => {
+  console.log("Authenticated")
+  isAuthenticated = true
+
+  $("#user").text(user.name)
+}
 
 async function printTicket() {
 
@@ -27,36 +41,53 @@ async function printTicket() {
 const connectSRV = require('./config/srv')
 
 //Get the authorized token for the user to make API calls
-const getToken = require('./config/token')
+//const getToken = require('./config/token')
 
 //This functions change the main component based on the menu button clicks
 $(function () {
   $("#main").load("./src/components/login/login.html");
 });
 
+
 function vntFunction() {
-  $("#main").load("./src/components/sells.html")
+  if(isAuthenticated){
+    $("#main").load("./src/components/sells.html")
+  }
+  
 }
 
 function prdFunction() {
-  $("#main").load("./src/components/products.html");
+  if(isAuthenticated){
+    $("#main").load("./src/components/products.html");
+  }
+ 
 }
 
 function cliFunction() {
-  $("#main").load("./src/components/clients.html");
+  if(isAuthenticated){
+    $("#main").load("./src/components/clients.html");
+  }
 }
 
 function fctFunction() {
-  $("#main").load("./src/components//invoices/invoices.html");
+  if(isAuthenticated){
+    $("#main").load("./src/components//invoices/invoices.html");
+  }
 }
 
 function rptFunction() {
-  $("#main").load("./src/components/reports.html");
+  if(isAuthenticated){
+    $("#main").load("./src/components/reports.html");
+  }
 }
 
 function confFunction() {
-  $("#main").load("./src/components/config/config.html")
+  if(isAuthenticated){
+    $("#main").load("./src/components/config/config.html")
+  }
 }
+  
+
 
 
 //                           SCANNER FUNCTIONALITY
@@ -98,4 +129,4 @@ const printT = async (ticketData) => {
 }
 
 
-module.exports = printT
+module.exports = printT, authenticate, cliFunction

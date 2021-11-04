@@ -1,13 +1,13 @@
 const {ipcRenderer} = require('electron');
 const axios = require('axios');
 const connectSRV = require('../../../config/srv')
-const getToken = require('../../../config/token')
+//const getToken = require('../../../config/token')
 const $ = require('jquery');
 const { dirname } = require('path');
 
 var invoice = ipcRenderer.sendSync('invoiceInfo', '');
 const ip = connectSRV();
-const token = getToken();
+//const token = getToken();
 
 // document.getElementById("Codigo").innerHTML = prd.sku;
 // document.getElementById("Descripcion").value = prd.description;
@@ -19,7 +19,7 @@ axios({
     method: 'get',
     url: `${ip}api/pos/tickets/${invoice.id}`,
     headers: {'content-type': 'application/json' , 
-                'x-auth-token': token},
+                'x-auth-token': localStorage.token},
 }) 
 .then(function (response){
     
@@ -103,7 +103,7 @@ var print = async () => {
         method: 'get',
         url: `${ip}api/clients/client/name2/${name}`,
         headers: {'content-type': 'application/json' , 
-                    'x-auth-token': token},
+                    'x-auth-token': localStorage.token},
     })
     .then(function (response){
 

@@ -1,17 +1,48 @@
 //                                USER LOGIN
 
-console.log("Loo")
 //Load User
 var loadUser = async() =>{
+
+    const ip = connectSRV();
+
     if(localStorage.token){
         setAuthToken(localStorage.token);
+        console.log(localStorage.token)
     }
   
     try {
-        const res = await axios.get('/api/auth');
+        //const res = await axios.get('/api/auth');
+
+        await axios({
+            method: 'get',
+            url: `${ip}api/users/me`,
+            headers: {
+                'content-type': 'application/json',
+                'x-auth-token': `${localStorage.token}`
+            },
+        })
+        .then(async function (response) {
+
+            console.log(response.data)
+
+            user = response.data
+
+            authenticate()
+
+            //Show the clients page after being authenticated
+            cliFunction()
+
+        })
   
     } catch (err) {
+
+        // const errors = err.response.data.errors;
   
+        // if(errors) {
+        //     console.log(errors)
+        // }
+  
+        console.log(err.response)
     }
   }
   
@@ -53,9 +84,13 @@ var loadUser = async() =>{
         .then(async function (response) {
 
             console.log(response.data)
+
+            var token = response.data.token;
+
+            localStorage.setItem('token', token)
         })
   
-        //oadUser()
+        loadUser()
   
     } catch (err) {
   

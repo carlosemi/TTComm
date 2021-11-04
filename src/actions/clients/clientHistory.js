@@ -27,7 +27,7 @@ axios({
     method: 'get',
     url: `${ip}api/clients/client/${obj.id}`,
     headers: {'content-type': 'application/json' , 
-                'x-auth-token': token},
+                'x-auth-token': localStorage.token},
  
 })
 .then(function (response){

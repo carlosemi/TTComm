@@ -28,7 +28,7 @@ async function addCli() {
     method: 'post',
     url: `${ip}api/clients`,
     headers: {'content-type': 'application/json' , 
-                'x-auth-token': token},
+                'x-auth-token': localStorage.token},
     data: {
       name: name,
       id: id,

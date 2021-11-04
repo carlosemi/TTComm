@@ -19,7 +19,7 @@ axios({
     method: 'get',
     url: `${ip}api/clients/client/${id}`,
     headers: {'content-type': 'application/json' , 
-                'x-auth-token': token},
+                'x-auth-token': localStorage.token},
  
 })
 .then(function (response){
@@ -44,7 +44,7 @@ axios({
     method: 'get',
     url: `${ip}api/clients/creditTotal/${id}`,
     headers: {'content-type': 'application/json' , 
-                'x-auth-token': token},
+                'x-auth-token': localStorage.token},
  
 })
 .then(function (response){
@@ -94,7 +94,7 @@ const payment = async () => {
                 url: `${ip}api/pos/numOfTickets`,
                 headers: {
                     'content-type': 'application/json',
-                    'x-auth-token': token
+                    'x-auth-token': localStorage.token
                 }
             })
             .then(async function (response){
@@ -115,7 +115,7 @@ const payment = async () => {
                     url: `${ip}api/clients/clientPayment/${id}`,
                     headers: {
                         'content-type': 'application/json',
-                        'x-auth-token': token
+                        'x-auth-token': localStorage.token
                     },
                     data: {
                         paymentMonth: monthPayment
@@ -136,7 +136,7 @@ const payment = async () => {
                     url: `${ip}api/pos/addTicket`,
                     headers: {
                         'content-type': 'application/json',
-                        'x-auth-token': token
+                        'x-auth-token': localStorage.token
                     },
                     data: {
                         id: numOfTickets,
@@ -273,7 +273,7 @@ const creditPayment = async() => {
             method: 'post',
             url: `${ip}api/clients/creditPayment/${id}`,
             headers: {'content-type': 'application/json' , 
-                        'x-auth-token': token},
+                        'x-auth-token': localStorage.token},
             data: {
                 payment: creditPayment
             }

@@ -18,7 +18,7 @@ axios({
     method: 'get',
     url: `${ip}api/clients/client/${id}`,
     headers: {'content-type': 'application/json' , 
-                'x-auth-token': token},
+                'x-auth-token': localStorage.token},
  
 })
 .then(function (response){
@@ -48,7 +48,7 @@ const creditPurchase = async() => {
         method: 'post',
         url: `${ip}api/clients/creditPurchase/${id}`,
         headers: {'content-type': 'application/json' , 
-                    'x-auth-token': token},
+                    'x-auth-token': localStorage.token},
         data: {
             description: description,
             amount: cost

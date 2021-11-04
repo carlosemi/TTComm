@@ -15,7 +15,7 @@ $("#invoiceTbl").on('click', '.clickable-row', function(event){
 var getInvoices = async() => {
 
     const ip = connectSRV();
-    const token = getToken();
+    //const token = getToken();
 
     var table = document.getElementById('invoiceTbl');
     var row;
@@ -29,7 +29,7 @@ var getInvoices = async() => {
       url: `${ip}api/pos/tickets`,
       headers: {
         'content-type': 'application/json',
-        'x-auth-token': token
+        'x-auth-token': localStorage.token
       }
     })
       .then(function (response) {
@@ -113,7 +113,7 @@ var invoiceDetail = async() => {
 var getInvoicesByDate = async() => {
 
     const ip = connectSRV();
-    const token = getToken();
+    //const token = getToken();
 
     var table = document.getElementById('invoiceTbl');
     var row;
@@ -130,7 +130,7 @@ var getInvoicesByDate = async() => {
       url: `${ip}api/pos/tickets`,
       headers: {
         'content-type': 'application/json',
-        'x-auth-token': token
+        'x-auth-token': localStorage.token
       }
     })
       .then(function (response) {
@@ -193,7 +193,7 @@ var getInvoicesByDate = async() => {
 var getInvoiceById = async() => {
 
     const ip = connectSRV();
-    const token = getToken();
+    //const token = getToken();
 
     var table = document.getElementById('invoiceTbl');
     var row;
@@ -210,7 +210,7 @@ var getInvoiceById = async() => {
       url: `${ip}api/pos/tickets/${ticketId}`,
       headers: {
         'content-type': 'application/json',
-        'x-auth-token': token
+        'x-auth-token': localStorage.token
       }
     })
     .then(function (response) {

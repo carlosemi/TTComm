@@ -2,6 +2,9 @@
 const axios = require('axios')
 
 const setAuthToken = token => {
+
+    console.log("This happened")
+    
     if(token) {
         axios.defaults.headers.common['x-auth-token'] = token;
     } else {

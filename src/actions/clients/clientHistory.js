@@ -49,6 +49,7 @@ axios({
     document.getElementById("clientName").innerHTML = response.data.name;
     document.getElementById("plan").innerHTML = response.data.plan;
     document.getElementById("location").innerHTML = response.data.location
+    document.getElementById("phone").innerHTML = response.data.phoneNumber
     document.getElementById("creditOwed").innerHTML = "$" + response.data.creditOwed
     //document.getElementById("location").innerHTML = response.data.location;
 

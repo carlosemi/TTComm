@@ -19,6 +19,7 @@ async function editCli(){
     var client = document.getElementById("Name").value;
     var plan = document.getElementById("Plan").value;
     var location = document.getElementById("Location").value;
+    var phoneNumber = document.getElementById("Phone").value;
 
     // console.log(client)
     // console.log(plan)
@@ -33,6 +34,7 @@ async function editCli(){
         name: client,
         id: cli.id,
         plan: plan,
+        phoneNumber: phoneNumber,
         location: location
     }
     })

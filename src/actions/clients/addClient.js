@@ -16,9 +16,11 @@ async function addCli() {
   var name = document.getElementById("name").value;
   var plan = document.getElementById("plan").value;
   var location = document.getElementById("location").value;
+  var phoneNumber = document.getElementById("Phone").value;
 
   console.log(id)
   console.log(name)
+  console.log(phoneNumber)
   console.log(plan)
   console.log(location)
 
@@ -30,6 +32,7 @@ async function addCli() {
     data: {
       name: name,
       id: id,
+      phoneNumber: phoneNumber,
       plan: plan,
       location: location
     }

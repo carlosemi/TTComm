@@ -178,6 +178,12 @@ const payment = async () => {
                             },
                             {
                                 type: 'text',
+                                value: 'Telefono: 812 565 2245',
+                                position: 'center',
+                                style: 'font-size: 10px; color: black; font-weight: bold;'
+                            },
+                            {
+                                type: 'text',
                                 position: 'center',
                                 value: 'Fecha de Hoy: ' + date,
                                 style: 'font-size: 10px;  margin-top:15px; font-weight: bold; '
@@ -213,11 +219,11 @@ const payment = async () => {
                                 value: 'Total: $' + plan,
                                 style: 'font-size: 11px; color: black; margin-top:15px;margin-left: 78px; font-weight: bold;'
                             },
-                            {
-                                type: 'text',
-                                value: 'Cambio: $',
-                                style: 'font-size: 11px; color: black; margin-top:15px;margin-left: 63px; font-weight: bold;'
-                            },
+                            // {
+                            //     type: 'text',
+                            //     value: 'Cambio: $',
+                            //     style: 'font-size: 11px; color: black; margin-top:15px;margin-left: 63px; font-weight: bold;'
+                            // },
                             {
                                 type: 'qrCode',
                                  value: 'Ticket Id: ' + numOfTickets + '\n' + 'Id de Cliente: ' + id,

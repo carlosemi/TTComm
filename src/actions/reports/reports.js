@@ -3,7 +3,7 @@
 var getMonthReport = async() => {
 
     const ip = connectSRV();
-    const token = getToken();
+    // const token = getToken();
 
     //Get the Brute Month Report
     await axios({
@@ -11,7 +11,7 @@ var getMonthReport = async() => {
       url: `${ip}api/pos/getInvoice/monthEarning`,
       headers: {
         'content-type': 'application/json',
-        'x-auth-token': token
+        'x-auth-token': localStorage.token
       }
     })
       .then(function (response) {
@@ -33,7 +33,7 @@ var getMonthReport = async() => {
         url: `${ip}api/pos/getInvoice/netMonthEarning`,
         headers: {
           'content-type': 'application/json',
-          'x-auth-token': token
+          'x-auth-token': localStorage.token
         }
       })
         .then(function (response) {
@@ -55,7 +55,7 @@ var getMonthReport = async() => {
         url: `${ip}api/pos/getInvoice/monthTaxes`,
         headers: {
           'content-type': 'application/json',
-          'x-auth-token': token
+          'x-auth-token': localStorage.token
         }
       })
         .then(function (response) {
@@ -78,14 +78,14 @@ var getMonthReport = async() => {
 var getYearReport = async() => {
 
     const ip = connectSRV();
-    const token = getToken();
+    // const token = getToken();
 
     await axios({
       method: 'get',
       url: `${ip}api/pos/getInvoice/yearEarning`,
       headers: {
         'content-type': 'application/json',
-        'x-auth-token': token
+        'x-auth-token': localStorage.token
       }
     })
       .then(function (response) {
@@ -107,7 +107,7 @@ var getYearReport = async() => {
         url: `${ip}api/pos/getInvoice/netYearEarning`,
         headers: {
           'content-type': 'application/json',
-          'x-auth-token': token
+          'x-auth-token': localStorage.token
         }
       })
         .then(function (response) {
@@ -128,14 +128,14 @@ var getYearReport = async() => {
 var getDayReport = async() => {
 
     const ip = connectSRV();
-    const token = getToken();
+    // const token = getToken();
 
     await axios({
       method: 'get',
       url: `${ip}api/pos/getInvoice/dayEarning`,
       headers: {
         'content-type': 'application/json',
-        'x-auth-token': token
+        'x-auth-token': localStorage.token
       }
     })
       .then(function (response) {

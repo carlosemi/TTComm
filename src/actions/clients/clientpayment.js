@@ -294,6 +294,33 @@ const creditPayment = async() => {
         
             document.getElementById("Success2").textContent += `Success!!`
 
+            //Do a call to get the number of ticket documents to increment the id number
+            await axios({
+                method: 'get',
+                url: `${ip}api/pos/numOfTickets`,
+                headers: {
+                    'content-type': 'application/json',
+                    'x-auth-token': localStorage.token
+                }
+            })
+            .then(async function (response){
+                
+                //Add Ticket to collection
+                await axios({
+                    method: 'post',
+                    url: `${ip}api/pos/addTicket`,
+                    headers: {
+                        'content-type': 'application/json',
+                        'x-auth-token': localStorage.token
+                    },
+                    data: {
+                        id: numOfTickets,
+                        client: name,
+                        total: total,
+                    }
+                })
+            })
+           
             //If the amount returned is less then 0 then that means you need to give cashback
             if(response.data < 0){
 

@@ -73,14 +73,22 @@ async function getCli () {
             }
             //Else, if the day is past the 20th check for the next month status
             else{
-
+              
               mm = parseInt(mm) + 1 
               console.log("mm" + mm)
+
+              //This is to add a trailing 0 if month is less than 10
+              if(mm < 10){
+                mm = '0' + mm
+              }
+
+              console.log(mm)
 
               date = yyyy + '-' + mm
 
               for(i in monthPayment){
 
+                  console.log("IF " + monthPayment[i] + " === " + date)
                   //If there is a month payment with todays payment mark active as true
                   if(monthPayment[i] == date){
                     icon = `<i class="fas fa-check"></i>`

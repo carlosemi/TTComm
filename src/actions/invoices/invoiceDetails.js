@@ -1,13 +1,21 @@
 const {ipcRenderer} = require('electron');
 const axios = require('axios');
 const connectSRV = require('../../../config/srv')
+<<<<<<< HEAD
+//const getToken = require('../../../config/token')
+=======
 const getToken = require('../../../config/token')
+>>>>>>> master
 const $ = require('jquery');
 const { dirname } = require('path');
 
 var invoice = ipcRenderer.sendSync('invoiceInfo', '');
 const ip = connectSRV();
+<<<<<<< HEAD
+//const token = getToken();
+=======
 const token = getToken();
+>>>>>>> master
 
 // document.getElementById("Codigo").innerHTML = prd.sku;
 // document.getElementById("Descripcion").value = prd.description;
@@ -19,7 +27,11 @@ axios({
     method: 'get',
     url: `${ip}api/pos/tickets/${invoice.id}`,
     headers: {'content-type': 'application/json' , 
+<<<<<<< HEAD
+                'x-auth-token': localStorage.token},
+=======
                 'x-auth-token': token},
+>>>>>>> master
 }) 
 .then(function (response){
     
@@ -62,6 +74,29 @@ axios({
     }
 
     document.getElementById("total").innerHTML = response.data.total
+<<<<<<< HEAD
+
+    if(response.data.paymentType){
+
+        var payType
+
+        if(response.data.paymentType == 1){
+            payType = "Efectivo"
+        }
+        else if(response.data.paymentType == 2){
+            payType = "Debito"
+        }
+        else if(response.data.paymentType == 3){
+            payType = "Cash App"
+        }
+        else if(response.data.paymentType == 4){
+            payType = "Transferencia de Banco"
+        }
+
+        document.getElementById("paymentType").innerHTML = payType
+    }
+=======
+>>>>>>> master
     
     document.getElementById("date").innerHTML = response.data.date
 
@@ -84,6 +119,10 @@ axios({
 
 var print = async () => {
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> master
     const path = require("path");
 
     console.log( path.join(__dirname, '../../../img/ttcomm.png'))
@@ -95,6 +134,25 @@ var print = async () => {
     var plan = $("#total").text()
     var id = $("#id").text()
 
+<<<<<<< HEAD
+    var clientId
+
+     //Get the clients id
+     await axios({
+        method: 'get',
+        url: `${ip}api/clients/client/name2/${name}`,
+        headers: {'content-type': 'application/json' , 
+                    'x-auth-token': localStorage.token},
+    })
+    .then(function (response){
+
+        console.log(response.data)
+        clientId = response.data.id
+        console.log(clientId)
+    })
+
+=======
+>>>>>>> master
     const ticketData = [
         // {
         //     type: 'image',                                       
@@ -158,7 +216,11 @@ var print = async () => {
         },
         {
             type: 'qrCode',
+<<<<<<< HEAD
+             value: 'Ticket Id: ' + id + '\n' + 'Id de Cliente: ' + clientId,
+=======
              value: 'Ticket Id: ' + id,
+>>>>>>> master
              height: 100,
              width: 100,
              style: 'margin-top: 250px; margin-left: 23px;'

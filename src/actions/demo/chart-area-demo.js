@@ -47,8 +47,11 @@ var getInfo = async() => {
 
     var x = response.data
 
+<<<<<<< HEAD
+=======
     console.log(":::" + typeof(x.aug))
 
+>>>>>>> master
     jan = x.jan
     feb = x.feb
     mar = x.mar

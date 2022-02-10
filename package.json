@@ -1,13 +1,32 @@
 {
   "name": "electron-quick-start",
+  "productName": "TTComm Client Manager",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "An app to manage and control clients",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "bootstrap": "^4.1.3",
     "jquery": "^3.3.1",
+<<<<<<< HEAD
+    "popper.js": "^1.14.4",
+    "build-installer": "electron-builder"
+  },
+  "build": {
+    "appId": "TTComm Client Manager",
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "uninstallDisplayName": "TTComm Client Manager",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+=======
     "popper.js": "^1.14.4"
+>>>>>>> master
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -24,13 +43,22 @@
     "@babel/core": "^7.14.8",
     "@babel/node": "^7.14.7",
     "@babel/preset-env": "^7.14.8",
+<<<<<<< HEAD
+    "electron": "^13.1.8",
+    "electron-builder": "^22.14.5"
+=======
     "electron": "^13.1.8"
+>>>>>>> master
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
     "config": "^3.3.6",
+<<<<<<< HEAD
+    "electron-packager": "^15.4.0",
+=======
+>>>>>>> master
     "electron-pos-printer": "^1.2.4",
     "escpos": "^3.0.0-alpha.6",
     "escpos-template": "^1.1.0",

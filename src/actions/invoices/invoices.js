@@ -15,7 +15,11 @@ $("#invoiceTbl").on('click', '.clickable-row', function(event){
 var getInvoices = async() => {
 
     const ip = connectSRV();
+<<<<<<< HEAD
+    //const token = getToken();
+=======
     const token = getToken();
+>>>>>>> master
 
     var table = document.getElementById('invoiceTbl');
     var row;
@@ -29,7 +33,11 @@ var getInvoices = async() => {
       url: `${ip}api/pos/tickets`,
       headers: {
         'content-type': 'application/json',
+<<<<<<< HEAD
+        'x-auth-token': localStorage.token
+=======
         'x-auth-token': token
+>>>>>>> master
       }
     })
       .then(function (response) {
@@ -113,7 +121,11 @@ var invoiceDetail = async() => {
 var getInvoicesByDate = async() => {
 
     const ip = connectSRV();
+<<<<<<< HEAD
+    //const token = getToken();
+=======
     const token = getToken();
+>>>>>>> master
 
     var table = document.getElementById('invoiceTbl');
     var row;
@@ -130,7 +142,11 @@ var getInvoicesByDate = async() => {
       url: `${ip}api/pos/tickets`,
       headers: {
         'content-type': 'application/json',
+<<<<<<< HEAD
+        'x-auth-token': localStorage.token
+=======
         'x-auth-token': token
+>>>>>>> master
       }
     })
       .then(function (response) {
@@ -193,7 +209,11 @@ var getInvoicesByDate = async() => {
 var getInvoiceById = async() => {
 
     const ip = connectSRV();
+<<<<<<< HEAD
+    //const token = getToken();
+=======
     const token = getToken();
+>>>>>>> master
 
     var table = document.getElementById('invoiceTbl');
     var row;
@@ -210,7 +230,11 @@ var getInvoiceById = async() => {
       url: `${ip}api/pos/tickets/${ticketId}`,
       headers: {
         'content-type': 'application/json',
+<<<<<<< HEAD
+        'x-auth-token': localStorage.token
+=======
         'x-auth-token': token
+>>>>>>> master
       }
     })
     .then(function (response) {

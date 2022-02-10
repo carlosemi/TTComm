@@ -1,6 +1,7 @@
 const {ipcRenderer} = require('electron');
 const axios = require('axios');
 const connectSRV = require('../../../config/srv')
+<<<<<<< HEAD
 //const getToken = require('../../../config/token')
 const $ = require('jquery')
 const printT = require('../../../renderer')
@@ -15,18 +16,39 @@ var id, name, plan, location, amountOwed
 
 //console.log(localStorage.token)
 console.log("In clientPayment")
+=======
+const getToken = require('../../../config/token')
+const $ = require('jquery')
+
+const ip = connectSRV();
+const token = getToken();
+var id = ipcRenderer.sendSync('paymentId', '');
+
+console.log(id)
+
+var id, name, plan, location, amountOwed
+
+>>>>>>> master
 
 //Get the information of the client based on the id given by the main process sent from the client.js
 axios({
     method: 'get',
     url: `${ip}api/clients/client/${id}`,
     headers: {'content-type': 'application/json' , 
+<<<<<<< HEAD
                 'x-auth-token': localStorage.token},
+=======
+                'x-auth-token': token},
+>>>>>>> master
  
 })
 .then(function (response){
     
+<<<<<<< HEAD
     //console.log(response)
+=======
+    console.log(response)
+>>>>>>> master
 
     id = response.data.id;
     name = response.data.name;
@@ -46,12 +68,20 @@ axios({
     method: 'get',
     url: `${ip}api/clients/creditTotal/${id}`,
     headers: {'content-type': 'application/json' , 
+<<<<<<< HEAD
                 'x-auth-token': localStorage.token},
+=======
+                'x-auth-token': token},
+>>>>>>> master
  
 })
 .then(function (response){
     
+<<<<<<< HEAD
     //console.log(response)
+=======
+    console.log(response)
+>>>>>>> master
 
     amountOwed = response.data
 
@@ -60,8 +90,12 @@ axios({
 
 })
 
+<<<<<<< HEAD
 const payment = async (paymentType) => {
 
+=======
+const payment = async () => {
+>>>>>>> master
 
     var today = new Date()
     var date = today.getFullYear() + '-' + (today.getMonth()+1)+'-'+today.getDate();
@@ -85,8 +119,13 @@ const payment = async (paymentType) => {
     }
     else{
 
+<<<<<<< HEAD
         //console.log(cash)
         //console.log(monthPayment)
+=======
+        console.log(cash)
+        console.log(monthPayment)
+>>>>>>> master
 
         //If cash is more or equal to the amount to pay, go with the transaction
         if(cash >= plan){
@@ -97,12 +136,20 @@ const payment = async (paymentType) => {
                 url: `${ip}api/pos/numOfTickets`,
                 headers: {
                     'content-type': 'application/json',
+<<<<<<< HEAD
                     'x-auth-token': localStorage.token
+=======
+                    'x-auth-token': token
+>>>>>>> master
                 }
             })
             .then(async function (response){
 
+<<<<<<< HEAD
                 //console.log("Response data: " + response.data)
+=======
+                console.log("Response data: " + response.data)
+>>>>>>> master
                 numOfTickets = response.data
                 
                 var total = parseInt(plan, 10)
@@ -110,7 +157,11 @@ const payment = async (paymentType) => {
                 //Increment the number of tickets
                 numOfTickets = numOfTickets + 1
 
+<<<<<<< HEAD
                 //console.log(numOfTickets)
+=======
+                console.log(numOfTickets)
+>>>>>>> master
 
                 //Save the client payment
                 await axios({
@@ -118,7 +169,11 @@ const payment = async (paymentType) => {
                     url: `${ip}api/clients/clientPayment/${id}`,
                     headers: {
                         'content-type': 'application/json',
+<<<<<<< HEAD
                         'x-auth-token': localStorage.token
+=======
+                        'x-auth-token': token
+>>>>>>> master
                     },
                     data: {
                         paymentMonth: monthPayment
@@ -127,7 +182,11 @@ const payment = async (paymentType) => {
                 .then(async function (response) {
 
                     if(response.data === "Success"){
+<<<<<<< HEAD
                         //console.log("Updating client Success")
+=======
+                        console.log("Updating client Success")
+>>>>>>> master
                     }
 
 
@@ -139,18 +198,27 @@ const payment = async (paymentType) => {
                     url: `${ip}api/pos/addTicket`,
                     headers: {
                         'content-type': 'application/json',
+<<<<<<< HEAD
                         'x-auth-token': localStorage.token
+=======
+                        'x-auth-token': token
+>>>>>>> master
                     },
                     data: {
                         id: numOfTickets,
                         client: name,
                         total: total,
+<<<<<<< HEAD
                         monthPayment: monthPayment,
                         paymentType: paymentType
+=======
+                        monthPayment: monthPayment
+>>>>>>> master
                     }
                 })
                 .then(async function (response) {
         
+<<<<<<< HEAD
                     //console.log(response.data)
 
                     if(response.data === "Success"){
@@ -205,10 +273,45 @@ const payment = async (paymentType) => {
                                 type: 'text',
                                 value: 'Mes de pago: ' + monthPayment,
                                 style: 'font-size: 11px; color: black; margin-top:15px; font-weight: bold;'
+=======
+                    console.log(response.data)
+
+                    if(response.data === "Success"){
+
+                        console.log("Adding ticket Success")
+
+                        document.getElementById("Success").textContent += `Success!!`
+
+                        var ticketData = [
+                            {
+                                type: 'text',
+                                value: 'TTCOMM',
+                                style: 'font-size: 20px; color: black;'
+                            },
+                            {
+                                type: 'text',
+                                value: date,
+                                style: 'font-size: 16px;  margin-top:15px '
+                            },
+                            {
+                                type: 'text',
+                                value: '____________',
+                                style: 'font-size: 18px; '
+                            },{
+                                type: 'text',
+                                value: 'Id de ticket: ' + numOfTickets,
+                                style: 'font-size: 11px; color: black; margin-top:15px'
+                            },
+                            {
+                                type: 'text',
+                                value: 'Mes de pago: ' + monthPayment,
+                                style: 'font-size: 11px; color: black; margin-top:15px'
+>>>>>>> master
                             },
                             {
                                 type: 'text',
                                 value: 'Cliente: ' + name,
+<<<<<<< HEAD
                                 style: 'font-size: 11px; color: black; margin-top:15px; font-weight: bold;'
                             },
                             {
@@ -245,6 +348,26 @@ const payment = async (paymentType) => {
                         try {
                             //await ipcRenderer.send('print', ticketData)
                             printT(ticketData)
+=======
+                                style: 'font-size: 11px; color: black; margin-top:15px'
+                            },
+                            {
+                                type: 'text',
+                                value: 'Plan: ' + total,
+                                style: 'font-size: 11px; color: black; margin-top:15px'
+                            },
+                            {
+                                type: 'text',
+                                value: 'Gracias por su preferencia',
+                                style: 'font-size: 10px; color: black; margin-top:200px'
+                            }
+                        ]
+
+                        console.log(ticketData)
+
+                        try {
+                            await ipcRenderer.send('print', ticketData)
+>>>>>>> master
                         } catch (error) {
                             console.error(error)
                         }
@@ -268,7 +391,11 @@ const payment = async (paymentType) => {
     
 }
 
+<<<<<<< HEAD
 const creditPayment = async(paymentType) => {
+=======
+const creditPayment = async() => {
+>>>>>>> master
 
     var today = new Date()
     var date = today.getFullYear() + '-' + (today.getMonth()+1)+'-'+today.getDate();
@@ -283,7 +410,11 @@ const creditPayment = async(paymentType) => {
             method: 'post',
             url: `${ip}api/clients/creditPayment/${id}`,
             headers: {'content-type': 'application/json' , 
+<<<<<<< HEAD
                         'x-auth-token': localStorage.token},
+=======
+                        'x-auth-token': token},
+>>>>>>> master
             data: {
                 payment: creditPayment
             }
@@ -291,11 +422,16 @@ const creditPayment = async(paymentType) => {
         })
         .then(async function (response){
             
+<<<<<<< HEAD
             //console.log(response)
+=======
+            console.log(response)
+>>>>>>> master
         
         
             document.getElementById("Success2").textContent += `Success!!`
 
+<<<<<<< HEAD
             //Do a call to get the number of ticket documents to increment the id number
             await axios({
                 method: 'get',
@@ -329,6 +465,8 @@ const creditPayment = async(paymentType) => {
                 })
             })
            
+=======
+>>>>>>> master
             //If the amount returned is less then 0 then that means you need to give cashback
             if(response.data < 0){
 
@@ -378,7 +516,11 @@ const creditPayment = async(paymentType) => {
                 }
             ]
 
+<<<<<<< HEAD
             //console.log(ticketData)
+=======
+            console.log(ticketData)
+>>>>>>> master
 
             try {
                 await ipcRenderer.send('print', ticketData)

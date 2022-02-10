@@ -1,11 +1,19 @@
 const {ipcRenderer} = require('electron');
 const axios = require('axios');
 const connectSRV = require('../../../config/srv')
+<<<<<<< HEAD
 //const getToken = require('../../../config/token')
 const $ = require('jquery')
 
 const ip = connectSRV();
 //const token = getToken();
+=======
+const getToken = require('../../../config/token')
+const $ = require('jquery')
+
+const ip = connectSRV();
+const token = getToken();
+>>>>>>> master
 
 var obj = ipcRenderer.sendSync('clientInfo2', '');
 
@@ -27,7 +35,11 @@ axios({
     method: 'get',
     url: `${ip}api/clients/client/${obj.id}`,
     headers: {'content-type': 'application/json' , 
+<<<<<<< HEAD
                 'x-auth-token': localStorage.token},
+=======
+                'x-auth-token': token},
+>>>>>>> master
  
 })
 .then(function (response){
@@ -49,11 +61,18 @@ axios({
     document.getElementById("clientName").innerHTML = response.data.name;
     document.getElementById("plan").innerHTML = response.data.plan;
     document.getElementById("location").innerHTML = response.data.location
+<<<<<<< HEAD
     document.getElementById("phone").innerHTML = response.data.phoneNumber
     document.getElementById("creditOwed").innerHTML = "$" + response.data.creditOwed
     //document.getElementById("location").innerHTML = response.data.location;
 
     //console.log(creditStatements)
+=======
+    document.getElementById("creditOwed").innerHTML = "$" + response.data.creditOwed
+    //document.getElementById("location").innerHTML = response.data.location;
+
+    console.log(creditStatements)
+>>>>>>> master
 
 
     var description, cost
@@ -107,6 +126,10 @@ axios({
                     element.classList.add("bg-success")
                 }
                 if(arr[1] === "04"){
+<<<<<<< HEAD
+=======
+                    console.log("True 04")
+>>>>>>> master
                     var element = document.getElementById("apr")
                     element.classList.remove("bg-danger")
                     element.classList.add("bg-success")

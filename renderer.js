@@ -6,7 +6,11 @@
 // process.
 
 const electron = require('electron');
+<<<<<<< HEAD
 const { ipcRenderer, ipcMain } = require('electron');
+=======
+const { ipcRenderer } = require('electron');
+>>>>>>> master
 let $ = jQuery = require('jquery');
 const axios = require('axios')
 const fs = require('fs')
@@ -14,6 +18,7 @@ const onScan = require('onscan.js')
 const path = require('path')
 const {PosPrinter} = require('electron').remote.require("electron-pos-printer");
 
+<<<<<<< HEAD
 //Login
 //import setAuthToken from '../utils/setAuthToken';
 const setAuthToken = require('./src/utils/setAuthToken')
@@ -43,6 +48,8 @@ const authenticate = async () => {
   console.log(localStorage.token)
   $("#user").text(user.name)
 }
+=======
+>>>>>>> master
 
 async function printTicket() {
 
@@ -53,6 +60,7 @@ async function printTicket() {
 const connectSRV = require('./config/srv')
 
 //Get the authorized token for the user to make API calls
+<<<<<<< HEAD
 //const getToken = require('./config/token')
 
 //This functions change the main component based on the menu button clicks
@@ -100,6 +108,38 @@ function confFunction() {
 }
   
 
+=======
+const getToken = require('./config/token')
+
+//This functions change the main component based on the menu button clicks
+$(function () {
+  $("#main").load("./src/components/clients.html");
+});
+
+function vntFunction() {
+  $("#main").load("./src/components/sells.html")
+}
+
+function prdFunction() {
+  $("#main").load("./src/components/products.html");
+}
+
+function cliFunction() {
+  $("#main").load("./src/components/clients.html");
+}
+
+function fctFunction() {
+  $("#main").load("./src/components//invoices/invoices.html");
+}
+
+function rptFunction() {
+  $("#main").load("./src/components/reports.html");
+}
+
+function confFunction() {
+  $("#main").load("./src/components/config/config.html")
+}
+>>>>>>> master
 
 
 //                           SCANNER FUNCTIONALITY
@@ -131,6 +171,7 @@ ipcRenderer.on('reply2', function (evt, message) {
 ipcRenderer.on('asynchronous-message', function (evt, message) {
   //console.log(message); // Returns: {'SAVED': 'File Saved'}
   getPrds()
+<<<<<<< HEAD
 });
 
 
@@ -142,3 +183,6 @@ const printT = async (ticketData) => {
 
 
 module.exports = printT, authenticate, cliFunction
+=======
+});
+>>>>>>> master

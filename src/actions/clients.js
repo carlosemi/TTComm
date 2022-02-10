@@ -16,7 +16,11 @@ $("#cli").on('click', '.clickable-row', function(event){
 async function getCli () {
 
     const ip = connectSRV();
+<<<<<<< HEAD
     //const token = getToken()
+=======
+    const token = getToken()
+>>>>>>> master
   
     var table = document.getElementById('cli');
     var row;
@@ -30,12 +34,17 @@ async function getCli () {
       url: `${ip}api/clients`,
       headers: {
         'content-type': 'application/json',
+<<<<<<< HEAD
         'x-auth-token': localStorage.token,
+=======
+        'x-auth-token': token,
+>>>>>>> master
       }
     })
       .then(function (response) {
 
   
+<<<<<<< HEAD
         var totalActive = 0
 
         const plan1 = 650
@@ -44,6 +53,8 @@ async function getCli () {
         const plan2 = 850
         var plan2ActiveTotal = 0
 
+=======
+>>>>>>> master
         var name, id, plan, location, monthPayment
 
         var icon = `<i class="far fa-times-circle"></i>`
@@ -75,6 +86,7 @@ async function getCli () {
 
                   //If there is a month payment with todays payment mark active as true
                   if(monthPayment[i] == date){
+<<<<<<< HEAD
                     totalActive += 1
                     if(plan == plan1){
                       plan1ActiveTotal += 1
@@ -83,12 +95,15 @@ async function getCli () {
                       plan2ActiveTotal += 1
                     }
 
+=======
+>>>>>>> master
                     icon = `<i class="fas fa-check"></i>`
                   }
               }
             }
             //Else, if the day is past the 20th check for the next month status
             else{
+<<<<<<< HEAD
               
               mm = parseInt(mm) + 1 
               // console.log("mm" + mm)
@@ -97,6 +112,11 @@ async function getCli () {
               if(mm < 10){
                 mm = '0' + mm
               }
+=======
+
+              mm = parseInt(mm) + 1 
+              console.log("mm" + mm)
+>>>>>>> master
 
               date = yyyy + '-' + mm
 
@@ -104,6 +124,7 @@ async function getCli () {
 
                   //If there is a month payment with todays payment mark active as true
                   if(monthPayment[i] == date){
+<<<<<<< HEAD
                     totalActive += 1
 
                     if(plan == plan1){
@@ -113,10 +134,17 @@ async function getCli () {
                       plan2ActiveTotal += 1
                     }
 
+=======
+>>>>>>> master
                     icon = `<i class="fas fa-check"></i>`
                   }
               }
             }
+<<<<<<< HEAD
+=======
+            
+
+>>>>>>> master
 
             row =  table.getElementsByTagName('tbody')[0].insertRow(x)
             row.className = "clickable-row"
@@ -137,11 +165,14 @@ async function getCli () {
             //Get the icon back to 'x'
             icon = `<i class="far fa-times-circle"></i>`
         }
+<<<<<<< HEAD
 
         //console.log(plan1ActiveTotal, plan2ActiveTotal)
         $("#totalActive").text(totalActive)
         $("#plan1Active").text(plan1ActiveTotal)
         $("#plan2Active").text(plan2ActiveTotal)
+=======
+>>>>>>> master
   
       })
     
@@ -260,7 +291,11 @@ var editClient = async() => {
 var deleteCli = async() =>{
 
   const ip = connectSRV();
+<<<<<<< HEAD
   //const token = getToken();
+=======
+  const token = getToken();
+>>>>>>> master
 
   //X is rows.length - 1 because the head row is also counted
   var lng = $("#cli")[0].rows.length - 1;
@@ -280,7 +315,11 @@ var deleteCli = async() =>{
         url: `${ip}api/clients`,
         headers: {
           'content-type': 'application/json',
+<<<<<<< HEAD
           'x-auth-token': localStorage.token
+=======
+          'x-auth-token': token
+>>>>>>> master
         },
         data: {
           id: $("#cli")[0].rows[x].cells[0].innerHTML
@@ -333,7 +372,11 @@ var searchByName = async() => {
   var name = document.getElementById("src").value;
 
   const ip = connectSRV();
+<<<<<<< HEAD
   //const token = getToken();
+=======
+  const token = getToken();
+>>>>>>> master
 
   var table = document.getElementById('cli');
   var row;
@@ -347,7 +390,11 @@ var searchByName = async() => {
     url: `${ip}api/clients/client/name/${name}`,
     headers: {
       'content-type': 'application/json',
+<<<<<<< HEAD
       'x-auth-token': localStorage.token
+=======
+      'x-auth-token': token
+>>>>>>> master
     }
   })
   .then(function (response) {
@@ -386,7 +433,11 @@ var searchById = async() => {
   var id = document.getElementById("src2").value;
 
   const ip = connectSRV();
+<<<<<<< HEAD
   //const token = getToken();
+=======
+  const token = getToken();
+>>>>>>> master
 
   var table = document.getElementById('cli');
   var row;
@@ -401,7 +452,11 @@ var searchById = async() => {
     url: `${ip}api/clients/client/${id}`,
     headers: {
       'content-type': 'application/json',
+<<<<<<< HEAD
       'x-auth-token': localStorage.token
+=======
+      'x-auth-token': token
+>>>>>>> master
     }
   })
   .then(function (response) {
@@ -441,7 +496,11 @@ $("#src").keypress(async function() {
   var name = document.getElementById("src").value;
 
   const ip = connectSRV();
+<<<<<<< HEAD
   //const token = getToken();
+=======
+  const token = getToken();
+>>>>>>> master
 
   var table = document.getElementById('cli');
   var row;
@@ -457,11 +516,16 @@ $("#src").keypress(async function() {
     url: `${ip}api/clients/client/name/${name}`,
     headers: {
       'content-type': 'application/json',
+<<<<<<< HEAD
       'x-auth-token': localStorage.token
+=======
+      'x-auth-token': token
+>>>>>>> master
     }
   })
   .then(function (response) {
 
+<<<<<<< HEAD
 
     var name, id, plan, location, monthPayment
 
@@ -475,10 +539,24 @@ $("#src").keypress(async function() {
         var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
         var yyyy = date.getFullYear();
 
+=======
+    var name, id, plan, location;
+
+    console.log(response.data)
+
+    if(response.data.length === 0){
+      console.log("Nothing to search")
+    }
+    else{
+      console.log(response.data)
+
+      for(x in response.data){
+>>>>>>> master
         name = response.data[x].name
         id = response.data[x].id
         plan = response.data[x].plan
         location = response.data[x].location
+<<<<<<< HEAD
         monthPayment = response.data[x].monthPayment
 
         //If the day of the month is below the 20th check for the current month status
@@ -522,10 +600,18 @@ $("#src").keypress(async function() {
         row =  table.getElementsByTagName('tbody')[0].insertRow(x)
         row.className = "clickable-row"
 
+=======
+
+        //row = table.insertRow(x);
+        row =  table.getElementsByTagName('tbody')[0].insertRow(x)
+        row.className = "clickable-row"
+    
+>>>>>>> master
         var cell0 = row.insertCell(0)
         var cell1 = row.insertCell(1)
         var cell2 = row.insertCell(2)
         var cell3 = row.insertCell(3)
+<<<<<<< HEAD
         var cell4 = row.insertCell(4)
 
 
@@ -537,6 +623,17 @@ $("#src").keypress(async function() {
 
         //Get the icon back to 'x'
         icon = `<i class="far fa-times-circle"></i>`
+=======
+    
+        cell0.innerHTML = name
+        cell1.innerHTML = id
+        cell2.innerHTML = plan
+        cell3.innerHTML = location
+
+      }
+      
+
+>>>>>>> master
     }
 
   })

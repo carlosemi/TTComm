@@ -9,6 +9,7 @@ const {PosPrinter} = require('electron-pos-printer');
 const fs = require('fs')
 const { EventEmitter } = require('stream')
 
+<<<<<<< HEAD
 //This is for auto updating
 require('update-electron-app')()
 
@@ -18,6 +19,14 @@ app.commandLine.appendSwitch('ignore-certificate-errors')
 //Printer
 const escpos = require('escpos');
 //const { printFile } = require('printer')
+=======
+//Printer
+const escpos = require('escpos');
+//const { printFile } = require('printer')
+
+var reply
+var reply2
+>>>>>>> master
 
 var reply
 var reply2
@@ -31,6 +40,7 @@ async function createWindow () {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
       contextIsolation: false,
+<<<<<<< HEAD
       enableRemoteModule: true,
       //devTools: false
     }
@@ -52,11 +62,32 @@ async function createWindow () {
   await mainWindow.webContents.send('tok', 'done');
   
 
+=======
+      enableRemoteModule: true
+    }
+
+  })
+
+  //Print out in the console the printers available
+  // console.log(mainWindow.webContents.getPrinters())
+
+  mainWindow.maximize()
+
+  // and load the index.html of the app.
+  mainWindow.loadFile('index.html')
+  // Open the DevTools.
+  //mainWindow.webContents.openDevTools()
+
+>>>>>>> master
   //This reply is to call the function getPrds() on the renderer to automatically update the table
   //after a change has been made
   reply = async () => {
 
+<<<<<<< HEAD
     //console.log("reply called")
+=======
+    console.log("reply called")
+>>>>>>> master
     await mainWindow.webContents.send('asynchronous-message', {'SAVED': 'File Saved'});
   
   }
@@ -68,10 +99,14 @@ async function createWindow () {
     await mainWindow.webContents.send('reply2', {'SAVED': 'File Saved'});
   }
 
+<<<<<<< HEAD
   
 
+=======
+>>>>>>> master
   // printWindow()
 }
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -84,23 +119,35 @@ app.whenReady().then(() => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
+<<<<<<< HEAD
 
   })
 
+=======
+  })
+>>>>>>> master
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
+<<<<<<< HEAD
 app.on('window-all-closed', async function () {
 
+=======
+app.on('window-all-closed', function () {
+>>>>>>> master
   if (process.platform !== 'darwin') app.quit()
 })
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
+<<<<<<< HEAD
 ipcMain.setMaxListeners(20)
+=======
+
+>>>>>>> master
 //------------------------------------------------------------------------------------------------
 //                                 CASH BACK WINDOW
 
@@ -121,7 +168,11 @@ ipcMain.handle('cashbackWindow', async (event, data) => {
   
   })
 
+<<<<<<< HEAD
   //console.log(data)
+=======
+  console.log(data)
+>>>>>>> master
 
   cashback = data
 
@@ -272,7 +323,11 @@ ipcMain.handle('creditWindow', async (event, data) => {
   
   })
 
+<<<<<<< HEAD
   //console.log(data.id)
+=======
+  console.log(data.id)
+>>>>>>> master
 
   id = data.id
 
@@ -454,7 +509,11 @@ ipcMain.on('print', async (event, data) => {
   
   if(data){
 
+<<<<<<< HEAD
     //console.log(data)
+=======
+    console.log(data)
+>>>>>>> master
     await PosPrinter.print(data, {
       printerName: 'POS-58',
       silent: true,
@@ -469,6 +528,7 @@ ipcMain.on('print', async (event, data) => {
 });
 
 //------------------------------------------------------------------------------------
+<<<<<<< HEAD
 //------------------------------------------------------------------------------------
 //                               GET REPORT WINDOW
 let reportWindow
@@ -508,3 +568,5 @@ ipcMain.handle('closeReporttWnd', async (event) =>{
 
   await reportWindow.close()
 })
+=======
+>>>>>>> master

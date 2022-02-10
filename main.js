@@ -9,6 +9,9 @@ const {PosPrinter} = require('electron-pos-printer');
 const fs = require('fs')
 const { EventEmitter } = require('stream')
 
+//This is for auto updating
+require('update-electron-app')()
+
 app.commandLine.appendSwitch('ignore-certificate-errors')
 //app.commandLine.appendSwitch('allow-insecure-localhost', 'true')
 

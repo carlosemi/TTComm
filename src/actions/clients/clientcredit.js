@@ -1,7 +1,6 @@
 const {ipcRenderer} = require('electron');
 const axios = require('axios');
 const connectSRV = require('../../../config/srv')
-<<<<<<< HEAD
 //const getToken = require('../../../config/token')
 const $ = require('jquery')
 
@@ -11,17 +10,6 @@ const ip = connectSRV();
 var id = ipcRenderer.sendSync('paymentId', '');
 
 //console.log(id)
-=======
-const getToken = require('../../../config/token')
-const $ = require('jquery')
-
-const ip = connectSRV();
-const token = getToken();
-
-var id = ipcRenderer.sendSync('paymentId', '');
-
-console.log(id)
->>>>>>> master
 
 var id, name, plan, location, amountOwed
 
@@ -30,20 +18,12 @@ axios({
     method: 'get',
     url: `${ip}api/clients/client/${id}`,
     headers: {'content-type': 'application/json' , 
-<<<<<<< HEAD
                 'x-auth-token': localStorage.token},
-=======
-                'x-auth-token': token},
->>>>>>> master
  
 })
 .then(function (response){
     
-<<<<<<< HEAD
     //console.log(response)
-=======
-    console.log(response)
->>>>>>> master
 
     id = response.data.id;
     name = response.data.name;
@@ -62,21 +42,13 @@ const creditPurchase = async() => {
     var description = $("#description").val()
     var cost = $("#cost").val()
 
-<<<<<<< HEAD
     //console.log(description + cost)
-=======
-    console.log(description + cost)
->>>>>>> master
 
     await axios({
         method: 'post',
         url: `${ip}api/clients/creditPurchase/${id}`,
         headers: {'content-type': 'application/json' , 
-<<<<<<< HEAD
                     'x-auth-token': localStorage.token},
-=======
-                    'x-auth-token': token},
->>>>>>> master
         data: {
             description: description,
             amount: cost
@@ -85,11 +57,7 @@ const creditPurchase = async() => {
     })
     .then(function (response){
         
-<<<<<<< HEAD
         //console.log(response)
-=======
-        console.log(response)
->>>>>>> master
     
         if(response.data){
 

@@ -7,13 +7,8 @@ const connectSRV = () => {
     
     //Either return local ip or public ip depending on which server your working on
     
-<<<<<<< HEAD
     return ip;
     // return localip;
-=======
-    //return ip;
-    return localip;
->>>>>>> master
     
     //console.log(localip)
 }

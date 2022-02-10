@@ -36,6 +36,14 @@ async function getCli () {
       .then(function (response) {
 
   
+        var totalActive = 0
+
+        const plan1 = 650
+        var plan1ActiveTotal = 0
+        
+        const plan2 = 850
+        var plan2ActiveTotal = 0
+
         var name, id, plan, location, monthPayment
 
         var icon = `<i class="far fa-times-circle"></i>`
@@ -67,6 +75,14 @@ async function getCli () {
 
                   //If there is a month payment with todays payment mark active as true
                   if(monthPayment[i] == date){
+                    totalActive += 1
+                    if(plan == plan1){
+                      plan1ActiveTotal += 1
+                    }
+                    if(plan == plan2){
+                      plan2ActiveTotal += 1
+                    }
+
                     icon = `<i class="fas fa-check"></i>`
                   }
               }
@@ -75,28 +91,32 @@ async function getCli () {
             else{
               
               mm = parseInt(mm) + 1 
-              console.log("mm" + mm)
+              // console.log("mm" + mm)
 
               //This is to add a trailing 0 if month is less than 10
               if(mm < 10){
                 mm = '0' + mm
               }
 
-              console.log(mm)
-
               date = yyyy + '-' + mm
 
               for(i in monthPayment){
 
-                  console.log("IF " + monthPayment[i] + " === " + date)
                   //If there is a month payment with todays payment mark active as true
                   if(monthPayment[i] == date){
+                    totalActive += 1
+
+                    if(plan == plan1){
+                      plan1ActiveTotal += 1
+                    }
+                    if(plan == plan2){
+                      plan2ActiveTotal += 1
+                    }
+
                     icon = `<i class="fas fa-check"></i>`
                   }
               }
             }
-            
-
 
             row =  table.getElementsByTagName('tbody')[0].insertRow(x)
             row.className = "clickable-row"
@@ -117,6 +137,11 @@ async function getCli () {
             //Get the icon back to 'x'
             icon = `<i class="far fa-times-circle"></i>`
         }
+
+        //console.log(plan1ActiveTotal, plan2ActiveTotal)
+        $("#totalActive").text(totalActive)
+        $("#plan1Active").text(plan1ActiveTotal)
+        $("#plan2Active").text(plan2ActiveTotal)
   
       })
     
@@ -437,39 +462,81 @@ $("#src").keypress(async function() {
   })
   .then(function (response) {
 
-    var name, id, plan, location;
 
-    console.log(response.data)
+    var name, id, plan, location, monthPayment
 
-    if(response.data.length === 0){
-      console.log("Nothing to search")
-    }
-    else{
-      console.log(response.data)
+    var icon = `<i class="far fa-times-circle"></i>`
 
-      for(x in response.data){
+    for (var x = 0; x < response.data.length; x++) {
+    
+      //Get todays date, more specifically year and month
+        var date = new Date();
+        var dd = String(date.getDate()).padStart(2, '0');
+        var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = date.getFullYear();
+
         name = response.data[x].name
         id = response.data[x].id
         plan = response.data[x].plan
         location = response.data[x].location
+        monthPayment = response.data[x].monthPayment
 
-        //row = table.insertRow(x);
+        //If the day of the month is below the 20th check for the current month status
+        if(dd < 20){
+
+          date = yyyy + '-' + mm
+
+          for(i in monthPayment){
+
+              //If there is a month payment with todays payment mark active as true
+              if(monthPayment[i] == date){
+                icon = `<i class="fas fa-check"></i>`
+              }
+          }
+        }
+        //Else, if the day is past the 20th check for the next month status
+        else{
+          
+          mm = parseInt(mm) + 1 
+          console.log("mm" + mm)
+
+          //This is to add a trailing 0 if month is less than 10
+          if(mm < 10){
+            mm = '0' + mm
+          }
+
+          console.log(mm)
+
+          date = yyyy + '-' + mm
+
+          for(i in monthPayment){
+
+              console.log("IF " + monthPayment[i] + " === " + date)
+              //If there is a month payment with todays payment mark active as true
+              if(monthPayment[i] == date){
+                icon = `<i class="fas fa-check"></i>`
+              }
+          }
+        }
+        
         row =  table.getElementsByTagName('tbody')[0].insertRow(x)
         row.className = "clickable-row"
-    
+
         var cell0 = row.insertCell(0)
         var cell1 = row.insertCell(1)
         var cell2 = row.insertCell(2)
         var cell3 = row.insertCell(3)
-    
-        cell0.innerHTML = name
-        cell1.innerHTML = id
+        var cell4 = row.insertCell(4)
+
+
+        cell0.innerHTML = id
+        cell1.innerHTML = name
         cell2.innerHTML = plan
         cell3.innerHTML = location
+        cell4.innerHTML = icon
 
-      }
-      
-
+        //Get the icon back to 'x'
+        icon = `<i class="far fa-times-circle"></i>`
     }
 
   })

@@ -28,9 +28,13 @@ async function createWindow () {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
       contextIsolation: false,
-      enableRemoteModule: true
+      enableRemoteModule: true,
+      //devTools: false
     }
   })
+
+  //This is to remove the top menu bar
+  //await mainWindow.removeMenu()
 
   //Print out in the console the printers available
   // console.log(mainWindow.webContents.getPrinters())
@@ -462,3 +466,42 @@ ipcMain.on('print', async (event, data) => {
 });
 
 //------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+//                               GET REPORT WINDOW
+let reportWindow
+let repoObj
+
+//Open new window to edit product
+ipcMain.handle('reportWindow', async (event, data) => {
+
+  reportWindow = new BrowserWindow({
+    width: 500,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
+  
+  })
+
+  // console.log(data)
+
+  repoObj = data
+  // and load the index.html of the app.
+  reportWindow.loadFile('./src/components/reports/reportSearch.html')  
+  
+})
+
+//Send the object to be edited to the edit window
+ipcMain.on('reportInfo', (event, arg) => {
+  //console.log(arg) // prints "ping"
+  event.returnValue = repoObj
+})
+
+
+//Close the edit client window when edit client button is clicked
+ipcMain.handle('closeReporttWnd', async (event) =>{
+
+  await reportWindow.close()
+})

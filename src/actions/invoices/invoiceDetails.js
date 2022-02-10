@@ -62,6 +62,26 @@ axios({
     }
 
     document.getElementById("total").innerHTML = response.data.total
+
+    if(response.data.paymentType){
+
+        var payType
+
+        if(response.data.paymentType == 1){
+            payType = "Efectivo"
+        }
+        else if(response.data.paymentType == 2){
+            payType = "Debito"
+        }
+        else if(response.data.paymentType == 3){
+            payType = "Cash App"
+        }
+        else if(response.data.paymentType == 4){
+            payType = "Transferencia de Banco"
+        }
+
+        document.getElementById("paymentType").innerHTML = payType
+    }
     
     document.getElementById("date").innerHTML = response.data.date
 

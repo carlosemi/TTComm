@@ -22,18 +22,19 @@ var isAuthenticated = false
 //Once user is authenticated it will get it's properties
 var user
 
-//Erase the token when program is opened
-//localStorage.token = null
+const roles = {
+  ADMIN: "ADMIN",
+  REGULAR: "REGULAR",
+};
+
 
 //When the program starts make sure the token is null
 ipcRenderer.on('tok', async (event, arg) => {
-  //console.log(arg) // prints "pong"
-  console.log("Tokkk")
+
   localStorage.token = null
-  console.log(localStorage.token)
+
 })
 
-console.log(localStorage.token)
 
 const authenticate = async () => {
   console.log("Authenticated")
@@ -87,7 +88,7 @@ function fctFunction() {
 }
 
 function rptFunction() {
-  if(isAuthenticated){
+  if(isAuthenticated && user.userType == 1){
     $("#main").load("./src/components/reports.html");
   }
 }

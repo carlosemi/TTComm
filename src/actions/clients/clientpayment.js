@@ -60,7 +60,8 @@ axios({
 
 })
 
-const payment = async () => {
+const payment = async (paymentType) => {
+
 
     var today = new Date()
     var date = today.getFullYear() + '-' + (today.getMonth()+1)+'-'+today.getDate();
@@ -144,7 +145,8 @@ const payment = async () => {
                         id: numOfTickets,
                         client: name,
                         total: total,
-                        monthPayment: monthPayment
+                        monthPayment: monthPayment,
+                        paymentType: paymentType
                     }
                 })
                 .then(async function (response) {
@@ -266,7 +268,7 @@ const payment = async () => {
     
 }
 
-const creditPayment = async() => {
+const creditPayment = async(paymentType) => {
 
     var today = new Date()
     var date = today.getFullYear() + '-' + (today.getMonth()+1)+'-'+today.getDate();
@@ -304,6 +306,11 @@ const creditPayment = async() => {
                 }
             })
             .then(async function (response){
+
+                var numOfTickets = response.data
+
+                //Increment the number of tickets
+                numOfTickets = numOfTickets + 1
                 
                 //Add Ticket to collection
                 await axios({
@@ -316,7 +323,8 @@ const creditPayment = async() => {
                     data: {
                         id: numOfTickets,
                         client: name,
-                        total: total,
+                        total: creditPayment,
+                        paymentType: paymentType
                     }
                 })
             })

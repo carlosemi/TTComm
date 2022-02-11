@@ -221,6 +221,11 @@ const payment = async (paymentType) => {
                                 value: 'Total: $' + plan,
                                 style: 'font-size: 11px; color: black; margin-top:15px;margin-left: 78px; font-weight: bold;'
                             },
+                            {
+                                type: 'text',
+                                value: 'Total + IVA: $' + ((plan * .08) + plan),
+                                style: 'font-size: 11px; color: black; margin-top:15px;margin-left: 48px; font-weight: bold;'
+                            },
                             // {
                             //     type: 'text',
                             //     value: 'Cambio: $',

@@ -8,6 +8,7 @@ const {ipcRenderer} = require('electron');
 const {PosPrinter} = require('electron-pos-printer');
 const fs = require('fs')
 const { EventEmitter } = require('stream')
+//const electronInstaller = require('electron-winstaller');
 
 //This is for auto updating
 require('update-electron-app')()
@@ -42,30 +43,30 @@ async function createWindow () {
   const server = 'https://github.com/carlosemi/TTComm/'
   const url = `${server}/update/${process.platform}/${app.getVersion()}`
 
-  autoUpdater.setFeedURL({ url })
+  // autoUpdater.setFeedURL({ url })
 
-  setInterval(() => {
-    autoUpdater.checkForUpdates()
-  }, 60000)
+  // setInterval(() => {
+  //   autoUpdater.checkForUpdates()
+  // }, 60000)
 
-  autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
-    const dialogOpts = {
-      type: 'info',
-      buttons: ['Restart', 'Later'],
-      title: 'Application Update',
-      message: process.platform === 'win32' ? releaseNotes : releaseName,
-      detail: 'A new version has been downloaded. Restart the application to apply the updates.'
-    }
+  // autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+  //   const dialogOpts = {
+  //     type: 'info',
+  //     buttons: ['Restart', 'Later'],
+  //     title: 'Application Update',
+  //     message: process.platform === 'win32' ? releaseNotes : releaseName,
+  //     detail: 'A new version has been downloaded. Restart the application to apply the updates.'
+  //   }
 
-    dialog.showMessageBox(dialogOpts).then((returnValue) => {
-      if (returnValue.response === 0) autoUpdater.quitAndInstall()
-    })
-  })
+  //   dialog.showMessageBox(dialogOpts).then((returnValue) => {
+  //     if (returnValue.response === 0) autoUpdater.quitAndInstall()
+  //   })
+  // })
 
-  autoUpdater.on('error', message => {
-    console.error('There was a problem updating the application')
-    console.error(message)
-  })
+  // autoUpdater.on('error', message => {
+  //   console.error('There was a problem updating the application')
+  //   console.error(message)
+  // })
 
 
   //This is to remove the top menu bar
@@ -73,6 +74,20 @@ async function createWindow () {
 
   //Print out in the console the printers available
   // console.log(mainWindow.webContents.getPrinters())
+
+
+  try {
+    await electronInstaller.createWindowsInstaller({
+      appDirectory: '/tmp/build/my-app-64',
+      outputDirectory: '/tmp/build/installer64',
+      authors: 'Carlos Guerra',
+      exe: 'TTComm.exe'
+    });
+    console.log('It worked!');
+  } catch (e) {
+    console.log(`No dice: ${e.message}`);
+  }
+
 
   await mainWindow.maximize()
 

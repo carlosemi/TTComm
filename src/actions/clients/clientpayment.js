@@ -233,7 +233,17 @@ const payment = async (paymentType) => {
                             },
                             {
                                 type: 'text',
-                                value: 'Total + IVA: $' + ((plan * .08) + plan),
+                                value: 'Total + IVA: $' + total,
+                                style: 'font-size: 11px; color: black; margin-top:15px;margin-left: 48px; font-weight: bold;'
+                            },
+                            {
+                                type: 'text',
+                                value: 'Efectivo: $' + cash,
+                                style: 'font-size: 11px; color: black; margin-top:15px;margin-left: 48px; font-weight: bold;'
+                            },
+                            {
+                                type: 'text',
+                                value: 'Cambio: $' + (cash - total),
                                 style: 'font-size: 11px; color: black; margin-top:15px;margin-left: 48px; font-weight: bold;'
                             },
                             // {
@@ -385,6 +395,11 @@ const creditPayment = async(paymentType) => {
                     type: 'text',
                     value: 'Pago: ' + creditPayment,
                     style: 'font-size: 11px; color: black; margin-top:15px'
+                },
+                {
+                    type: 'text',
+                    value: 'Cambio: $' + cashBack,
+                    style: 'font-size: 11px; color: black; margin-top:15px;margin-left: 48px; font-weight: bold;'
                 },
                 {
                     type: 'text',

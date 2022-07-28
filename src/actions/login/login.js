@@ -72,11 +72,13 @@ var loadUser = async() =>{
   
     } catch (err) {
   
-        const errors = err.response.data.errors;
+        // const errors = err.response.data.errors;
   
-        if(errors) {
-            console.log(errors)
-        }
+        // if(errors) {
+        //     console.log(errors)
+        // }
+
+        console.log(err)
     }
   }
   

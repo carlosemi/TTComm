@@ -328,57 +328,57 @@ var cliHistory = async() => {
 
 }
 
-var searchByName = async() => {
+// var searchByName = async() => {
 
-  var name = document.getElementById("src").value;
+//   var name = document.getElementById("src").value;
 
-  const ip = connectSRV();
-  //const token = getToken();
+//   const ip = connectSRV();
+//   //const token = getToken();
 
-  var table = document.getElementById('cli');
-  var row;
+//   var table = document.getElementById('cli');
+//   var row;
 
-  //First empty the Prds in the table. 
-  //This is done so there are no repetition of items when you add a new item
-  await $('#cliBdyId').empty()
+//   //First empty the Prds in the table. 
+//   //This is done so there are no repetition of items when you add a new item
+//   await $('#cliBdyId').empty()
 
-  await axios({
-    method: 'get',
-    url: `${ip}api/clients/client/name/${name}`,
-    headers: {
-      'content-type': 'application/json',
-      'x-auth-token': localStorage.token
-    }
-  })
-  .then(function (response) {
+//   await axios({
+//     method: 'get',
+//     url: `${ip}api/clients/client/name/${name}`,
+//     headers: {
+//       'content-type': 'application/json',
+//       'x-auth-token': localStorage.token
+//     }
+//   })
+//   .then(function (response) {
 
-    var name, id, plan, location, monthPayment;
+//     var name, id, plan, location, monthPayment;
 
-    name = response.data.name
-    id = response.data.id
-    plan = response.data.plan
-    location = response.data.location
-    monthPayment = response.data.monthPayment
+//     name = response.data.name
+//     id = response.data.id
+//     plan = response.data.plan
+//     location = response.data.location
+//     monthPayment = response.data.monthPayment
 
-    row =  table.getElementsByTagName('tbody')[0].insertRow(0)
-    row.className = "clickable-row"
+//     row =  table.getElementsByTagName('tbody')[0].insertRow(0)
+//     row.className = "clickable-row"
 
-    var cell0 = row.insertCell(0)
-    var cell1 = row.insertCell(1)
-    var cell2 = row.insertCell(2)
-    var cell3 = row.insertCell(3)
-    var cell4 = row.insertCell(4)
+//     var cell0 = row.insertCell(0)
+//     var cell1 = row.insertCell(1)
+//     var cell2 = row.insertCell(2)
+//     var cell3 = row.insertCell(3)
+//     var cell4 = row.insertCell(4)
 
 
-    cell0.innerHTML = id
-    cell1.innerHTML = name
-    cell2.innerHTML = plan
-    cell3.innerHTML = location
-    cell4.innerHTML = "Activo"
+//     cell0.innerHTML = id
+//     cell1.innerHTML = name
+//     cell2.innerHTML = plan
+//     cell3.innerHTML = location
+//     cell4.innerHTML = "Activo"
 
-  })
+//   })
 
-}
+// }
 
 
 var searchById = async() => {
@@ -406,6 +406,14 @@ var searchById = async() => {
   })
   .then(function (response) {
 
+    var totalActive = 0
+
+    const plan1 = 650
+    var plan1ActiveTotal = 0
+    
+    const plan2 = 850
+    var plan2ActiveTotal = 0
+
     var name, id, plan, location, monthPayment;
 
     name = response.data.name
@@ -414,6 +422,69 @@ var searchById = async() => {
     location = response.data.location
     monthPayment = response.data.monthPayment
 
+    var icon = `<i class="far fa-times-circle"></i>`
+
+    
+   
+
+     //Get todays date, more specifically year and month
+     var date = new Date();
+     var dd = String(date.getDate()).padStart(2, '0');
+     var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+     var yyyy = date.getFullYear();
+
+    //If the day of the month is below the 20th check for the current month status
+    if(dd < 20){
+
+      date = yyyy + '-' + mm
+
+      for(i in monthPayment){
+
+          //If there is a month payment with todays payment mark active as true
+          if(monthPayment[i] == date){
+            totalActive += 1
+            if(plan == plan1){
+              plan1ActiveTotal += 1
+            }
+            if(plan == plan2){
+              plan2ActiveTotal += 1
+            }
+
+            icon = `<i class="fas fa-check"></i>`
+          }
+      }
+    }
+    //Else, if the day is past the 20th check for the next month status
+    else{
+      
+      mm = parseInt(mm) + 1 
+      // console.log("mm" + mm)
+
+      //This is to add a trailing 0 if month is less than 10
+      if(mm < 10){
+        mm = '0' + mm
+      }
+
+      date = yyyy + '-' + mm
+
+      for(i in monthPayment){
+
+          //If there is a month payment with todays payment mark active as true
+          if(monthPayment[i] == date){
+            totalActive += 1
+
+            if(plan == plan1){
+              plan1ActiveTotal += 1
+            }
+            if(plan == plan2){
+              plan2ActiveTotal += 1
+            }
+
+            icon = `<i class="fas fa-check"></i>`
+          }
+      }
+    }
+    
     row =  table.getElementsByTagName('tbody')[0].insertRow(0)
     row.className = "clickable-row"
 
@@ -428,7 +499,7 @@ var searchById = async() => {
     cell1.innerHTML = name
     cell2.innerHTML = plan
     cell3.innerHTML = location
-    cell4.innerHTML = "Activo"
+    cell4.innerHTML = icon
 
   })
 

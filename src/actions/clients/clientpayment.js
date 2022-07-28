@@ -16,6 +16,7 @@ var id, name, plan, location, amountOwed
 //console.log(localStorage.token)
 console.log("In clientPayment")
 
+
 //Get the information of the client based on the id given by the main process sent from the client.js
 axios({
     method: 'get',
@@ -35,6 +36,7 @@ axios({
     document.getElementById("clientId").innerHTML = response.data.id;
     document.getElementById("clientName").innerHTML = response.data.name;
     document.getElementById("plan").innerHTML = response.data.plan;
+    document.getElementById("tax").innerHTML = (response.data.plan + (response.data.plan * 0.08));
     document.getElementById("paymentCash").min = response.data.plan
     document.getElementById("paymentCash").value = response.data.plan
     document.getElementById("location").innerHTML = response.data.location;
@@ -105,7 +107,15 @@ const payment = async (paymentType) => {
                 //console.log("Response data: " + response.data)
                 numOfTickets = response.data
                 
-                var total = parseInt(plan, 10)
+                var total 
+                if(document.getElementById('paymentTax').checked){
+                    total = (parseInt(plan,10) + (parseInt(plan,10) * .08))
+                }
+                else{
+                    total = parseInt(plan, 10)
+                }
+
+                console.log(total)
 
                 //Increment the number of tickets
                 numOfTickets = numOfTickets + 1
@@ -254,7 +264,7 @@ const payment = async (paymentType) => {
                             console.error(error)
                         }
 
-                        var cashBack = cash - plan
+                        var cashBack = cash - total
             
                         $("#cshBack").text("Cambio: " + cashBack.toFixed(2))
             

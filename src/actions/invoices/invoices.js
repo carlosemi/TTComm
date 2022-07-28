@@ -34,7 +34,7 @@ var getInvoices = async() => {
     })
       .then(function (response) {
   
-        var id, client, products, tax, total, date;
+        var id, client, products, tax, paymentType, total, date;
   
         var y = 0
 
@@ -47,6 +47,7 @@ var getInvoices = async() => {
           client = response.data[x].client
           products = response.data[x].products
           tax = response.data[x].tax
+          paymentType = response.data[x].paymentType
           total = response.data[x].total
           date = response.data[x].date
   
@@ -54,9 +55,12 @@ var getInvoices = async() => {
           row =  table.getElementsByTagName('tbody')[0].insertRow(y)
           row.className = "clickable-row"
 
+  
           var cell0 = row.insertCell(0)
           var cell1 = row.insertCell(1)
           var cell2 = row.insertCell(2)
+          var cell3 = row.insertCell(3)
+          var cell4 = row.insertCell(4)
 
           var totalAndTax
 
@@ -73,7 +77,21 @@ var getInvoices = async() => {
 
           cell0.innerHTML = id
           cell1.innerHTML = b[0]
-          cell2.innerHTML = totalAndTax.toFixed(2)
+          cell2.innerHTML = client
+          
+          if(paymentType == 1){
+            cell3.innerHTML = "Efectivo"
+          }
+          else if(paymentType == 2){
+            cell3.innerHTML = "Debito"
+          }
+          else if(paymentType == 3){
+            cell3.innerHTML = "Cash App"
+          }
+          else if(paymentType == 4){
+            cell3.innerHTML = "Transferencia"
+          }
+          cell4.innerHTML = totalAndTax.toFixed(2)
 
           y++
         }
@@ -135,7 +153,7 @@ var getInvoicesByDate = async() => {
     })
       .then(function (response) {
   
-        var id, client, products, tax, total, date;
+        var id, client, products, paymentType, tax, total, date;
         var y = 0;
   
         for (var x = 0; x < response.data.length; x++) {
@@ -146,6 +164,7 @@ var getInvoicesByDate = async() => {
             client = response.data[x].client
             products = response.data[x].products
             tax = response.data[x].tax
+            paymentType = response.data[x].paymentType
             total = response.data[x].total
             date = response.data[x].date
 
@@ -164,6 +183,8 @@ var getInvoicesByDate = async() => {
                 var cell0 = row.insertCell(0)
                 var cell1 = row.insertCell(1)
                 var cell2 = row.insertCell(2)
+                var cell3 = row.insertCell(3)
+                var cell4 = row.insertCell(4)
 
                 var totalAndTax
 
@@ -180,7 +201,20 @@ var getInvoicesByDate = async() => {
 
                 cell0.innerHTML = id
                 cell1.innerHTML = b[0]
-                cell2.innerHTML = totalAndTax.toFixed(2)
+                cell2.innerHTML = client
+                if(paymentType == 1){
+                  cell3.innerHTML = "Efectivo"
+                }
+                else if(paymentType == 2){
+                  cell3.innerHTML = "Debito"
+                }
+                else if(paymentType == 3){
+                  cell3.innerHTML = "Cash App"
+                }
+                else if(paymentType == 4){
+                  cell3.innerHTML = "Transferencia"
+                }
+                cell4.innerHTML = totalAndTax.toFixed(2)
                 
                 y++
             }
@@ -215,12 +249,13 @@ var getInvoiceById = async() => {
     })
     .then(function (response) {
   
-        var id, client, products, tax, total, date;
+        var id, client, products, paymentType, tax, total, date;
 
         id = response.data.id
         client = response.data.client
         products = response.data.products
         tax = response.data.tax
+        paymentType = response.data.paymentType
         total = response.data.total
         date = response.data.date
 
@@ -237,6 +272,8 @@ var getInvoiceById = async() => {
         var cell0 = row.insertCell(0)
         var cell1 = row.insertCell(1)
         var cell2 = row.insertCell(2)
+        var cell3 = row.insertCell(3)
+        var cell4 = row.insertCell(4)
 
         var totalAndTax
 
@@ -253,7 +290,20 @@ var getInvoiceById = async() => {
 
         cell0.innerHTML = id
         cell1.innerHTML = b[0]
-        cell2.innerHTML = totalAndTax.toFixed(2)
+        cell2.innerHTML = client
+        if(paymentType == 1){
+          cell3.innerHTML = "Efectivo"
+        }
+        else if(paymentType == 2){
+          cell3.innerHTML = "Debito"
+        }
+        else if(paymentType == 3){
+          cell3.innerHTML = "Cash App"
+        }
+        else if(paymentType == 4){
+          cell3.innerHTML = "Transferencia"
+        }
+        cell4.innerHTML = totalAndTax.toFixed(2)
             
   
     })

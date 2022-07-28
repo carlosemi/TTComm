@@ -256,7 +256,7 @@ ipcMain.handle('paymentWindow', async (event, data) => {
 
   paymentWindow = new BrowserWindow({
     width: 500,
-    height: 900,
+    height: 1000,
     webPreferences: {
       nodeIntegration: true, 
       contextIsolation: false,
